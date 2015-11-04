@@ -6,7 +6,9 @@ JSON/HTTP server to support Rust semantic completion in [YouCompleteMe][]
 ## Status
 
 ```rust
-unimplemented!()
+fn is_it_ready() -> bool {
+    false
+}
 ```
 
 ## ycmd protocol notes

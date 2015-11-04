@@ -1,5 +1,7 @@
 Trying to start server...
-==== Sending event notification ====
+
+## Sending event notification
+
 ```http
 POST /event_notification HTTP/1.1
 Accept: application/json
@@ -36,7 +38,8 @@ X-Ycm-Hmac: eTfQflyBjjiy2gvFLYHARYRoGcteW7Sn+opGvD40H/w=
 {}
 ```
 
-==== Sending code-completion request ====
+## Sending code-completion request
+
 ```http
 POST /completions HTTP/1.1
 Accept: application/json
@@ -89,7 +92,8 @@ X-Ycm-Hmac: VixOnVGyVxCbnZ4Od878fGJ417p/uKihMCPDbDrPau4=
 }
 ```
 
-==== Sending event notification ====
+## Sending event notification
+
 ```http
 POST /event_notification HTTP/1.1
 Accept: application/json
@@ -126,7 +130,8 @@ X-Ycm-Hmac: eTfQflyBjjiy2gvFLYHARYRoGcteW7Sn+opGvD40H/w=
 {}
 ```
 
-==== Sending code-completion request ====
+## Sending code-completion request
+
 ```http
 POST /completions HTTP/1.1
 Accept: application/json
@@ -300,7 +305,8 @@ X-Ycm-Hmac: yUqqj6d/XHjn2UbjzyP1JHe4yLnjhW5xiOgLGOg+Fxc=
 
 ```
 
-==== Sending event notification ====
+## Sending event notification
+
 ```http
 POST /event_notification HTTP/1.1
 Accept: application/json
@@ -384,7 +390,8 @@ X-Ycm-Hmac: 41I0XmxcOGhhIKlaHrJQkSiVE1/4WbAuRRj0b8/Qo1M=
 ]
 ```
 
-==== Sending code-completion request ====
+## Sending code-completion request
+
 ```http
 POST /completions HTTP/1.1
 Accept: application/json
@@ -459,7 +466,8 @@ X-Ycm-Hmac: ESyeWPxgZs8Lrrp9wrm/IkFsZ6qujs3LM8M+AlQvPsE=
 }
 ```
 
-==== Sending event notification ====
+## Sending event notification
+
 ```http
 POST /event_notification HTTP/1.1
 Accept: application/json
@@ -497,7 +505,9 @@ X-Ycm-Hmac: eTfQflyBjjiy2gvFLYHARYRoGcteW7Sn+opGvD40H/w=
 ```
 
 Waiting for OmniSharpServer to become ready...
-==== Sending code-completion request ====
+
+## Sending code-completion request
+
 ```http
 POST /completions HTTP/1.1
 Accept: application/json
@@ -1258,7 +1268,8 @@ X-Ycm-Hmac: qkwzdOhVVol3AZIdXUWcW35idkXPLUGSHH2g8SnYF6o=
 }
 ```
 
-==== Sending defined subcommands request ====
+## Sending defined subcommands request
+
 ```http
 POST /defined_subcommands HTTP/1.1
 Accept: application/json
@@ -1300,7 +1311,8 @@ X-Ycm-Hmac: GtL3ufW2dS2anNKuTT7fAsMcrsvrR5GZIqL1dpgf7CU=
 ]
 ```
 
-==== Sending GoTo request ====
+## Sending GoTo request
+
 ```http
 POST /run_completer_command HTTP/1.1
 Accept: application/json

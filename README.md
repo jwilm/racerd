@@ -34,9 +34,9 @@ may be because you are running version 10.11 which dropped the system
 provided OpenSSL. The following commands should fix that issue.
 
 ```sh
-// Will update to latest openssl available through homebrew
+# Will update to latest openssl available through homebrew
 brew install openssl
 
-// Set up symlinks for binaries, includes
+# Set up symlinks for binaries, includes
 brew link --force openssl
 ```

@@ -2,3 +2,16 @@
 name = "racerd"
 version = "0.1.0"
 authors = ["Joe Wilm <joe@jwilm.com>"]
+
+[dependencies]
+docopt = "0.6"
+rustc-serialize = "0.3"
+iron = "0.2"
+router = "0.0.15"
+bodyparser = "0.0.6"
+rust-crypto = "0.2"
+
+[dependencies.racer]
+# requires nightly rust
+git = "https://github.com/phildawes/racer.git"
+

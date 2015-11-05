@@ -1,6 +1,6 @@
 extern crate docopt;
 extern crate rustc_serialize;
-extern crate racerd;
+extern crate libracerd;
 
 use std::convert::Into;
 
@@ -30,9 +30,9 @@ struct Args {
     cmd_serve: bool
 }
 
-impl Into<racerd::Config> for Args {
-    fn into(self) -> racerd::Config {
-        racerd::Config {
+impl Into<libracerd::Config> for Args {
+    fn into(self) -> libracerd::Config {
+        libracerd::Config {
             port: self.flag_port,
             secret_file: self.flag_secret_file
         }
@@ -50,5 +50,5 @@ fn main() {
         ::std::process::exit(0);
     }
 
-    racerd::serve(args.into());
+    libracerd::serve(args.into());
 }

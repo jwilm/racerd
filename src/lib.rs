@@ -13,6 +13,22 @@ pub struct Config {
     pub secret_file: String
 }
 
+/// Start the http server using the given configuration
+///
+/// `serve` is a blocking call which runs for the duration of the HTTP server.
+///
+/// # Example
+///
+/// ```no_run
+/// # use libracerd::{Config, serve};
+/// let cfg = Config {
+///     port: 3000,
+///     secret_file: "/tmp/secret".to_string()
+/// };
+///
+/// serve(cfg);
+/// ```
+///
 pub fn serve(config: Config) {
     // For debugging. Torn about `log` crate since there's potentially a lot of noise from our
     // dependencies.
@@ -26,6 +42,8 @@ pub fn serve(config: Config) {
         get  "/ping"        => handle::ping));
 
     let host = format!("localhost:{}", config.port);
+
+    // TODO return this result instead of unwrapping. Need to add error type, first.
     Iron::new(chain).http(&host[..]).unwrap();
 }
 

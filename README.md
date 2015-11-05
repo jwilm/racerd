@@ -1,7 +1,8 @@
-ycmd-racer
-==========
+racerd
+======
 
-JSON/HTTP server to support Rust semantic completion in [YouCompleteMe][]
+JSON/HTTP API for [racer][]. The project's primary goal is supporting Rust in
+[YouCompleteMe][].
 
 ## Status
 
@@ -15,7 +16,9 @@ fn is_it_ready() -> bool {
 
 _ycmd_ has an example client which logs HTTP requests and responses. The
 (slightly annotated with markdown fences) output of the client is in
-[PROTO.md][].
+[YCMPROTO.md][]. The completions and events APIs should be instructive for
+designing a racer service.
 
 [YouCompleteMe]: https://github.com/Valloric/YouCompleteMe
-[PROTO.md]: PROTO.md
+[YCMPROTO.md]: YCMPROTO.md
+[racer]: https://github.com/phildawes/racer

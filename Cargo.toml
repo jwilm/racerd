@@ -1,4 +1,4 @@
 [package]
-name = "ycmd-racer"
+name = "racerd"
 version = "0.1.0"
 authors = ["Joe Wilm <joe@jwilm.com>"]

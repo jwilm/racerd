@@ -1,4 +1,5 @@
 extern crate iron;
+extern crate rustc_serialize;
 #[macro_use]
 extern crate router;
 extern crate bodyparser;
@@ -6,6 +7,9 @@ extern crate racer;
 extern crate crypto;
 
 use iron::{Iron, Chain};
+
+mod engine;
+mod types;
 
 #[derive(Debug)]
 pub struct Config {
@@ -47,6 +51,7 @@ pub fn serve(config: Config) {
     Iron::new(chain).http(&host[..]).unwrap();
 }
 
+/// Handlers for Iron
 #[allow(unused_variables)]
 mod handle {
     use iron::prelude::*;
@@ -77,3 +82,4 @@ mod handle {
         Ok(Response::with((status::Ok, "{\"pong\": true}")))
     }
 }
+

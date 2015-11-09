@@ -50,5 +50,5 @@ fn main() {
         ::std::process::exit(0);
     }
 
-    libracerd::serve(args.into());
+    libracerd::http::serve(args.into());
 }

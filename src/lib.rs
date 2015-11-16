@@ -5,16 +5,21 @@
 //! Documentation for the HTTP endpoints can be found in the http module header.
 //!
 //! This project's source code is [available on GitHub](https://github.com/jwilm/racerd).
-extern crate iron;
 extern crate rustc_serialize;
+
 #[macro_use]
-extern crate router;
-extern crate bodyparser;
-extern crate racer;
-extern crate crypto;
-extern crate hyper;
-extern crate persistent;
-extern crate logger;
+extern crate router;     // Iron routing handler
+extern crate bodyparser; // Iron body parsing middleware
+extern crate persistent; // Iron storage middleware
+extern crate logger;     // Iron logging middleware
+extern crate iron;       // http framework
+
+extern crate hyper;      // Provides `Listening` type returned by Iron
+
+#[macro_use]
+extern crate log;        // log macros
+extern crate racer;      // rust code analysis
+extern crate crypto;     // crypto algorithms for HMAC auth middleware
 
 mod util;
 pub mod http;

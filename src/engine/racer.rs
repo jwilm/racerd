@@ -1,10 +1,9 @@
+//! SemanticEngine implementation for [the racer library](https://github.com/phildawes/racer)
 use std::fs::File;
 use std::path::Path;
 use std::io::{self, Read};
 
-use types::{Definition, Context, CursorPosition};
-
-use engine::SemanticEngine;
+use engine::{SemanticEngine, Definition, Context, CursorPosition};
 
 pub struct Racer;
 
@@ -18,30 +17,28 @@ fn read_file(path: &Path) -> io::Result<String> {
 }
 
 impl SemanticEngine for Racer {
-    fn lang() -> &'static str {
-        "rust"
-    }
-
-    fn find_definition(ctx: &Context) -> Result<Option<Definition>> {
+    fn find_definition(&self, ctx: &Context) -> Result<Option<Definition>> {
         let path = ctx.path();
-        println!("making coords_to_point");
-        let pos = ::racer::scopes::coords_to_point(ctx.contents, ctx.cursor.line, ctx.cursor.col);
 
-        println!("making session");
+        let pos = ::racer::scopes::coords_to_point(ctx.contents, ctx.cursor.line, ctx.cursor.col);
         let session = ::racer::core::Session::from_path(path, path);
 
-        println!("running find_definition: {:?}, {:?}, {:?}, {:?}", ctx.contents, path, pos, session);
+        session.cache_file_contents(path, ctx.contents);
+
         // TODO catch_panic: apparently this can panic! in a string operation. Something about pos
         // not landing on a character boundary.
         Ok(match ::racer::core::find_definition(ctx.contents, path, pos, &session) {
             Some(m) => {
-                println!("got some");
                 // TODO modify racer Match to return line, col. For now, read the file it found a
                 // match in to translate the Match position into line, col.
                 let (line, col) = {
-                    let found_file = try!(read_file(m.filepath.as_path()));
                     // TODO This can panic if the position is out of bounds :(
-                    ::racer::scopes::point_to_coords(&found_file[..], m.point)
+                    if m.filepath.as_path() == path {
+                        ::racer::scopes::point_to_coords(ctx.contents, m.point)
+                    } else {
+                        let found_file = try!(read_file(m.filepath.as_path()));
+                        ::racer::scopes::point_to_coords(&found_file[..], m.point)
+                    }
                 };
 
                 let match_type = format!("{:?}", m.mtype);
@@ -63,64 +60,10 @@ impl SemanticEngine for Racer {
 
 #[cfg(test)]
 mod tests {
-    use types::{Context, CursorPosition};
     use super::*;
-    use engine::SemanticEngine;
-    use std::fs::{self, File};
-    use std::path::{Path, PathBuf};
-    use std::convert::From;
-    use std::thread;
-    use std::io::Write;
+    use engine::{Context, CursorPosition, SemanticEngine};
 
-    struct TmpFile {
-        path_buf: PathBuf
-    }
-
-    impl TmpFile {
-        pub fn new(contents: &str) -> TmpFile {
-            let tmp = TmpFile {
-                path_buf: TmpFile::mktemp()
-            };
-
-            tmp.write_contents(contents);
-            tmp
-        }
-
-        pub fn with_name(name: &str, contents: &str) -> TmpFile {
-            let tmp = TmpFile {
-                path_buf: PathBuf::from(name)
-            };
-
-            tmp.write_contents(contents);
-            tmp
-        }
-
-        fn write_contents(&self, contents: &str) {
-            let mut f = File::create(self.path()).unwrap();
-            f.write_all(contents.as_bytes()).unwrap();
-            f.flush().unwrap();
-        }
-
-        /// Make path for tmpfile. Stole this from racer's tests.
-        fn mktemp() -> PathBuf {
-            let thread = thread::current();
-            let taskname = thread.name().unwrap();
-            let s = taskname.replace("::", "_");
-            let mut p = "tmpfile.".to_string();
-            p.push_str(&s[..]);
-            PathBuf::from(p)
-        }
-
-        pub fn path<'a>(&'a self) -> &'a Path {
-            self.path_buf.as_path()
-        }
-    }
-
-    impl Drop for TmpFile {
-        fn drop(&mut self) {
-            fs::remove_file(self.path_buf.as_path()).unwrap();
-        }
-    }
+    use ::util::fs::TmpFile;
 
     #[test]
     #[allow(unused_variables)]
@@ -144,7 +87,8 @@ mod tests {
         let dummy = TmpFile::new(src);
 
         let ctx = Context::new(src, CursorPosition { line: 5, col: 17 }, dummy.path().to_str().unwrap());
-        let def = Racer::find_definition(&ctx).unwrap().unwrap();
+        let racer = Racer;
+        let def = racer.find_definition(&ctx).unwrap().unwrap();
 
         assert_eq!(def.text, "myfn");
     }

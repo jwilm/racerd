@@ -15,7 +15,7 @@ pub trait SemanticEngine {
 }
 
 /// Source file and type information for a found definition
-#[derive(Debug, RustcEncodable)]
+#[derive(Debug)]
 pub struct Definition {
     pub position: CursorPosition,
     pub text: String,
@@ -28,7 +28,7 @@ pub struct Definition {
 ///
 /// All operations require a buffer holding the contents of a file, the file's absolute path, and a
 /// cursor position to fully specify the request. This object holds all of those items.
-#[derive(Debug, RustcEncodable)]
+#[derive(Debug)]
 pub struct Context<'a> {
     pub contents: &'a str,
     pub cursor: CursorPosition,
@@ -52,7 +52,7 @@ impl<'a> Context<'a> {
 /// Position of the cursor in a text file
 ///
 /// Similar to a point, it has two coordinates `line` and `col`.
-#[derive(Debug, RustcEncodable)]
+#[derive(Debug)]
 pub struct CursorPosition {
     pub line: usize,
     pub col: usize,

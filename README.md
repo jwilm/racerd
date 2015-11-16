@@ -4,6 +4,8 @@ racerd
 JSON/HTTP API for [racer][]. The project's primary goal is supporting Rust in
 [YouCompleteMe][].
 
+[Documentation][]
+
 ## Status
 
 ```rust
@@ -40,3 +42,5 @@ brew install openssl
 # Set up symlinks for binaries, includes
 brew link --force openssl
 ```
+
+[Documentation]: http://jwilm.github.io/racerd/libracerd/

@@ -42,7 +42,7 @@ use iron::{Iron, Chain};
 
 use ::Config;
 
-mod definition;
+pub mod definition;
 mod file;
 mod completion;
 mod ping;

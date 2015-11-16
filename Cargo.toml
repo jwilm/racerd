@@ -13,6 +13,7 @@ rust-crypto = "0.2"
 hyper = "*"
 persistent = "*"
 logger = { git = "https://github.com/iron/logger.git" }
+log = "*"
 
 [dependencies.racer] # requires nightly
 # When making changes to racer, it's helpful to use a local path dependency.

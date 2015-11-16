@@ -1,3 +1,4 @@
+//! Provider for finding definitions
 use iron::prelude::*;
 use iron::status;
 
@@ -6,17 +7,28 @@ use rustc_serialize::json;
 use engine::{SemanticEngine, Racer, Definition, Context, CursorPosition};
 
 /// Given a location, return where the identifier is defined
+///
+/// Possible responses include
+///
+/// - `200 OK` the request was successful and a JSON object is returned.
+/// - `204 No Content` the request was successful, but no match was found.
+/// - `400 Bad Request` the request payload was malformed
+/// - `500 Internal Server Error` some unexpected error occurred
 pub fn find(req: &mut Request) -> IronResult<Response> {
 
-    // Parse the request
+    // Parse the request. If the request doesn't parse properly, the request is invalid, and a 400
+    // BadRequest is returned.
     let fdr = match req.get::<::bodyparser::Struct<FindDefinitionRequest>>() {
         Ok(Some(s)) => {
+            trace!("definition::find parsed FindDefinitionRequest");
             s
         },
         Ok(None) => {
+            trace!("definition::find failed parsing FindDefinitionRequest");
             return Ok(Response::with(status::BadRequest))
         },
         Err(err) => {
+            trace!("definition::find received error while parsing FindDefinitionRequest");
             return Err(IronError::new(err, status::InternalServerError))
         }
     };
@@ -24,17 +36,22 @@ pub fn find(req: &mut Request) -> IronResult<Response> {
     // Delegate to active semantic engine
     let racer = Racer;
     match racer.find_definition(&fdr.context()) {
-        // Success, found the definition
+        // 200 OK; found the definition
         Ok(Some(definition)) => {
+            trace!("definition::find got a match");
             let res = FindDefinitionResponse::from(definition);
             Ok(Response::with((status::Ok, json::encode(&res).unwrap())))
         },
 
-        // Everything went ok, but the definition was not found.
-        Ok(None) => Ok(Response::with(status::NoContent)),
+        // 204 No Content; Everything went ok, but the definition was not found.
+        Ok(None) => {
+            trace!("definition::find did not find a match");
+            Ok(Response::with(status::NoContent))
+        },
 
-        // Error occurred while searching for the definition
+        // 500 Internal Server Error; Error occurred while searching for the definition
         Err(err) => {
+            trace!("definition::find encountered an error");
             Err(IronError::new(err, status::InternalServerError))
         }
     }
@@ -88,23 +105,3 @@ struct FindDefinitionResponse {
     pub line: usize,
     pub text: String,
 }
-
-// #[cfg(test)]
-// mod tests {
-//     use ::{Config, http};
-// 
-//     #[test]
-//     fn self_contained() {
-//         unimplemented!();
-//     }
-// 
-//     #[test]
-//     fn multiple_files() {
-//         unimplemented!();
-//     }
-// 
-//     #[test]
-//     fn in_std() {
-//         unimplemented!();
-//     }
-// }

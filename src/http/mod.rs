@@ -12,7 +12,10 @@
 //! ```json
 //! {
 //!     "file_path": "src.rs",
-//!     "file_contents": "<some rust code>",
+//!     "buffers": [{
+//!         "contents": "<some rust code>",
+//!         "file_path": "src.rs"
+//!     }],
 //!     "line": 4,
 //!     "column": 3
 //! }

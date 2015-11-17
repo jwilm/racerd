@@ -30,22 +30,22 @@ pub struct Definition {
 /// cursor position to fully specify the request. This object holds all of those items.
 #[derive(Debug)]
 pub struct Context<'a> {
-    pub contents: &'a str,
-    pub cursor: CursorPosition,
-    pub file_path: &'a str,
+    pub buffers: &'a Vec<Buffer>,
+    pub query_cursor: CursorPosition,
+    pub query_file: &'a str,
 }
 
 impl<'a> Context<'a> {
-    pub fn new(contents: &'a str, position: CursorPosition, file_path: &'a str) -> Context<'a> {
+    pub fn new(buffers: &'a Vec<Buffer>, position: CursorPosition, file_path: &'a str) -> Context<'a> {
         Context {
-            contents: contents,
-            cursor: position,
-            file_path: file_path,
+            buffers: buffers,
+            query_cursor: position,
+            query_file: file_path,
         }
     }
 
-    pub fn path(&'a self) -> &'a Path {
-        &Path::new(self.file_path)
+    pub fn query_path(&'a self) -> &'a Path {
+        &Path::new(self.query_file)
     }
 }
 
@@ -61,3 +61,14 @@ pub struct CursorPosition {
 pub mod racer;
 pub use self::racer::Racer;
 
+#[derive(Debug, RustcDecodable, Clone)]
+pub struct Buffer {
+    pub file_path: String,
+    pub contents: String,
+}
+
+impl Buffer {
+    pub fn path<'a>(&'a self) -> &'a Path {
+        &Path::new(&self.file_path[..])
+    }
+}

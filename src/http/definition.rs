@@ -4,7 +4,7 @@ use iron::status;
 
 use rustc_serialize::json;
 
-use engine::{SemanticEngine, Racer, Definition, Context, CursorPosition};
+use engine::{SemanticEngine, Racer, Definition, Context, CursorPosition, Buffer};
 
 /// Given a location, return where the identifier is defined
 ///
@@ -70,7 +70,7 @@ impl From<Definition> for FindDefinitionResponse {
 
 #[derive(Debug, RustcDecodable, Clone)]
 struct FindDefinitionRequest {
-    pub file_contents: String,
+    pub buffers: Vec<Buffer>,
     pub file_path: String,
     pub column: usize,
     pub line: usize,
@@ -79,7 +79,7 @@ struct FindDefinitionRequest {
 impl FindDefinitionRequest {
     pub fn context<'a>(&'a self) -> Context<'a> {
         let cursor = CursorPosition { line: self.line, col: self.column };
-        Context::new(&self.file_contents[..], cursor, &self.file_path[..])
+        Context::new(&self.buffers, cursor, &self.file_path[..])
     }
 }
 
@@ -87,7 +87,10 @@ impl FindDefinitionRequest {
 fn find_definition_request_from_json() {
     let s = stringify!({
         "file_path": "src.rs",
-        "file_contents": "fn foo() {}\nfn bar() {}\nfn main() {\nfoo();\n}",
+        "buffers": [{
+            "file_path": "src.rs",
+            "contents": "fn foo() {}\nfn bar() {}\nfn main() {\nfoo();\n}"
+        }],
         "line": 4,
         "column": 3
     });

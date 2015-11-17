@@ -15,8 +15,11 @@ mod http {
             // Build request args
             let url = server.url("/find_definition");
             let request_obj = stringify!({
+                "buffers": [{
+                    "file_path": "src.rs",
+                    "contents": "fn foo() {}\nfn bar() {}\nfn main() {\nfoo();\n}"
+                }],
                 "file_path": "src.rs",
-                "file_contents": "fn foo() {}\nfn bar() {}\nfn main() {\nfoo();\n}",
                 "line": 4,
                 "column": 3
             });

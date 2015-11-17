@@ -18,27 +18,31 @@ fn read_file(path: &Path) -> io::Result<String> {
 
 impl SemanticEngine for Racer {
     fn find_definition(&self, ctx: &Context) -> Result<Option<Definition>> {
-        let path = ctx.path();
+        let path = ctx.query_path();
 
-        let pos = ::racer::scopes::coords_to_point(ctx.contents, ctx.cursor.line, ctx.cursor.col);
         let session = ::racer::core::Session::from_path(path, path);
 
-        session.cache_file_contents(path, ctx.contents);
+        for buffer in ctx.buffers {
+            session.cache_file_contents(buffer.path(), &buffer.contents[..]);
+        }
+
+        let query_src = &session.load_file(path).src.code[..];
+
+        let pos = ::racer::scopes::coords_to_point(query_src,
+                                                   ctx.query_cursor.line,
+                                                   ctx.query_cursor.col);
 
         // TODO catch_panic: apparently this can panic! in a string operation. Something about pos
         // not landing on a character boundary.
-        Ok(match ::racer::core::find_definition(ctx.contents, path, pos, &session) {
+        Ok(match ::racer::core::find_definition(query_src, path, pos, &session) {
             Some(m) => {
                 // TODO modify racer Match to return line, col. For now, read the file it found a
                 // match in to translate the Match position into line, col.
                 let (line, col) = {
+                    let found_src = &session.load_file(m.filepath.as_path());
+                    let found_src_str = &found_src.src.code[..];
                     // TODO This can panic if the position is out of bounds :(
-                    if m.filepath.as_path() == path {
-                        ::racer::scopes::point_to_coords(ctx.contents, m.point)
-                    } else {
-                        let found_file = try!(read_file(m.filepath.as_path()));
-                        ::racer::scopes::point_to_coords(&found_file[..], m.point)
-                    }
+                    ::racer::scopes::point_to_coords(found_src_str, m.point)
                 };
 
                 let match_type = format!("{:?}", m.mtype);
@@ -61,7 +65,7 @@ impl SemanticEngine for Racer {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use engine::{Context, CursorPosition, SemanticEngine};
+    use engine::{Context, CursorPosition, SemanticEngine, Buffer};
 
     use ::util::fs::TmpFile;
 
@@ -81,12 +85,12 @@ mod tests {
                 myfn();
             }";
 
-        // FIXME The source file being examined _must_ be written out to disk, or the racer
-        // find_definition impl will panic. What is the point of passing in a buffer if it reads the
-        // file anyway?
-        let dummy = TmpFile::new(src);
+        let mut buffers = vec![Buffer {
+            contents: src.to_string(),
+            file_path: "src.rs".to_string()
+        }];
 
-        let ctx = Context::new(src, CursorPosition { line: 5, col: 17 }, dummy.path().to_str().unwrap());
+        let ctx = Context::new(&buffers, CursorPosition { line: 5, col: 17 }, "src.rs");
         let racer = Racer;
         let def = racer.find_definition(&ctx).unwrap().unwrap();
 

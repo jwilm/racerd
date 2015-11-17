@@ -1,6 +1,9 @@
 language: rust
 sudo: false
 
+before_install:
+  - export RUST_SRC_PATH=$(scripts/download_rust_source.sh)
+
 rust:
   - beta
   - nightly

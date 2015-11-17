@@ -86,6 +86,40 @@ mod http {
     }
 
     #[test]
+    fn find_definition_in_std_library() {
+        // Build request args
+        let request_obj = stringify!({
+            "buffers": [{
+                "file_path": "src.rs",
+                "contents": "use std::path::Path;\nfn main() {\nlet p = &Path::new(\"arst\")\n}\n"
+            }],
+            "file_path": "src.rs",
+            "line": 3,
+            "column": 16
+        });
+
+        http::with_server(|server| {
+            // Make request
+            let url = server.url("/find_definition");
+            let res = request_str(Method::Post, &url[..], Some(request_obj)).unwrap().unwrap();
+
+            // Build actual/expected objects
+            let actual = Json::from_str(&res[..]).unwrap();
+
+            // We don't know exactly how the result is going to look in this case.
+            let obj = actual.as_object().unwrap();
+
+            // Check that `file_path` ends_with "path.rs"
+            let found_path = obj.get("file_path").unwrap().as_string().unwrap();
+            assert!(found_path.ends_with("path.rs"));
+
+            // Check that we found a thing called "new"
+            let found_text = obj.get("text").unwrap().as_string().unwrap();
+            assert_eq!(found_text, "new");
+        });
+    }
+
+    #[test]
     fn ping_pong() {
         http::with_server(|server| {
             let url = server.url("/ping");

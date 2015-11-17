@@ -9,13 +9,6 @@ pub struct Racer;
 
 use super::Result;
 
-fn read_file(path: &Path) -> io::Result<String> {
-    let mut f = try!(File::open(path));
-    let mut s = String::new();
-    try!(f.read_to_string(&mut s));
-    Ok(s)
-}
-
 impl SemanticEngine for Racer {
     fn find_definition(&self, ctx: &Context) -> Result<Option<Definition>> {
         let path = ctx.query_path();

@@ -47,30 +47,28 @@ mod http {
     /// not been written to disk.
     #[test]
     fn find_definition_multiple_dirty_buffers() {
+        // Build request args
+        let request_obj = stringify!({
+            "buffers": [{
+                "file_path": "src.rs",
+                "contents": "mod src2;\nuse src2::{foo,myfn};\nfn main() {\n    myfn();\n}\n"
+            }, {
+                "file_path": "src2.rs",
+                "contents": "\npub fn myfn()\npub fn foo() {}\n"
+            }],
+            "file_path": "src.rs",
+            "line": 4,
+            "column": 7
+        });
+
+        // Create an *empty* temporary file. The request contains unsaved file contents. For rust
+        // module inclusions to work, the compiler checks certain locations on the file system where
+        // a module file could be located. It simply doesn't work with unnamed files.
+        let _f = TmpFile::with_name("src2.rs", "");
 
         http::with_server(|server| {
-            // Build request args
-            let url = server.url("/find_definition");
-            let request_obj = stringify!({
-                "buffers": [{
-                    "file_path": "src.rs",
-                    "contents": "mod src2;\nuse src2::{foo,myfn};\nfn main() {\n    myfn();\n}\n"
-                }, {
-                    "file_path": "src2.rs",
-                    "contents": "\npub fn myfn()\npub fn foo() {}\n"
-                }],
-                "file_path": "src.rs",
-                "line": 4,
-                "column": 7
-            });
-
-            // Create an *empty* temporary file. The request contains unsaved file contents. For
-            // rust module inclusions to work, the compiler checks certain locations on the file
-            // system where a module file could be located. It simply doesn't work with unnamed
-            // files.
-            let _f = TmpFile::with_name("src2.rs", "");
-
             // Make request
+            let url = server.url("/find_definition");
             let res = request_str(Method::Post, &url[..], Some(request_obj)).unwrap().unwrap();
 
             // Build actual/expected objects

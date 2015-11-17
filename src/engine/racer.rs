@@ -1,8 +1,4 @@
 //! SemanticEngine implementation for [the racer library](https://github.com/phildawes/racer)
-use std::fs::File;
-use std::path::Path;
-use std::io::{self, Read};
-
 use engine::{SemanticEngine, Definition, Context, CursorPosition};
 
 pub struct Racer;
@@ -78,7 +74,7 @@ mod tests {
                 myfn();
             }";
 
-        let mut buffers = vec![Buffer {
+        let buffers = vec![Buffer {
             contents: src.to_string(),
             file_path: "src.rs".to_string()
         }];

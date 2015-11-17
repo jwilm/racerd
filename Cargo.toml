@@ -22,7 +22,7 @@ log = "*"
 # Until the necessary changes make it into master of racer, racerd will depend
 # on jwilm's fork.
 git = "https://github.com/jwilm/racer.git"
-rev = "ea7b138839a0c3d6d9189d8868aee5e4c26d20d1"
+rev = "a62ce1dea9c9dfbf3a0d9e0a8d92671ada4fda53"
 
 [dev-dependencies.json-request]
 # Small request library built for testing this project. Local path dep is handy

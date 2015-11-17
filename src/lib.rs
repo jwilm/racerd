@@ -21,7 +21,9 @@ extern crate log;        // log macros
 extern crate racer;      // rust code analysis
 extern crate crypto;     // crypto algorithms for HMAC auth middleware
 
-mod util;
+extern crate rand;
+
+pub mod util;
 pub mod http;
 pub mod engine;
 

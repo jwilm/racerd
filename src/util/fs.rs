@@ -1,14 +1,21 @@
+//! fs utilities (eg. TmpFile)
 use std::io::Write;
 use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 use std::convert::From;
 use std::thread;
 
+/// A temporary file that is removed on drop
+///
+/// With the new constructor, you provide contents and a file is created based on the name of the
+/// current task. The with_name constructor allows you to choose a name. Neither forms are secure,
+/// and both are subject to race conditions.
 pub struct TmpFile {
     path_buf: PathBuf
 }
 
 impl TmpFile {
+    /// Create a temp file with random name and `contents`.
     pub fn new(contents: &str) -> TmpFile {
         let tmp = TmpFile {
             path_buf: TmpFile::mktemp()
@@ -18,6 +25,7 @@ impl TmpFile {
         tmp
     }
 
+    /// Create a file with `name` and `contents`.
     pub fn with_name(name: &str, contents: &str) -> TmpFile {
         let tmp = TmpFile {
             path_buf: PathBuf::from(name)
@@ -35,14 +43,21 @@ impl TmpFile {
 
     /// Make path for tmpfile. Stole this from racer's tests.
     fn mktemp() -> PathBuf {
+        use rand::Rng;
+
         let thread = thread::current();
         let taskname = thread.name().unwrap();
         let s = taskname.replace("::", "_");
         let mut p = "tmpfile.".to_string();
         p.push_str(&s[..]);
+        // Add some random chars
+        for c in ::rand::thread_rng().gen_ascii_chars().take(5) {
+            p.push(c);
+        }
         PathBuf::from(p)
     }
 
+    /// Get the Path of the TmpFile
     pub fn path<'a>(&'a self) -> &'a Path {
         self.path_buf.as_path()
     }

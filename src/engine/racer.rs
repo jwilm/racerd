@@ -8,9 +8,18 @@ use racer::scopes::{coords_to_point, point_to_coords};
 
 pub struct Racer;
 
+use ::Config;
 use super::Result;
 
 impl SemanticEngine for Racer {
+    fn initialize(&self, config: &Config) -> Result<()> {
+        if let Some(ref src_path) = config.rust_src_path {
+            ::std::env::set_var("RUST_SRC_PATH", &src_path[..]);
+        }
+
+        Ok(())
+    }
+
     fn find_definition(&self, ctx: &Context) -> Result<Option<Definition>> {
         // -----------------------------------------------------------------------------------------
         // TODO: Refactor this block into a function. There was some lifetime issues I couldn't

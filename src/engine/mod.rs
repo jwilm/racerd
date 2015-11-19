@@ -5,8 +5,15 @@ use std::path::Path;
 mod error;
 pub use self::error::{Error, Result};
 
+use ::Config;
+
 /// Provide completions, definitions, and analysis of rust source code
 pub trait SemanticEngine {
+    /// Perform any necessary initialization.
+    ///
+    /// Only needs to be called once when an engine is created.
+    fn initialize(&self, config: &Config) -> Result<()>;
+
     /// Find the definition for the item under the cursor
     fn find_definition(&self, context: &Context) -> Result<Option<Definition>>;
 

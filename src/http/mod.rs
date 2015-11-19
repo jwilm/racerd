@@ -86,11 +86,10 @@ pub type Result<T> = ::std::result::Result<T, Error>;
 pub fn serve(config: &Config) -> Result<Server> {
     use persistent::Read;
     use logger::Logger;
+    use ::engine::SemanticEngine;
 
-    // TODO this should be moved into an initialization method for the selected semantic engine
-    if let Some(ref src_path) = config.rust_src_path {
-        ::std::env::set_var("RUST_SRC_PATH", &src_path[..]);
-    }
+    let racer = ::engine::Racer;
+    racer.initialize(config).unwrap(); // TODO pass engine in
 
     let mut chain = Chain::new(router!(
         post "/parse_file"       => file::parse,

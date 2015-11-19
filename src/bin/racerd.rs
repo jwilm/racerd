@@ -11,16 +11,17 @@ const USAGE: &'static str = "
 racerd - a JSON/HTTP layer on top of racer
 
 Usage:
-  racerd serve --secret-file=<path> [--port=<int>] [-l]
+  racerd serve --secret-file=<path> [--port=<int>] [-l] [--rustc-src-path=<path>]
   racerd (-h | --help)
   racerd --version
 
 Options:
-  -l, --logging             Print http logs.
-  -h, --help                Show this message.
-  -p, --port=<int>          Listen on this port [default: 3048].
-  -s, --secret-file=<path>  Path to the HMAC secret file. File will be destroyed after being read.
-  --version                 Print the version and exit.
+  -c, --rust-src-path=<path>  Use the given path for std library completions
+  -l, --logging               Print http logs.
+  -h, --help                  Show this message.
+  -p, --port=<int>            Listen on this port [default: 3048].
+  -s, --secret-file=<path>    Path to the HMAC secret file. File will be destroyed after being read.
+  --version                   Print the version and exit.
 ";
 
 #[derive(Debug, RustcDecodable)]
@@ -29,6 +30,7 @@ struct Args {
     flag_version: bool,
     flag_secret_file: String,
     flag_logging: bool,
+    flag_rust_src_path: Option<String>,
     cmd_serve: bool
 }
 
@@ -38,6 +40,7 @@ impl Into<libracerd::Config> for Args {
             port: self.flag_port as u16,
             secret_file: self.flag_secret_file,
             print_http_logs: self.flag_logging,
+            rust_src_path: self.flag_rust_src_path,
         }
     }
 }

@@ -87,6 +87,11 @@ pub fn serve(config: &Config) -> Result<Server> {
     use persistent::Read;
     use logger::Logger;
 
+    // TODO this should be moved into an initialization method for the selected semantic engine
+    if let Some(ref src_path) = config.rust_src_path {
+        ::std::env::set_var("RUST_SRC_PATH", &src_path[..]);
+    }
+
     let mut chain = Chain::new(router!(
         post "/parse_file"       => file::parse,
         post "/find_definition"  => definition::find,

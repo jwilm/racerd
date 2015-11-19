@@ -35,6 +35,7 @@ pub struct Config {
     pub port: u16,
     pub secret_file: String,
     pub print_http_logs: bool,
+    pub rust_src_path: Option<String>
 }
 
 impl Config {

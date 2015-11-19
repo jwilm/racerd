@@ -10,8 +10,18 @@ pub trait SemanticEngine {
     /// Find the definition for the item under the cursor
     fn find_definition(&self, context: &Context) -> Result<Option<Definition>>;
 
-    // Get a list of completions for the item under the cursor
-    // fn complete(loc: &FileLocation) -> io::Result<Vec<Completion>>;
+    /// Get a list of completions for the item under the cursor
+    fn list_completions(&self, context: &Context) -> Result<Option<Vec<Completion>>>;
+}
+
+/// A possible completion for a location
+#[derive(Debug)]
+pub struct Completion {
+    pub text: String,
+    pub context: String,
+    pub kind: String,
+    pub file_path: String,
+    pub position: CursorPosition,
 }
 
 /// Source file and type information for a found definition
@@ -29,23 +39,24 @@ pub struct Definition {
 /// All operations require a buffer holding the contents of a file, the file's absolute path, and a
 /// cursor position to fully specify the request. This object holds all of those items.
 #[derive(Debug)]
-pub struct Context<'a> {
-    pub buffers: &'a Vec<Buffer>,
+pub struct Context {
+    pub buffers: Vec<Buffer>,
     pub query_cursor: CursorPosition,
-    pub query_file: &'a str,
+    pub query_file: String,
 }
 
-impl<'a> Context<'a> {
-    pub fn new(buffers: &'a Vec<Buffer>, position: CursorPosition, file_path: &'a str) -> Context<'a> {
+impl Context {
+    pub fn new<T>(buffers: Vec<Buffer>, position: CursorPosition,
+                  file_path: T) -> Context where T: Into<String> {
         Context {
             buffers: buffers,
             query_cursor: position,
-            query_file: file_path,
+            query_file: file_path.into(),
         }
     }
 
-    pub fn query_path(&'a self) -> &'a Path {
-        &Path::new(self.query_file)
+    pub fn query_path<'a>(&'a self) -> &'a Path {
+        &Path::new(&self.query_file[..])
     }
 }
 

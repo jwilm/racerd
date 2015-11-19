@@ -77,9 +77,9 @@ struct FindDefinitionRequest {
 }
 
 impl FindDefinitionRequest {
-    pub fn context<'a>(&'a self) -> Context<'a> {
+    pub fn context(self) -> Context {
         let cursor = CursorPosition { line: self.line, col: self.column };
-        Context::new(&self.buffers, cursor, &self.file_path[..])
+        Context::new(self.buffers, cursor, self.file_path)
     }
 }
 

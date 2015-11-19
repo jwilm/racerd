@@ -85,6 +85,14 @@ mod http {
         });
     }
 
+    macro_rules! assert_str_prop_on_obj_in_list {
+        ($prop:expr, $val:expr, $list:expr) => {
+            assert!($list.as_array().unwrap().iter().any(|c| {
+                $val == c.as_object().unwrap().get($prop).unwrap().as_string().unwrap()
+            }));
+        }
+    }
+
     #[test]
     fn find_definition_in_std_library() {
         // Build request args
@@ -116,6 +124,36 @@ mod http {
             // Check that we found a thing called "new"
             let found_text = obj.get("text").unwrap().as_string().unwrap();
             assert_eq!(found_text, "new");
+        });
+    }
+
+    #[test]
+    fn list_path_completions() {
+        use rustc_serialize::json;
+
+        // Build request args
+        let request_obj = stringify!({
+            "buffers": [{
+                "file_path": "src.rs",
+                "contents": "use std::path;\nfn main() {\nlet p = &path::\n}\n"
+            }],
+            "file_path": "src.rs",
+            "line": 3,
+            "column": 15
+        });
+
+        http::with_server(|server| {
+            // Make request
+            let url = server.url("/list_completions");
+            let res = request_str(Method::Post, &url[..], Some(request_obj)).unwrap().unwrap();
+
+            let list = Json::from_str(&res[..]).unwrap();
+
+            println!("{}", json::as_pretty_json(&list));
+
+            // Check that the "Path" completion is available
+            assert_str_prop_on_obj_in_list!("text", "Path", list);
+            assert_str_prop_on_obj_in_list!("text", "PathBuf", list);
         });
     }
 

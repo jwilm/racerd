@@ -12,7 +12,7 @@ pub struct TestServer {
 
 impl TestServer {
     pub fn new() -> TestServer {
-        let engine = Racer;
+        let engine = Racer::new();
         let config = Config {
             port: 0,
             secret_file: "/tmp/secret".to_string(),

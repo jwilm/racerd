@@ -1,10 +1,11 @@
 use iron::prelude::*;
 use iron::status;
+use iron::mime::Mime;
 
-use http::definition;
 use rustc_serialize::json;
 
-use engine::{SemanticEngine, Racer, Completion, Context, CursorPosition, Buffer};
+use engine::{SemanticEngine, Completion, Context, CursorPosition, Buffer};
+use super::EngineProvider;
 
 /// Given a location, return a list of possible completions
 pub fn list(req: &mut Request) -> IronResult<Response> {
@@ -23,13 +24,15 @@ pub fn list(req: &mut Request) -> IronResult<Response> {
         }
     };
 
-    let racer = Racer;
-    match racer.list_completions(&lcr.context()) {
+    let mutex = req.get::<::persistent::Write<EngineProvider>>().unwrap();
+    let engine = mutex.lock().unwrap();
+    match engine.list_completions(&lcr.context()) {
         // 200 OK; found the definition
         Ok(Some(completions)) => {
             trace!("got a match");
             let res = completions.into_iter().map(|c| CompletionResponse::from(c)).collect::<Vec<_>>();
-            Ok(Response::with((status::Ok, json::encode(&res).unwrap())))
+            let content_type = "application/json".parse::<Mime>().unwrap();
+            Ok(Response::with((content_type, status::Ok, json::encode(&res).unwrap())))
         },
 
         // 204 No Content; Everything went ok, but the definition was not found.

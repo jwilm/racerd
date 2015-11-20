@@ -1,6 +1,5 @@
 //! SemanticEngine implementation for [the racer library](https://github.com/phildawes/racer)
 //!
-use std::path::Path;
 use engine::{SemanticEngine, Definition, Context, CursorPosition, Completion};
 
 use racer::core::Session;

@@ -1,6 +1,7 @@
 use std::ops::Deref;
 
 use libracerd::Config;
+use libracerd::engine::{Racer, SemanticEngine};
 
 /// Smart pointer for libracerd http server.
 ///
@@ -11,13 +12,18 @@ pub struct TestServer {
 
 impl TestServer {
     pub fn new() -> TestServer {
+        let engine = Racer;
+        let config = Config {
+            port: 0,
+            secret_file: "/tmp/secret".to_string(),
+            print_http_logs: true,
+            rust_src_path: None,
+        };
+
+        engine.initialize(&config).unwrap();
+
         TestServer {
-            inner: ::libracerd::http::serve(&Config {
-                port: 0,
-                secret_file: "/tmp/secret".to_string(),
-                print_http_logs: true,
-                rust_src_path: None,
-            }).unwrap()
+            inner: ::libracerd::http::serve(&config, engine).unwrap()
         }
     }
 }

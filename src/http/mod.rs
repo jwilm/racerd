@@ -41,7 +41,7 @@
 //!
 //! ☐ File compilation
 
-use iron::{Iron, Chain};
+use iron::prelude::*;
 
 use ::Config;
 
@@ -49,6 +49,10 @@ pub mod definition;
 mod file;
 mod completion;
 mod ping;
+
+use ::engine::SemanticEngine;
+
+use iron::typemap::Key;
 
 /// Errors occurring in the http module
 #[derive(Debug)]
@@ -67,6 +71,17 @@ impl From<::hyper::Error> for Error {
 
 pub type Result<T> = ::std::result::Result<T, Error>;
 
+// -------------------------------------------------------------------------------------------------
+// This is the middleware which attaches a completion engine to a given request
+#[derive(Debug, Clone)]
+pub struct EngineProvider;
+
+impl Key for EngineProvider {
+    type Value = Box<SemanticEngine + Send>;
+}
+
+// -------------------------------------------------------------------------------------------------
+
 /// Start the http server using the given configuration
 ///
 /// `serve` is non-blocking.
@@ -78,18 +93,16 @@ pub type Result<T> = ::std::result::Result<T, Error>;
 /// let mut cfg = Config::new();
 /// cfg.port = 3000;
 ///
-/// let mut server = ::libracerd::http::serve(&cfg).unwrap();
+/// let engine = ::libracerd::engine::Racer;
+///
+/// let mut server = ::libracerd::http::serve(&cfg, engine).unwrap();
 /// // ... later
 /// server.close().unwrap();
 /// ```
 ///
-pub fn serve(config: &Config) -> Result<Server> {
-    use persistent::Read;
+pub fn serve<E: SemanticEngine + Send + 'static>(config: &Config, engine: E) -> Result<Server> {
+    use persistent::{Read, Write};
     use logger::Logger;
-    use ::engine::SemanticEngine;
-
-    let racer = ::engine::Racer;
-    racer.initialize(config).unwrap(); // TODO pass engine in
 
     let mut chain = Chain::new(router!(
         post "/parse_file"       => file::parse,
@@ -104,6 +117,8 @@ pub fn serve(config: &Config) -> Result<Server> {
     if config.print_http_logs {
         chain.link_before(log_before);
     }
+
+    chain.link_before(Write::<EngineProvider>::one(Box::new(engine)));
 
     // Body parser middlerware
     chain.link_before(Read::<::bodyparser::MaxBodyLength>::one(1024 * 1024 * 10));
@@ -142,7 +157,8 @@ impl Server {
     /// let mut config = ::libracerd::Config::new();
     /// config.port = 3000;
     ///
-    /// let server = ::libracerd::http::serve(&config).unwrap();
+    /// let engine = ::libracerd::engine::Racer;
+    /// let server = ::libracerd::http::serve(&config, engine).unwrap();
     ///
     /// assert_eq!(server.addr(), "0.0.0.0:3000");
     /// ```

@@ -1,10 +1,12 @@
 //! Provider for finding definitions
 use iron::prelude::*;
 use iron::status;
+use iron::mime::Mime;
 
 use rustc_serialize::json;
 
-use engine::{SemanticEngine, Racer, Definition, Context, CursorPosition, Buffer};
+use engine::{SemanticEngine, Definition, Context, CursorPosition, Buffer};
+use super::EngineProvider;
 
 /// Given a location, return where the identifier is defined
 ///
@@ -33,14 +35,15 @@ pub fn find(req: &mut Request) -> IronResult<Response> {
         }
     };
 
-    // Delegate to active semantic engine
-    let racer = Racer;
-    match racer.find_definition(&fdr.context()) {
+    let mutex = req.get::<::persistent::Write<EngineProvider>>().unwrap();
+    let engine = mutex.lock().unwrap();
+    match engine.find_definition(&fdr.context()) {
         // 200 OK; found the definition
         Ok(Some(definition)) => {
             trace!("definition::find got a match");
             let res = FindDefinitionResponse::from(definition);
-            Ok(Response::with((status::Ok, json::encode(&res).unwrap())))
+            let content_type = "application/json".parse::<Mime>().unwrap();
+            Ok(Response::with((content_type, status::Ok, json::encode(&res).unwrap())))
         },
 
         // 204 No Content; Everything went ok, but the definition was not found.

@@ -2,6 +2,9 @@ extern crate docopt;
 extern crate rustc_serialize;
 extern crate libracerd;
 
+use libracerd::{Config, engine, http};
+use libracerd::engine::SemanticEngine;
+
 use std::convert::Into;
 
 use docopt::Docopt;
@@ -11,7 +14,7 @@ const USAGE: &'static str = "
 racerd - a JSON/HTTP layer on top of racer
 
 Usage:
-  racerd serve --secret-file=<path> [--port=<int>] [-l] [--rustc-src-path=<path>]
+  racerd serve --secret-file=<path> [--port=<int>] [-l] [--rust-src-path=<path>]
   racerd (-h | --help)
   racerd --version
 
@@ -34,9 +37,9 @@ struct Args {
     cmd_serve: bool
 }
 
-impl Into<libracerd::Config> for Args {
-    fn into(self) -> libracerd::Config {
-        libracerd::Config {
+impl Into<Config> for Args {
+    fn into(self) -> Config {
+        Config {
             port: self.flag_port as u16,
             secret_file: self.flag_secret_file,
             print_http_logs: self.flag_logging,
@@ -46,6 +49,7 @@ impl Into<libracerd::Config> for Args {
 }
 
 fn main() {
+    // Parse arguments
     let args: Args = Docopt::new(USAGE)
                             .and_then(|d| d.decode())
                             .unwrap_or_else(|e| e.exit());
@@ -56,5 +60,14 @@ fn main() {
         ::std::process::exit(0);
     }
 
-    libracerd::http::serve(&args.into()).unwrap();
+    // build config object
+    let config: Config = args.into();
+
+    // TODO start specified semantic engine. For now, hard coded racer.
+    let racer = engine::Racer;
+    racer.initialize(&config).unwrap();
+
+    // Start serving
+    let server = http::serve(&config, racer).unwrap();
+    println!("racerd listening at {}", server.addr());
 }

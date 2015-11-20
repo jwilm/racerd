@@ -5,6 +5,10 @@
 //! Documentation for the HTTP endpoints can be found in the http module header.
 //!
 //! This project's source code is [available on GitHub](https://github.com/jwilm/racerd).
+
+#[deny(dead_code)]
+#[deny(unused_variables)]
+
 extern crate rustc_serialize;
 
 #[macro_use]

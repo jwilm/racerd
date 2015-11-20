@@ -15,6 +15,7 @@ persistent = "*"
 logger = { git = "https://github.com/iron/logger.git" }
 log = "*"
 rand = "*"
+env_logger = "*"
 
 [dependencies.racer] # requires nightly
 # When making changes to racer, it's helpful to use a local path dependency.

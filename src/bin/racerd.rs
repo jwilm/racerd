@@ -1,6 +1,7 @@
 extern crate docopt;
 extern crate rustc_serialize;
 extern crate libracerd;
+extern crate env_logger;
 
 use libracerd::{Config, engine, http};
 use libracerd::engine::SemanticEngine;
@@ -49,6 +50,9 @@ impl Into<Config> for Args {
 }
 
 fn main() {
+    // Start logging
+    ::env_logger::init().unwrap();
+
     // Parse arguments
     let args: Args = Docopt::new(USAGE)
                             .and_then(|d| d.decode())

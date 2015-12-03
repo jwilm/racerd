@@ -77,7 +77,7 @@ pub type Result<T> = ::std::result::Result<T, Error>;
 pub struct EngineProvider;
 
 impl Key for EngineProvider {
-    type Value = Box<SemanticEngine + Send>;
+    type Value = Box<SemanticEngine + Send + Sync>;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -100,7 +100,7 @@ impl Key for EngineProvider {
 /// server.close().unwrap();
 /// ```
 ///
-pub fn serve<E: SemanticEngine + Send + 'static>(config: &Config, engine: E) -> Result<Server> {
+pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<Server> {
     use persistent::{Read, Write};
     use logger::Logger;
 

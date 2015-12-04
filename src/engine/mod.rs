@@ -8,7 +8,7 @@ pub use self::error::{Error, Result};
 use ::Config;
 
 /// Provide completions, definitions, and analysis of rust source code
-pub trait SemanticEngine {
+pub trait SemanticEngine : Send + Sync {
     /// Perform any necessary initialization.
     ///
     /// Only needs to be called once when an engine is created.

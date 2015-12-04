@@ -68,7 +68,7 @@ fn main() {
     let config: Config = args.into();
 
     // TODO start specified semantic engine. For now, hard coded racer.
-    let racer = engine::Racer;
+    let racer = engine::Racer::new();
     racer.initialize(&config).unwrap();
 
     // Start serving

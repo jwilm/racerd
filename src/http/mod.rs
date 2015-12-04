@@ -77,7 +77,7 @@ pub type Result<T> = ::std::result::Result<T, Error>;
 pub struct EngineProvider;
 
 impl Key for EngineProvider {
-    type Value = Box<SemanticEngine + Send>;
+    type Value = Box<SemanticEngine + Send + Sync>;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -93,14 +93,14 @@ impl Key for EngineProvider {
 /// let mut cfg = Config::new();
 /// cfg.port = 3000;
 ///
-/// let engine = ::libracerd::engine::Racer;
+/// let engine = ::libracerd::engine::Racer::new();
 ///
 /// let mut server = ::libracerd::http::serve(&cfg, engine).unwrap();
 /// // ... later
 /// server.close().unwrap();
 /// ```
 ///
-pub fn serve<E: SemanticEngine + Send + 'static>(config: &Config, engine: E) -> Result<Server> {
+pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<Server> {
     use persistent::{Read, Write};
     use logger::Logger;
 
@@ -157,7 +157,7 @@ impl Server {
     /// let mut config = ::libracerd::Config::new();
     /// config.port = 3000;
     ///
-    /// let engine = ::libracerd::engine::Racer;
+    /// let engine = ::libracerd::engine::Racer::new();
     /// let server = ::libracerd::http::serve(&config, engine).unwrap();
     ///
     /// assert_eq!(server.addr(), "0.0.0.0:3000");

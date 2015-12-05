@@ -23,7 +23,6 @@ extern crate hyper;      // Provides `Listening` type returned by Iron
 #[macro_use]
 extern crate log;        // log macros
 extern crate racer;      // rust code analysis
-extern crate crypto;     // crypto algorithms for HMAC auth middleware
 
 extern crate rand;
 

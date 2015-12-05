@@ -9,7 +9,6 @@ rustc-serialize = "0.3"
 iron = "0.2"
 router = "0.0.15"
 bodyparser = "0.0.6"
-rust-crypto = "0.2"
 hyper = "*"
 persistent = "*"
 logger = { git = "https://github.com/iron/logger.git" }
@@ -17,7 +16,7 @@ log = "*"
 rand = "*"
 env_logger = "*"
 
-[dependencies.racer] # requires nightly
+[dependencies.racer] # requires beta or nightly
 # When making changes to racer, it's helpful to use a local path dependency.
 # path = "/Users/jwilm/code/racer"
 

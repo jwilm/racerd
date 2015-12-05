@@ -24,7 +24,7 @@ env_logger = "*"
 # Until the necessary changes make it into master of racer, racerd will depend
 # on jwilm's fork.
 git = "https://github.com/jwilm/racer.git"
-rev = "a62ce1dea9c9dfbf3a0d9e0a8d92671ada4fda53"
+rev = "ba9dc11b7f5809944a47a791b63b0455e64c5ca2"
 
 [dev-dependencies.json-request]
 # Small request library built for testing this project. Local path dep is handy

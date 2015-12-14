@@ -15,7 +15,7 @@ impl TestServer {
         let engine = Racer::new();
         let config = Config {
             port: 0,
-            secret_file: "/tmp/secret".to_string(),
+            secret_file: None,
             print_http_logs: true,
             rust_src_path: None,
         };

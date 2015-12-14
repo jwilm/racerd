@@ -15,6 +15,7 @@ logger = { git = "https://github.com/iron/logger.git" }
 log = "*"
 rand = "*"
 env_logger = "*"
+iron-hmac = "0.1"
 
 [dependencies.racer] # requires beta or nightly
 # When making changes to racer, it's helpful to use a local path dependency.
@@ -24,6 +25,10 @@ env_logger = "*"
 # on jwilm's fork.
 git = "https://github.com/jwilm/racer.git"
 rev = "ba9dc11b7f5809944a47a791b63b0455e64c5ca2"
+
+[dev-dependencies]
+hyper = "0.7"
+openssl = "0.7"
 
 [dev-dependencies.json-request]
 # Small request library built for testing this project. Local path dep is handy

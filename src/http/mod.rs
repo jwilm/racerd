@@ -53,6 +53,7 @@ mod ping;
 use ::engine::SemanticEngine;
 
 use iron::typemap::Key;
+use iron_hmac::Hmac256Authentication;
 
 /// Errors occurring in the http module
 #[derive(Debug)]
@@ -118,10 +119,31 @@ pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<
         chain.link_before(log_before);
     }
 
+    // Get HMAC Middleware
+    let (hmac_before, hmac_after) = if config.secret_file.is_some() {
+        let secret = config.read_secret_file();
+        let hmac_header = "x-racerd-hmac";
+        let (before, after) = Hmac256Authentication::middleware(secret, hmac_header);
+        (Some(before), Some(after))
+    } else {
+        (None, None)
+    };
+
+    // This middleware provides a semantic engine to the request handlers
     chain.link_before(Write::<EngineProvider>::one(Box::new(engine)));
 
     // Body parser middlerware
     chain.link_before(Read::<::bodyparser::MaxBodyLength>::one(1024 * 1024 * 10));
+
+    // Maybe link hmac middleware
+    if let Some(hmac) = hmac_before {
+        chain.link_before(hmac);
+    }
+
+    if let Some(hmac) = hmac_after {
+        chain.link_after(hmac);
+    }
+
 
     // log_after must be last middleware in after chain
     if config.print_http_logs {

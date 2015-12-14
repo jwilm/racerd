@@ -6,8 +6,7 @@
 //!
 //! This project's source code is [available on GitHub](https://github.com/jwilm/racerd).
 
-#[deny(dead_code)]
-#[deny(unused_variables)]
+#![deny(warnings)]
 
 extern crate rustc_serialize;
 
@@ -17,6 +16,7 @@ extern crate bodyparser; // Iron body parsing middleware
 extern crate persistent; // Iron storage middleware
 extern crate logger;     // Iron logging middleware
 extern crate iron;       // http framework
+extern crate iron_hmac;
 
 extern crate hyper;      // Provides `Listening` type returned by Iron
 
@@ -29,6 +29,9 @@ extern crate rand;
 pub mod util;
 pub mod http;
 pub mod engine;
+
+use std::io::Read;
+use std::fs::File;
 
 /// Configuration flags and values
 ///
@@ -45,5 +48,23 @@ impl Config {
     /// Build a default config object
     pub fn new() -> Config {
         Default::default()
+    }
+
+    /// Return contents of secret file
+    ///
+    /// panics if self.secret_file is None or an error is encountered while reading the file.
+    pub fn read_secret_file(&self) -> String {
+        self.secret_file.as_ref().map(|secret_file_path| {
+            let buf = {
+                let mut f = File::open(secret_file_path).unwrap();
+                let mut buf = String::new();
+                f.read_to_string(&mut buf).unwrap();
+                buf
+            };
+
+            ::std::fs::remove_file(secret_file_path).unwrap();
+
+            buf
+        }).unwrap()
     }
 }

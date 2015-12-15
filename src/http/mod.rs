@@ -151,10 +151,9 @@ pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<
     }
 
     let app = Iron::new(chain);
-    let host = format!("0.0.0.0:{}", config.port);
 
     Ok(Server {
-        inner: try!(app.http(&host[..]))
+        inner: try!(app.http(("localhost", config.port)))
     })
 }
 

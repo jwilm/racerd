@@ -24,7 +24,7 @@ iron-hmac = "0.1"
 # Until the necessary changes make it into master of racer, racerd will depend
 # on jwilm's fork.
 git = "https://github.com/jwilm/racer.git"
-rev = "ba9dc11b7f5809944a47a791b63b0455e64c5ca2"
+rev = "d1cacf6e84cde29d2f31251b5898427b2b29b040"
 
 [dev-dependencies]
 hyper = "0.7"

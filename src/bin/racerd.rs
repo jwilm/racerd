@@ -15,7 +15,7 @@ const USAGE: &'static str = "
 racerd - a JSON/HTTP layer on top of racer
 
 Usage:
-  racerd serve --secret-file=<path> [--port=<int>] [-l] [--rust-src-path=<path>]
+  racerd serve [--secret-file=<path>] [--port=<int>] [-l] [--rust-src-path=<path>]
   racerd (-h | --help)
   racerd --version
 
@@ -32,7 +32,7 @@ Options:
 struct Args {
     flag_port: u16,
     flag_version: bool,
-    flag_secret_file: String,
+    flag_secret_file: Option<String>,
     flag_logging: bool,
     flag_rust_src_path: Option<String>,
     cmd_serve: bool

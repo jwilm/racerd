@@ -1,4 +1,6 @@
 use std::ops::Deref;
+use std::fs::File;
+use std::io::Write;
 
 use libracerd::Config;
 use libracerd::engine::{Racer, SemanticEngine};
@@ -11,11 +13,11 @@ pub struct TestServer {
 }
 
 impl TestServer {
-    pub fn new() -> TestServer {
+    pub fn new(secret_file: Option<String>) -> TestServer {
         let engine = Racer::new();
         let config = Config {
             port: 0,
-            secret_file: "/tmp/secret".to_string(),
+            secret_file: secret_file,
             print_http_logs: true,
             rust_src_path: None,
         };
@@ -53,7 +55,25 @@ impl UrlBuilder for TestServer {
 }
 
 pub fn with_server<F>(mut func: F) where F: FnMut(&TestServer) -> () {
-    func(&TestServer::new());
+    func(&TestServer::new(None));
+}
+
+pub fn with_hmac_server<F>(secret: &str, mut func: F) where F: FnMut(&TestServer) -> () {
+    // Make a temp file unique to this test
+    let thread = ::std::thread::current();
+    let taskname = thread.name().unwrap();
+    let s = taskname.replace("::", "_");
+    let mut p = "secretfile.".to_string();
+    p.push_str(&s[..]);
+
+
+    {
+        let mut f = File::create(&p[..]).unwrap();
+        f.write_all(secret.as_bytes()).unwrap();
+        f.flush().unwrap();
+    }
+
+    func(&TestServer::new(Some(p)));
 }
 
 #[test]

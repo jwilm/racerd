@@ -1,9 +1,43 @@
+#![deny(warnings)]
+
 extern crate libracerd;
 extern crate json_request;
 extern crate rustc_serialize;
+
+#[macro_use]
+extern crate hyper;
+extern crate openssl;
+
+
 mod util;
 
+#[test]
+#[should_panic]
+fn panics_when_invalid_secret_given() {
+    use ::libracerd::engine::{Racer, SemanticEngine};
+    use ::libracerd::http::serve;
+    use ::libracerd::Config;
+
+    let config = Config {
+        port: 0,
+        secret_file: Some("a.file.that.does.not.exist".to_owned()),
+        print_http_logs: true,
+        rust_src_path: None
+    };
+
+    let engine = Racer::new();
+    engine.initialize(&config).unwrap();
+    serve(&config, engine).unwrap();
+}
+
 mod http {
+    use hyper::header::ContentType;
+    use hyper::Client;
+
+    use std::io::Read;
+
+    header! { (XRacerdHmac, "x-racerd-hmac") => [String] }
+
     use util::http::{self, UrlBuilder};
 
     use rustc_serialize::json::{Json};
@@ -169,6 +203,56 @@ mod http {
             })).unwrap();
 
             assert_eq!(actual, expected);
+        });
+    }
+
+    #[test]
+    fn ping_pong_hmac_with_correct_secret() {
+        let secret = "hello hmac ping pong";
+
+        http::with_hmac_server(secret, |server| {
+            // The request hmac in this case should be
+            let hmac = ::util::request_hmac(secret, "GET", "/ping", "");
+
+            let url = server.url("/ping");
+
+            let client = Client::new();
+            let mut res = client.get(&url[..])
+                                .header(XRacerdHmac(hmac))
+                                .header(ContentType::json())
+                                .send().unwrap();
+
+            assert_eq!(res.status, ::hyper::status::StatusCode::Ok);
+
+            let mut body = String::new();
+            res.read_to_string(&mut body).unwrap();
+
+            let actual = Json::from_str(&body[..]).unwrap();
+            let expected = Json::from_str(stringify!({
+                "pong": true
+            })).unwrap();
+
+            assert_eq!(actual, expected);
+        });
+    }
+
+    #[test]
+    fn ping_pong_hmac_wrong_secret() {
+        let secret = "hello hmac ping pong";
+
+        http::with_hmac_server(secret, |server| {
+            // The request hmac in this case should be
+            let hmac = ::util::request_hmac("different secret", "GET", "/ping", "");
+
+            let url = server.url("/ping");
+
+            let client = Client::new();
+            let res = client.get(&url[..])
+                            .header(XRacerdHmac(hmac))
+                            .header(ContentType::json())
+                            .send().unwrap();
+
+            assert_eq!(res.status, ::hyper::status::StatusCode::Forbidden);
         });
     }
 }

@@ -8,8 +8,11 @@ extern crate rustc_serialize;
 extern crate hyper;
 extern crate openssl;
 
-
 mod util;
+
+/// Although the value is not used, running env! for RUST_SRC_PATH checks, before running the tests,
+/// that the required environment variable is defined.
+const _RUST_SRC_PATH: &'static str = env!("RUST_SRC_PATH");
 
 #[test]
 #[should_panic]
@@ -162,7 +165,7 @@ mod http {
     }
 
     #[test]
-    fn list_path_completions() {
+    fn list_path_completions_std_library() {
         use rustc_serialize::json;
 
         // Build request args

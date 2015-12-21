@@ -4,6 +4,9 @@ racerd
 JSON/HTTP API for [racer][]. The project's primary goal is supporting Rust in
 [YouCompleteMe][].
 
+[![Build Status](https://travis-ci.org/jwilm/racerd.svg?branch=master)](https://travis-ci.org/jwilm/racerd)
+[![Build status](https://ci.appveyor.com/api/projects/status/ysdf6dlxv73am0s5/branch/master?svg=true)](https://ci.appveyor.com/project/jwilm/racerd/branch/master)
+
 [Documentation][]
 
 ## Status

@@ -75,7 +75,10 @@ impl<'a> SemanticEngine for Racer<'a> {
 
     fn find_definition(&self, ctx: &Context) -> Result<Option<Definition>> {
         let (query_src, pos, path) = self.build_racer_args(ctx);
-        let session = self.session.lock().unwrap();
+        let session = match self.session.lock() {
+            Ok(guard) => guard,
+            Err(poisoned) => poisoned.into_inner()
+        };
 
         // TODO catch_panic: apparently this can panic! in a string operation. Something about pos
         // not landing on a character boundary.
@@ -108,7 +111,10 @@ impl<'a> SemanticEngine for Racer<'a> {
 
     fn list_completions(&self, ctx: &Context) -> Result<Option<Vec<Completion>>> {
         let (query_src, pos, path) = self.build_racer_args(ctx);
-        let session = self.session.lock().unwrap();
+        let session = match self.session.lock() {
+            Ok(guard) => guard,
+            Err(poisoned) => poisoned.into_inner()
+        };
 
         let matches = ::racer::core::complete_from_file(query_src, path, pos, *session);
 

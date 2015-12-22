@@ -4,6 +4,7 @@ environment:
   OPENSSL_LIBS: ssleay32:libeay32
   TARGET: i686-pc-windows-gnu
   BITS: 32
+
 install:
   - ps: Start-FileDownload "http://slproweb.com/download/Win${env:BITS}OpenSSL-1_0_2e.exe"
   - Win%BITS%OpenSSL-1_0_2e.exe /SILENT /VERYSILENT /SP- /DIR="C:\OpenSSL"
@@ -16,10 +17,11 @@ install:
   - ps: Start-FileDownload "https://static.rust-lang.org/dist/rustc-1.5.0-src.tar.gz"
   - tar -xf rustc-1.5.0-src.tar.gz
   - SET RUST_SRC_PATH=%CD%\rustc-1.5.0\src
-  - echo %RUST_SRC_PATH%
 
 build: false
+cache:
+  - 'target -> Cargo.lock'
+  - 'C:\Users\appveyor\.cargo -> Cargo.lock'
 
 test_script:
-  - echo %RUST_SRC_PATH%
   - cargo test --verbose

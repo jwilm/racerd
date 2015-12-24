@@ -9,25 +9,23 @@ rustc-serialize = "0.3"
 iron = "0.2"
 router = "0.0.15"
 bodyparser = "0.0.6"
-hyper = "*"
-persistent = "*"
+hyper = "0.7"
+persistent = "0.0.8"
 logger = { git = "https://github.com/iron/logger.git" }
-log = "*"
-rand = "*"
-env_logger = "*"
+log = "0.3"
+rand = "0.3"
+env_logger = "0.3"
 iron-hmac = "0.1"
 
-[dependencies.racer] # requires beta or nightly
+[dependencies.racer]
 # When making changes to racer, it's helpful to use a local path dependency.
 # path = "/Users/jwilm/code/racer"
 
-# Until the necessary changes make it into master of racer, racerd will depend
-# on jwilm's fork.
+# racerd currently depends on a fork of racer until the changes are upstreamed
 git = "https://github.com/jwilm/racer.git"
 rev = "d14f27f3e7d22838d7d818969d476cffd1150531"
 
 [dev-dependencies]
-hyper = "0.7"
 openssl = "0.7"
 
 [dev-dependencies.json-request]
@@ -35,7 +33,5 @@ openssl = "0.7"
 # for working with the library.
 # path = "/Users/jwilm/code/json-request"
 
-# Using an off-master version of json-request until it properly supports this
-# project.
 git = "https://github.com/jwilm/json-request.git"
 rev = "4fda576c58db206f6c41dafdc4f552ecf5aa6a44"

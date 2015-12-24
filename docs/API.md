@@ -12,13 +12,13 @@ racerd serve -l -p56773 --rust-src-path <your-rust-src-path>
 
 ## Overview
 
-[`POST /find_definition`](#postfind_definition) attempts to find the definition
+[`POST /find_definition`](#post-find_definition) attempts to find the definition
 of the item under the cursor.
 
-[`POST /list_completions`](#postlist_completions) attempts to generate a list of
+[`POST /list_completions`](#post-list_completions) attempts to generate a list of
 completions given the item under the cursor.
 
-[`GET /ping`](#getping) is a status endpoint indicating whether the server is
+[`GET /ping`](#get-ping) is a status endpoint indicating whether the server is
 available.
 
 ### Success
@@ -188,5 +188,5 @@ curl 127.0.0.1:56773/ping
 
 [QueryRequest]: #queryrequest
 [Buffer]: #buffer
-[find definition]: #postfind_definition
-[list completions]: #postlist_completions
+[find definition]: #post-find_definition
+[list completions]: #post-list_completions

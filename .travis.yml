@@ -5,8 +5,8 @@ before_install:
   - export RUST_SRC_PATH=$(scripts/download_rust_source.sh)
 
 rust:
+  - stable
   - beta
-  - nightly
 
 script:
   - cargo test

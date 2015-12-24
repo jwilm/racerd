@@ -13,7 +13,7 @@ dependencies = [
  "logger 0.0.3 (git+https://github.com/iron/logger.git)",
  "openssl 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "persistent 0.0.8 (registry+https://github.com/rust-lang/crates.io-index)",
- "racer 1.0.0 (git+https://github.com/jwilm/racer.git?rev=d1cacf6e84cde29d2f31251b5898427b2b29b040)",
+ "racer 1.0.0 (git+https://github.com/jwilm/racer.git?rev=d14f27f3e7d22838d7d818969d476cffd1150531)",
  "rand 0.3.12 (registry+https://github.com/rust-lang/crates.io-index)",
  "router 0.0.15 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc-serialize 0.3.16 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -358,7 +358,7 @@ dependencies = [
 [[package]]
 name = "racer"
 version = "1.0.0"
-source = "git+https://github.com/jwilm/racer.git?rev=d1cacf6e84cde29d2f31251b5898427b2b29b040#d1cacf6e84cde29d2f31251b5898427b2b29b040"
+source = "git+https://github.com/jwilm/racer.git?rev=d14f27f3e7d22838d7d818969d476cffd1150531#d14f27f3e7d22838d7d818969d476cffd1150531"
 dependencies = [
  "clap 1.5.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "env_logger 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",

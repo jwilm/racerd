@@ -7,3 +7,7 @@ before_install:
 rust:
   - beta
   - nightly
+
+script:
+  - cargo test
+  - scripts/assert_cargo_lock_unchanged

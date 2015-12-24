@@ -2,7 +2,7 @@
 //!
 use engine::{SemanticEngine, Definition, Context, CursorPosition, Completion};
 
-use racer::core::Session;
+use racer::core::{Session, FileCache};
 use racer::scopes::{coords_to_point, point_to_coords};
 
 use std::path::Path;
@@ -10,13 +10,11 @@ use std::path::Path;
 use std::sync::Mutex;
 
 pub struct Racer<'a> {
-    session: Mutex<&'a Session<'a>>
+    cache: Mutex<&'a FileCache<'a>>
 }
 
 impl<'a> Racer<'a> {
     pub fn new() -> Racer<'a> {
-        let path = &Path::new("hopefully/never/a/real/path/as/long/as/this/hack/exists/.com");
-
         // The unsafe block in the constructor is taking ownership of the Session allocated by this
         // box. It is later freed in the drop impl. Having a Session reference with the same
         // lifetime as Racer solves a concrete self lifetime problem in the SemanticEngine
@@ -28,16 +26,17 @@ impl<'a> Racer<'a> {
         // MutexGuard will save us from references escaping a critical section since you normally
         // cannot store references in a Mutex. At this time, that's not a problem, but it would be
         // good to have a static guarantee about not leaking references.
-        let session = Box::new(Session::from_path(path, path));
-        let session_ptr = Box::into_raw(session);
+        let cache = Box::new(FileCache::new());
+        let cache_ptr = Box::into_raw(cache);
         Racer {
-            session: Mutex::new(unsafe { &*session_ptr })
+            cache: Mutex::new(unsafe { &*cache_ptr })
         }
     }
 
-    pub fn build_racer_args<'b>(&self, ctx: &'b Context) -> (&'a str, usize, &'b Path) {
+    pub fn build_racer_args<'b, 'c>(&self, ctx: &'b Context, session: &'c Session<'a>)
+        -> (&'a str, usize, &'b Path) {
+
         let path = ctx.query_path();
-        let session = self.session.lock().unwrap();
 
         for buffer in &ctx.buffers {
             session.cache_file_contents(buffer.path(), &buffer.contents[..]);
@@ -52,12 +51,12 @@ impl<'a> Racer<'a> {
 
 impl<'a> Drop for Racer<'a> {
     fn drop(&mut self) {
-        let session_ref = *self.session.lock().unwrap();
+        let cache_ref = *self.cache.lock().unwrap();
         // At this point, nobody has a reference to the session because it is locked behind the
         // mutex and the lock is held here. Nobody has a reference to the mutex because its holder
         // is being dropped. Thus, casting a non mutable reference to a raw *mut pointer to
         // reconstitute the box should be fine.
-        let _session: Box<Session> = unsafe { Box::from_raw(::std::mem::transmute(session_ref)) };
+        let _cache: Box<FileCache> = unsafe { Box::from_raw(::std::mem::transmute(cache_ref)) };
     }
 }
 
@@ -74,15 +73,16 @@ impl<'a> SemanticEngine for Racer<'a> {
     }
 
     fn find_definition(&self, ctx: &Context) -> Result<Option<Definition>> {
-        let (query_src, pos, path) = self.build_racer_args(ctx);
-        let session = match self.session.lock() {
+        let cache = match self.cache.lock() {
             Ok(guard) => guard,
             Err(poisoned) => poisoned.into_inner()
         };
+        let session = Session::from_path(&cache, ctx.query_path(), ctx.query_path());
+        let (query_src, pos, path) = self.build_racer_args(ctx, &session);
 
         // TODO catch_panic: apparently this can panic! in a string operation. Something about pos
         // not landing on a character boundary.
-        Ok(match ::racer::core::find_definition(query_src, path, pos, *session) {
+        Ok(match ::racer::core::find_definition(query_src, path, pos, &session) {
             Some(m) => {
                 // TODO modify racer Match to return line, col. For now, read the file it found a
                 // match in to translate the Match position into line, col.
@@ -110,13 +110,14 @@ impl<'a> SemanticEngine for Racer<'a> {
     }
 
     fn list_completions(&self, ctx: &Context) -> Result<Option<Vec<Completion>>> {
-        let (query_src, pos, path) = self.build_racer_args(ctx);
-        let session = match self.session.lock() {
+        let cache = match self.cache.lock() {
             Ok(guard) => guard,
             Err(poisoned) => poisoned.into_inner()
         };
+        let session = Session::from_path(&cache, ctx.query_path(), ctx.query_path());
+        let (query_src, pos, path) = self.build_racer_args(ctx, &session);
 
-        let matches = ::racer::core::complete_from_file(query_src, path, pos, *session);
+        let matches = ::racer::core::complete_from_file(query_src, path, pos, &session);
 
         let completions = matches.map(|m| {
             let (line, col) = {

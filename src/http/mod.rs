@@ -1,51 +1,10 @@
 //! http server for semantic engines
-//!
-//! Provide semantic completion, definition look-up, and compilation warning/error JSON API over
-//! HTTP. Endpoints currently assume the `Racer` engine.
-//!
-//! # Definition lookup
-//!
-//! `POST /find_definition`
-//!
-//! ## Request
-//!
-//! ```json
-//! {
-//!     "file_path": "src.rs",
-//!     "buffers": [{
-//!         "contents": "<some rust code>",
-//!         "file_path": "src.rs"
-//!     }],
-//!     "line": 4,
-//!     "column": 3
-//! }
-//! ```
-//!
-//! ## Response
-//!
-//! ```json
-//! {
-//!     "file_path": "maybe_other_src.rs",
-//!     "text": "fn foo() {}",
-//!     "line": 4,
-//!     "column": 3
-//! }
-//! ```
-//!
-//! # Planned features
-//! ✓ Definition lookup
-//!
-//! ☐ HMAC Auth for all endpoints
-//!
-//! ☐ Code completions
-//!
-//! ☐ File compilation
 
 use iron::prelude::*;
 
 use ::Config;
 
-pub mod definition;
+mod definition;
 mod file;
 mod completion;
 mod ping;
@@ -73,7 +32,7 @@ impl From<::hyper::Error> for Error {
 pub type Result<T> = ::std::result::Result<T, Error>;
 
 // -------------------------------------------------------------------------------------------------
-// This is the middleware which attaches a completion engine to a given request
+/// Iron middleware responsible for attaching a semantic engine to each request
 #[derive(Debug, Clone)]
 pub struct EngineProvider;
 

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `SubstructureFields` enum in crate `syntex_syntax`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, SubstructureFields">
+
+    <title>syntex_syntax::ext::deriving::generic::SubstructureFields - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../../../syntex_syntax/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../../../index.html'>syntex_syntax</a>::<wbr><a href='../../index.html'>ext</a>::<wbr><a href='../index.html'>deriving</a>::<wbr><a href='index.html'>generic</a></p><script>window.sidebarCurrent = {name: 'SubstructureFields', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../../index.html'>syntex_syntax</a>::<wbr><a href='../../index.html'>ext</a>::<wbr><a href='../index.html'>deriving</a>::<wbr><a href='index.html'>generic</a>::<wbr><a class='enum' href=''>SubstructureFields</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-32705' class='srclink' href='../../../../src/syntex_syntax/ext/deriving/generic/mod.rs.html#305-324' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum SubstructureFields&lt;'a&gt; {
+    Struct(<a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../../syntex_syntax/ext/deriving/generic/struct.FieldInfo.html' title='syntex_syntax::ext::deriving::generic::FieldInfo'>FieldInfo</a>&lt;'a&gt;&gt;),
+    EnumMatching(<a href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, &amp;'a <a class='type' href='../../../../syntex_syntax/ast/type.Variant.html' title='syntex_syntax::ast::Variant'>Variant</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../../syntex_syntax/ext/deriving/generic/struct.FieldInfo.html' title='syntex_syntax::ext::deriving::generic::FieldInfo'>FieldInfo</a>&lt;'a&gt;&gt;),
+    EnumNonMatchingCollapsed(<a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../../syntex_syntax/ast/struct.Ident.html' title='syntex_syntax::ast::Ident'>Ident</a>&gt;, <a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a><a class='struct' href='../../../../syntex_syntax/ptr/struct.P.html' title='syntex_syntax::ptr::P'>P</a>&lt;<a class='type' href='../../../../syntex_syntax/ast/type.Variant.html' title='syntex_syntax::ast::Variant'>Variant</a>&gt;<a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>, <a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a><a class='struct' href='../../../../syntex_syntax/ast/struct.Ident.html' title='syntex_syntax::ast::Ident'>Ident</a><a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>),
+    StaticStruct(&amp;'a <a class='enum' href='../../../../syntex_syntax/ast/enum.VariantData.html' title='syntex_syntax::ast::VariantData'>VariantData</a>, <a class='enum' href='../../../../syntex_syntax/ext/deriving/generic/enum.StaticFields.html' title='syntex_syntax::ext::deriving::generic::StaticFields'>StaticFields</a>),
+    StaticEnum(&amp;'a <a class='struct' href='../../../../syntex_syntax/ast/struct.EnumDef.html' title='syntex_syntax::ast::EnumDef'>EnumDef</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../../../../syntex_syntax/ast/struct.Ident.html' title='syntex_syntax::ast::Ident'>Ident</a>, <a class='struct' href='../../../../syntex_syntax/codemap/struct.Span.html' title='syntex_syntax::codemap::Span'>Span</a>, <a class='enum' href='../../../../syntex_syntax/ext/deriving/generic/enum.StaticFields.html' title='syntex_syntax::ext::deriving::generic::StaticFields'>StaticFields</a>)</a>&gt;),
+}</pre><div class='docblock'><p>A summary of the possible sets of fields.</p>
+</div><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.Struct'><code>Struct</code></td><td></td></tr><tr><td id='variant.EnumMatching'><code>EnumMatching</code></td><td><div class='docblock'><p>Matching variants of the enum: variant index, ast::Variant,
+fields: the field name is only non-<code>None</code> in the case of a struct
+variant.</p>
+</div></td></tr><tr><td id='variant.EnumNonMatchingCollapsed'><code>EnumNonMatchingCollapsed</code></td><td><div class='docblock'><p>Non-matching variants of the enum, but with all state hidden from
+the consequent code.  The first component holds <code>Ident</code>s for all of
+the <code>Self</code> arguments; the second component is a slice of all of the
+variants for the enum itself, and the third component is a list of
+<code>Ident</code>s bound to the variant index values for each of the actual
+input <code>Self</code> arguments.</p>
+</div></td></tr><tr><td id='variant.StaticStruct'><code>StaticStruct</code></td><td><div class='docblock'><p>A static method where <code>Self</code> is a struct.</p>
+</div></td></tr><tr><td id='variant.StaticEnum'><code>StaticEnum</code></td><td><div class='docblock'><p>A static method where <code>Self</code> is an enum.</p>
+</div></td></tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "syntex_syntax";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script async src="../../../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["char_at",""],["expand_ident",""],["find_ident_end",""],["getline",""],["is_dir",""],["is_double_dot",""],["is_ident_char",""],["is_pattern_char",""],["is_search_expr_char",""],["path_exists",""],["symbol_matches",""],["txt_matches",""]]});

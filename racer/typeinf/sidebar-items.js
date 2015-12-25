@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["first_param_is_self",""],["generate_skeleton_for_parsing",""],["get_first_stmt",""],["get_function_declaration",""],["get_return_type_of_function",""],["get_struct_field_type",""],["get_tuplestruct_field_type",""],["get_type_from_match_arm",""],["get_type_of_match",""]]});

@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["asm",""],["base",""],["build",""],["cfg",""],["concat",""],["concat_idents",""],["deriving","The compiler code necessary to implement the `#[derive]` extensions."],["env",""],["expand",""],["log_syntax",""],["mtwt","Machinery for hygienic macros, as described in the MTWT[1] paper."],["quote",""],["source_util",""],["trace_macros",""],["tt",""]]});

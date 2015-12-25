@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Router","`Router` provides an interface for creating complex routes as middleware for the Iron framework."]]});

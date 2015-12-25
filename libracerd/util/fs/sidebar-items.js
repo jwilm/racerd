@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["TmpFile","A temporary file that is removed on drop"]]});

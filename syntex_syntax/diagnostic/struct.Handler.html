@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Handler` struct in crate `syntex_syntax`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Handler">
+
+    <title>syntex_syntax::diagnostic::Handler - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../syntex_syntax/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../index.html'>syntex_syntax</a>::<wbr><a href='index.html'>diagnostic</a></p><script>window.sidebarCurrent = {name: 'Handler', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>syntex_syntax</a>::<wbr><a href='index.html'>diagnostic</a>::<wbr><a class='struct' href=''>Handler</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-15706' class='srclink' href='../../src/syntex_syntax/diagnostic.rs.html#192-196' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Handler {
+    pub can_emit_warnings: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    // some fields omitted
+}</pre><div class='docblock'><p>A handler deals with errors; certain errors
+(fatal, bug, unimpl) may cause immediate exit,
+others log errors for later reporting.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                                  <td id='structfield.can_emit_warnings'><code>can_emit_warnings</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../syntex_syntax/diagnostic/struct.Handler.html' title='syntex_syntax::diagnostic::Handler'>Handler</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>(color_config: <a class='enum' href='../../syntex_syntax/diagnostic/enum.ColorConfig.html' title='syntex_syntax::diagnostic::ColorConfig'>ColorConfig</a>, registry: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../syntex_syntax/diagnostics/registry/struct.Registry.html' title='syntex_syntax::diagnostics::registry::Registry'>Registry</a>&gt;, can_emit_warnings: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>) -&gt; <a class='struct' href='../../syntex_syntax/diagnostic/struct.Handler.html' title='syntex_syntax::diagnostic::Handler'>Handler</a></code></h4>
+<h4 id='method.with_emitter' class='method'><code>fn <a href='#method.with_emitter' class='fnname'>with_emitter</a>(can_emit_warnings: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>, e: <a class='struct' href='https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html' title='alloc::boxed::Box'>Box</a>&lt;<a class='trait' href='../../syntex_syntax/diagnostic/trait.Emitter.html' title='syntex_syntax::diagnostic::Emitter'>Emitter</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a>&gt;) -&gt; <a class='struct' href='../../syntex_syntax/diagnostic/struct.Handler.html' title='syntex_syntax::diagnostic::Handler'>Handler</a></code></h4>
+<h4 id='method.fatal' class='method'><code>fn <a href='#method.fatal' class='fnname'>fatal</a>(&amp;self, msg: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='struct' href='../../syntex_syntax/diagnostic/struct.FatalError.html' title='syntex_syntax::diagnostic::FatalError'>FatalError</a></code></h4>
+<h4 id='method.err' class='method'><code>fn <a href='#method.err' class='fnname'>err</a>(&amp;self, msg: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)</code></h4>
+<h4 id='method.bump_err_count' class='method'><code>fn <a href='#method.bump_err_count' class='fnname'>bump_err_count</a>(&amp;self)</code></h4>
+<h4 id='method.err_count' class='method'><code>fn <a href='#method.err_count' class='fnname'>err_count</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a></code></h4>
+<h4 id='method.has_errors' class='method'><code>fn <a href='#method.has_errors' class='fnname'>has_errors</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.abort_if_errors' class='method'><code>fn <a href='#method.abort_if_errors' class='fnname'>abort_if_errors</a>(&amp;self)</code></h4>
+<h4 id='method.warn' class='method'><code>fn <a href='#method.warn' class='fnname'>warn</a>(&amp;self, msg: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)</code></h4>
+<h4 id='method.note' class='method'><code>fn <a href='#method.note' class='fnname'>note</a>(&amp;self, msg: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)</code></h4>
+<h4 id='method.help' class='method'><code>fn <a href='#method.help' class='fnname'>help</a>(&amp;self, msg: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)</code></h4>
+<h4 id='method.bug' class='method'><code>fn <a href='#method.bug' class='fnname'>bug</a>(&amp;self, msg: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; !</code></h4>
+<h4 id='method.unimpl' class='method'><code>fn <a href='#method.unimpl' class='fnname'>unimpl</a>(&amp;self, msg: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; !</code></h4>
+<h4 id='method.emit' class='method'><code>fn <a href='#method.emit' class='fnname'>emit</a>(&amp;self, cmsp: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(&amp;<a class='struct' href='../../syntex_syntax/codemap/struct.CodeMap.html' title='syntex_syntax::codemap::CodeMap'>CodeMap</a>, <a class='struct' href='../../syntex_syntax/codemap/struct.Span.html' title='syntex_syntax::codemap::Span'>Span</a>)</a>&gt;, msg: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, lvl: <a class='enum' href='../../syntex_syntax/diagnostic/enum.Level.html' title='syntex_syntax::diagnostic::Level'>Level</a>)</code></h4>
+<h4 id='method.emit_with_code' class='method'><code>fn <a href='#method.emit_with_code' class='fnname'>emit_with_code</a>(&amp;self, cmsp: <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(&amp;<a class='struct' href='../../syntex_syntax/codemap/struct.CodeMap.html' title='syntex_syntax::codemap::CodeMap'>CodeMap</a>, <a class='struct' href='../../syntex_syntax/codemap/struct.Span.html' title='syntex_syntax::codemap::Span'>Span</a>)</a>&gt;, msg: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, code: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, lvl: <a class='enum' href='../../syntex_syntax/diagnostic/enum.Level.html' title='syntex_syntax::diagnostic::Level'>Level</a>)</code></h4>
+<h4 id='method.custom_emit' class='method'><code>fn <a href='#method.custom_emit' class='fnname'>custom_emit</a>(&amp;self, cm: &amp;<a class='struct' href='../../syntex_syntax/codemap/struct.CodeMap.html' title='syntex_syntax::codemap::CodeMap'>CodeMap</a>, sp: <a class='enum' href='../../syntex_syntax/diagnostic/enum.RenderSpan.html' title='syntex_syntax::diagnostic::RenderSpan'>RenderSpan</a>, msg: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, lvl: <a class='enum' href='../../syntex_syntax/diagnostic/enum.Level.html' title='syntex_syntax::diagnostic::Level'>Level</a>)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "syntex_syntax";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `generic` mod in crate `syntex_syntax`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, generic">
+
+    <title>syntex_syntax::ext::deriving::generic - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../../../syntex_syntax/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../../../index.html'>syntex_syntax</a>::<wbr><a href='../../index.html'>ext</a>::<wbr><a href='../index.html'>deriving</a></p><script>window.sidebarCurrent = {name: 'generic', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../../../index.html'>syntex_syntax</a>::<wbr><a href='../../index.html'>ext</a>::<wbr><a href='../index.html'>deriving</a>::<wbr><a class='mod' href=''>generic</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-32333' class='srclink' href='../../../../src/syntex_syntax/ext/deriving/generic/mod.rs.html#11-1704' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Some code that abstracts away much of the boilerplate of writing
+<code>derive</code> instances for traits. Among other things it manages getting
+access to the fields of the 4 different sorts of structs and enum
+variants, as well as creating the method and impl ast instances.</p>
+
+<p>Supported features (fairly exhaustive):</p>
+
+<ul>
+<li>Methods taking any number of parameters of any type, and returning
+any type, other than vectors, bottom and closures.</li>
+<li>Generating <code>impl</code>s for types with type parameters and lifetimes
+(e.g. <code>Option&lt;T&gt;</code>), the parameters are automatically given the
+current trait as a bound. (This includes separate type parameters
+and lifetimes for methods.)</li>
+<li>Additional bounds on the type parameters (<code>TraitDef.additional_bounds</code>)</li>
+</ul>
+
+<p>The most important thing for implementers is the <code>Substructure</code> and
+<code>SubstructureFields</code> objects. The latter groups 5 possibilities of the
+arguments:</p>
+
+<ul>
+<li><code>Struct</code>, when <code>Self</code> is a struct (including tuple structs, e.g
+<code>struct T(i32, char)</code>).</li>
+<li><code>EnumMatching</code>, when <code>Self</code> is an enum and all the arguments are the
+same variant of the enum (e.g. <code>Some(1)</code>, <code>Some(3)</code> and <code>Some(4)</code>)</li>
+<li><code>EnumNonMatchingCollapsed</code> when <code>Self</code> is an enum and the arguments
+are not the same variant (e.g. <code>None</code>, <code>Some(1)</code> and <code>None</code>).</li>
+<li><code>StaticEnum</code> and <code>StaticStruct</code> for static methods, where the type
+being derived upon is either an enum or struct respectively. (Any
+argument with type Self is just grouped among the non-self
+arguments.)</li>
+</ul>
+
+<p>In the first two cases, the values from the corresponding fields in
+all the arguments are grouped together. For <code>EnumNonMatchingCollapsed</code>
+this isn&#39;t possible (different variants have different fields), so the
+fields are inaccessible. (Previous versions of the deriving infrastructure
+had a way to expand into code that could access them, at the cost of
+generating exponential amounts of code; see issue #15375). There are no
+fields with values in the static cases, so these are treated entirely
+differently.</p>
+
+<p>The non-static cases have <code>Option&lt;ident&gt;</code> in several places associated
+with field <code>expr</code>s. This represents the name of the field it is
+associated with. It is only not <code>None</code> when the associated field has
+an identifier in the source code. For example, the <code>x</code>s in the
+following snippet</p>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>A</span> { <span class='ident'>x</span> : <span class='ident'>i32</span> }
+
+<span class='kw'>struct</span> <span class='ident'>B</span>(<span class='ident'>i32</span>);
+
+<span class='kw'>enum</span> <span class='ident'>C</span> {
+    <span class='ident'>C0</span>(<span class='ident'>i32</span>),
+    <span class='ident'>C1</span> { <span class='ident'>x</span>: <span class='ident'>i32</span> }
+}</pre>
+
+<p>The <code>i32</code>s in <code>B</code> and <code>C0</code> don&#39;t have an identifier, so the
+<code>Option&lt;ident&gt;</code>s would be <code>None</code> for them.</p>
+
+<p>In the static cases, the structure is summarised, either into the just
+spans of the fields or a list of spans and the field idents (for tuple
+structs and record structs, respectively), or a list of these, for
+enums (one for each variant). For empty struct and empty enum
+variants, it is represented as a count of 0.</p>
+
+<h1 id='cs-functions' class='section-header'><a href='#cs-functions'>&quot;<code>cs</code>&quot; functions</a></h1>
+<p>The <code>cs_...</code> functions (&quot;combine substructure) are designed to
+make life easier by providing some pre-made recipes for common
+threads; mostly calling the function being derived on all the
+arguments and then combining them back together in some way (or
+letting the user chose that). They are not meant to be the only
+way to handle the structures that this code creates.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<p>The following simplified <code>PartialEq</code> is used for in-code examples:</p>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>trait</span> <span class='ident'>PartialEq</span> {
+    <span class='kw'>fn</span> <span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='kw'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span>;
+}
+<span class='kw'>impl</span> <span class='ident'>PartialEq</span> <span class='kw'>for</span> <span class='ident'>i32</span> {
+    <span class='kw'>fn</span> <span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
+        <span class='op'>*</span><span class='self'>self</span> <span class='op'>==</span> <span class='op'>*</span><span class='ident'>other</span>
+    }
+}</pre>
+
+<p>Some examples of the values of <code>SubstructureFields</code> follow, using the
+above <code>PartialEq</code>, <code>A</code>, <code>B</code> and <code>C</code>.</p>
+
+<h2 id='structs' class='section-header'><a href='#structs'>Structs</a></h2>
+<p>When generating the <code>expr</code> for the <code>A</code> impl, the <code>SubstructureFields</code> is</p>
+
+<pre><code class="language-{.text}">Struct(vec![FieldInfo {
+           span: &lt;span of x&gt;
+           name: Some(&lt;ident of x&gt;),
+           self_: &lt;expr for &amp;self.x&gt;,
+           other: vec![&lt;expr for &amp;other.x]
+         }])
+</code></pre>
+
+<p>For the <code>B</code> impl, called with <code>B(a)</code> and <code>B(b)</code>,</p>
+
+<pre><code class="language-{.text}">Struct(vec![FieldInfo {
+          span: &lt;span of `i32`&gt;,
+          name: None,
+          self_: &lt;expr for &amp;a&gt;
+          other: vec![&lt;expr for &amp;b&gt;]
+         }])
+</code></pre>
+
+<h2 id='enums' class='section-header'><a href='#enums'>Enums</a></h2>
+<p>When generating the <code>expr</code> for a call with <code>self == C0(a)</code> and <code>other == C0(b)</code>, the SubstructureFields is</p>
+
+<pre><code class="language-{.text}">EnumMatching(0, &lt;ast::Variant for C0&gt;,
+             vec![FieldInfo {
+                span: &lt;span of i32&gt;
+                name: None,
+                self_: &lt;expr for &amp;a&gt;,
+                other: vec![&lt;expr for &amp;b&gt;]
+              }])
+</code></pre>
+
+<p>For <code>C1 {x}</code> and <code>C1 {x}</code>,</p>
+
+<pre><code class="language-{.text}">EnumMatching(1, &lt;ast::Variant for C1&gt;,
+             vec![FieldInfo {
+                span: &lt;span of x&gt;
+                name: Some(&lt;ident of x&gt;),
+                self_: &lt;expr for &amp;self.x&gt;,
+                other: vec![&lt;expr for &amp;other.x&gt;]
+               }])
+</code></pre>
+
+<p>For <code>C0(a)</code> and <code>C1 {x}</code> ,</p>
+
+<pre><code class="language-{.text}">EnumNonMatchingCollapsed(
+    vec![&lt;ident of self&gt;, &lt;ident of __arg_1&gt;],
+    &amp;[&lt;ast::Variant for C0&gt;, &lt;ast::Variant for C1&gt;],
+    &amp;[&lt;ident for self index value&gt;, &lt;ident of __arg_1 index value&gt;])
+</code></pre>
+
+<p>It is the same for when the arguments are flipped to <code>C1 {x}</code> and
+<code>C0(a)</code>; the only difference is what the values of the identifiers
+<ident for self index value> and <ident of __arg_1 index value> will
+be in the generated code.</p>
+
+<p><code>EnumNonMatchingCollapsed</code> deliberately provides far less information
+than is generally available for a given pair of variants; see #15375
+for discussion.</p>
+
+<h2 id='static' class='section-header'><a href='#static'>Static</a></h2>
+<p>A static method on the types above would result in,</p>
+
+<pre><code class="language-{.text}">StaticStruct(&lt;ast::VariantData of A&gt;, Named(vec![(&lt;ident of x&gt;, &lt;span of x&gt;)]))
+
+StaticStruct(&lt;ast::VariantData of B&gt;, Unnamed(vec![&lt;span of x&gt;]))
+
+StaticEnum(&lt;ast::EnumDef of C&gt;,
+           vec![(&lt;ident of C0&gt;, &lt;span of C0&gt;, Unnamed(vec![&lt;span of i32&gt;])),
+                (&lt;ident of C1&gt;, &lt;span of C1&gt;, Named(vec![(&lt;ident of x&gt;, &lt;span of x&gt;)]))])
+</code></pre>
+</div><h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>pub use self::<a class='enum' href='../../../../syntex_syntax/ext/deriving/generic/enum.StaticFields.html' title='syntex_syntax::ext::deriving::generic::StaticFields'>StaticFields</a>::*;</code></td></tr><tr><td><code>pub use self::<a class='enum' href='../../../../syntex_syntax/ext/deriving/generic/enum.SubstructureFields.html' title='syntex_syntax::ext::deriving::generic::SubstructureFields'>SubstructureFields</a>::*;</code></td></tr></table><h2 id='modules' class='section-header'><a href="#modules">Modules</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='mod' href='ty/index.html'
+                               title='syntex_syntax::ext::deriving::generic::ty'>ty</a></td>
+                        <td class='docblock short'>
+                             <p>A mini version of ast::Ty, which is easier to use, and features an explicit <code>Self</code> type to use
+when specifying impls to be derived.</p>
+
+                        </td>
+                    </tr>
+                </table><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.FieldInfo.html'
+                               title='syntex_syntax::ext::deriving::generic::FieldInfo'>FieldInfo</a></td>
+                        <td class='docblock short'>
+                             <p>Summary of the relevant parts of a struct/enum field.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.MethodDef.html'
+                               title='syntex_syntax::ext::deriving::generic::MethodDef'>MethodDef</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.Substructure.html'
+                               title='syntex_syntax::ext::deriving::generic::Substructure'>Substructure</a></td>
+                        <td class='docblock short'>
+                             <p>All the data about the data structure/method being derived upon.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.TraitDef.html'
+                               title='syntex_syntax::ext::deriving::generic::TraitDef'>TraitDef</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.StaticFields.html'
+                               title='syntex_syntax::ext::deriving::generic::StaticFields'>StaticFields</a></td>
+                        <td class='docblock short'>
+                             <p>Fields for a static method</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.SubstructureFields.html'
+                               title='syntex_syntax::ext::deriving::generic::SubstructureFields'>SubstructureFields</a></td>
+                        <td class='docblock short'>
+                             <p>A summary of the possible sets of fields.</p>
+
+                        </td>
+                    </tr>
+                </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.combine_substructure.html'
+                               title='syntex_syntax::ext::deriving::generic::combine_substructure'>combine_substructure</a></td>
+                        <td class='docblock short'>
+                             
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.cs_and.html'
+                               title='syntex_syntax::ext::deriving::generic::cs_and'>cs_and</a></td>
+                        <td class='docblock short'>
+                             <p>cs_binop with binop == and</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.cs_binop.html'
+                               title='syntex_syntax::ext::deriving::generic::cs_binop'>cs_binop</a></td>
+                        <td class='docblock short'>
+                             <p>Use a given binop to combine the result of calling the derived method
+on all the fields.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.cs_fold.html'
+                               title='syntex_syntax::ext::deriving::generic::cs_fold'>cs_fold</a></td>
+                        <td class='docblock short'>
+                             <p>Fold the fields. <code>use_foldl</code> controls whether this is done
+left-to-right (<code>true</code>) or right-to-left (<code>false</code>).</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.cs_or.html'
+                               title='syntex_syntax::ext::deriving::generic::cs_or'>cs_or</a></td>
+                        <td class='docblock short'>
+                             <p>cs_binop with binop == or</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.cs_same_method.html'
+                               title='syntex_syntax::ext::deriving::generic::cs_same_method'>cs_same_method</a></td>
+                        <td class='docblock short'>
+                             <p>Call the method that is being derived on all the fields, and then
+process the collected results. i.e.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.cs_same_method_fold.html'
+                               title='syntex_syntax::ext::deriving::generic::cs_same_method_fold'>cs_same_method_fold</a></td>
+                        <td class='docblock short'>
+                             <p>Fold together the results of calling the derived method on all the
+fields. <code>use_foldl</code> controls whether this is done left-to-right
+(<code>true</code>) or right-to-left (<code>false</code>).</p>
+
+                        </td>
+                    </tr>
+                </table><h2 id='types' class='section-header'><a href="#types">Type Definitions</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='type' href='type.CombineSubstructureFunc.html'
+                               title='syntex_syntax::ext::deriving::generic::CombineSubstructureFunc'>CombineSubstructureFunc</a></td>
+                        <td class='docblock short'>
+                             <p>Combine the values of all the fields together. The last argument is
+all the fields of all the structures.</p>
+
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='type' href='type.EnumNonMatchCollapsedFunc.html'
+                               title='syntex_syntax::ext::deriving::generic::EnumNonMatchCollapsedFunc'>EnumNonMatchCollapsedFunc</a></td>
+                        <td class='docblock short'>
+                             <p>Deal with non-matching enum variants.  The tuple is a list of
+identifiers (one for each <code>Self</code> argument, which could be any of the
+variants since they have been collapsed together) and the identifiers
+holding the variant index value for each of the <code>Self</code> arguments.  The
+last argument is all the non-<code>Self</code> args of the method being derived.</p>
+
+                        </td>
+                    </tr>
+                </table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "syntex_syntax";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script async src="../../../../search-index.js"></script>
+</body>
+</html>

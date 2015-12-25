@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `TtReader` struct in crate `syntex_syntax`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, TtReader">
+
+    <title>syntex_syntax::ext::tt::transcribe::TtReader - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../../../syntex_syntax/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../../../index.html'>syntex_syntax</a>::<wbr><a href='../../index.html'>ext</a>::<wbr><a href='../index.html'>tt</a>::<wbr><a href='index.html'>transcribe</a></p><script>window.sidebarCurrent = {name: 'TtReader', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../../index.html'>syntex_syntax</a>::<wbr><a href='../../index.html'>ext</a>::<wbr><a href='../index.html'>tt</a>::<wbr><a href='index.html'>transcribe</a>::<wbr><a class='struct' href=''>TtReader</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-35123' class='srclink' href='../../../../src/syntex_syntax/ext/tt/transcribe.rs.html#36-53' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct TtReader&lt;'a&gt; {
+    pub sp_diag: &amp;'a <a class='struct' href='../../../../syntex_syntax/diagnostic/struct.SpanHandler.html' title='syntex_syntax::diagnostic::SpanHandler'>SpanHandler</a>,
+    pub cur_tok: <a class='enum' href='../../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a>,
+    pub cur_span: <a class='struct' href='../../../../syntex_syntax/codemap/struct.Span.html' title='syntex_syntax::codemap::Span'>Span</a>,
+    pub desugar_doc_comments: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    // some fields omitted
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                                  <td id='structfield.sp_diag'><code>sp_diag</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.cur_tok'><code>cur_tok</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.cur_span'><code>cur_span</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.desugar_doc_comments'><code>desugar_doc_comments</code></td><td><div class='docblock'><p>Transform doc comments. Only useful in macro invocations</p>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../../../../syntex_syntax/parse/lexer/trait.Reader.html' title='syntex_syntax::parse::lexer::Reader'>Reader</a> for <a class='struct' href='../../../../syntex_syntax/ext/tt/transcribe/struct.TtReader.html' title='syntex_syntax::ext::tt::transcribe::TtReader'>TtReader</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.is_eof' class='method'><code>fn <a href='../../../../syntex_syntax/parse/lexer/trait.Reader.html#method.is_eof' class='fnname'>is_eof</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.next_token' class='method'><code>fn <a href='../../../../syntex_syntax/parse/lexer/trait.Reader.html#method.next_token' class='fnname'>next_token</a>(&amp;mut self) -&gt; <a class='struct' href='../../../../syntex_syntax/parse/lexer/struct.TokenAndSpan.html' title='syntex_syntax::parse::lexer::TokenAndSpan'>TokenAndSpan</a></code></h4>
+<h4 id='method.fatal' class='method'><code>fn <a href='../../../../syntex_syntax/parse/lexer/trait.Reader.html#method.fatal' class='fnname'>fatal</a>(&amp;self, m: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>) -&gt; <a class='struct' href='../../../../syntex_syntax/diagnostic/struct.FatalError.html' title='syntex_syntax::diagnostic::FatalError'>FatalError</a></code></h4>
+<h4 id='method.err' class='method'><code>fn <a href='../../../../syntex_syntax/parse/lexer/trait.Reader.html#method.err' class='fnname'>err</a>(&amp;self, m: &amp;<a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>)</code></h4>
+<h4 id='method.peek' class='method'><code>fn <a href='../../../../syntex_syntax/parse/lexer/trait.Reader.html#method.peek' class='fnname'>peek</a>(&amp;self) -&gt; <a class='struct' href='../../../../syntex_syntax/parse/lexer/struct.TokenAndSpan.html' title='syntex_syntax::parse::lexer::TokenAndSpan'>TokenAndSpan</a></code></h4>
+<h4 id='method.real_token' class='method'><code>fn <a href='../../../../syntex_syntax/parse/lexer/trait.Reader.html#method.real_token' class='fnname'>real_token</a>(&amp;mut self) -&gt; <a class='struct' href='../../../../syntex_syntax/parse/lexer/struct.TokenAndSpan.html' title='syntex_syntax::parse::lexer::TokenAndSpan'>TokenAndSpan</a></code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../../../syntex_syntax/ext/tt/transcribe/struct.TtReader.html' title='syntex_syntax::ext::tt::transcribe::TtReader'>TtReader</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../../../syntex_syntax/ext/tt/transcribe/struct.TtReader.html' title='syntex_syntax::ext::tt::transcribe::TtReader'>TtReader</a>&lt;'a&gt;</code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "syntex_syntax";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script async src="../../../../search-index.js"></script>
+</body>
+</html>

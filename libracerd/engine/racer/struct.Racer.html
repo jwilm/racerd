@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Racer` struct in crate `libracerd`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Racer">
+
+    <title>libracerd::engine::racer::Racer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../../index.html'>libracerd</a>::<wbr><a href='../index.html'>engine</a>::<wbr><a href='index.html'>racer</a></p><script>window.sidebarCurrent = {name: 'Racer', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../index.html'>libracerd</a>::<wbr><a href='../index.html'>engine</a>::<wbr><a href='index.html'>racer</a>::<wbr><a class='struct' href=''>Racer</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-510' class='srclink' href='../../../src/libracerd/engine/racer.rs.html#12-14' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Racer&lt;'a&gt; {
+    // some fields omitted
+}</pre><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;'a&gt; <a class='struct' href='../../../libracerd/engine/racer/struct.Racer.html' title='libracerd::engine::racer::Racer'>Racer</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../../libracerd/engine/racer/struct.Racer.html' title='libracerd::engine::racer::Racer'>Racer</a>&lt;'a&gt;</code></h4>
+<h4 id='method.build_racer_args' class='method'><code>fn <a href='#method.build_racer_args' class='fnname'>build_racer_args</a>&lt;'b, 'c&gt;(&amp;self, ctx: &amp;'b <a class='struct' href='../../../libracerd/engine/struct.Context.html' title='libracerd::engine::Context'>Context</a>, session: &amp;'c <a class='struct' href='../../../racer/core/struct.Session.html' title='racer::core::Session'>Session</a>&lt;'a&gt;) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(&amp;'a <a href='https://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, <a href='https://doc.rust-lang.org/nightly/std/primitive.usize.html'>usize</a>, &amp;'b <a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>)</a></code></h4>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html' title='core::ops::Drop'>Drop</a> for <a class='struct' href='../../../libracerd/engine/racer/struct.Racer.html' title='libracerd::engine::racer::Racer'>Racer</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.drop' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/trait.Drop.html#method.drop' class='fnname'>drop</a>(&amp;mut self)</code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../../../libracerd/engine/trait.SemanticEngine.html' title='libracerd::engine::SemanticEngine'>SemanticEngine</a> for <a class='struct' href='../../../libracerd/engine/racer/struct.Racer.html' title='libracerd::engine::racer::Racer'>Racer</a>&lt;'a&gt;</code></h3><div class='impl-items'><h4 id='method.initialize' class='method'><code>fn <a href='../../../libracerd/engine/trait.SemanticEngine.html#method.initialize' class='fnname'>initialize</a>(&amp;self, config: &amp;<a class='struct' href='../../../libracerd/struct.Config.html' title='libracerd::Config'>Config</a>) -&gt; <a class='type' href='../../../libracerd/engine/type.Result.html' title='libracerd::engine::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>&gt;</code></h4>
+<h4 id='method.find_definition' class='method'><code>fn <a href='../../../libracerd/engine/trait.SemanticEngine.html#method.find_definition' class='fnname'>find_definition</a>(&amp;self, ctx: &amp;<a class='struct' href='../../../libracerd/engine/struct.Context.html' title='libracerd::engine::Context'>Context</a>) -&gt; <a class='type' href='../../../libracerd/engine/type.Result.html' title='libracerd::engine::Result'>Result</a>&lt;<a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../libracerd/engine/struct.Definition.html' title='libracerd::engine::Definition'>Definition</a>&gt;&gt;</code></h4>
+<h4 id='method.list_completions' class='method'><code>fn <a href='../../../libracerd/engine/trait.SemanticEngine.html#method.list_completions' class='fnname'>list_completions</a>(&amp;self, ctx: &amp;<a class='struct' href='../../../libracerd/engine/struct.Context.html' title='libracerd::engine::Context'>Context</a>) -&gt; <a class='type' href='../../../libracerd/engine/type.Result.html' title='libracerd::engine::Result'>Result</a>&lt;<a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../../libracerd/engine/struct.Completion.html' title='libracerd::engine::Completion'>Completion</a>&gt;&gt;&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Sync.html' title='core::marker::Sync'>Sync</a> for <a class='struct' href='../../../libracerd/engine/racer/struct.Racer.html' title='libracerd::engine::racer::Racer'>Racer</a>&lt;'a&gt;</code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Send.html' title='core::marker::Send'>Send</a> for <a class='struct' href='../../../libracerd/engine/racer/struct.Racer.html' title='libracerd::engine::racer::Racer'>Racer</a>&lt;'a&gt;</code></h3><div class='impl-items'></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "libracerd";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script async src="../../../search-index.js"></script>
+</body>
+</html>

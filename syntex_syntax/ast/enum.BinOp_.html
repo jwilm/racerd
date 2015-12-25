@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `BinOp_` enum in crate `syntex_syntax`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, BinOp_">
+
+    <title>syntex_syntax::ast::BinOp_ - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../syntex_syntax/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../index.html'>syntex_syntax</a>::<wbr><a href='index.html'>ast</a></p><script>window.sidebarCurrent = {name: 'BinOp_', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>syntex_syntax</a>::<wbr><a href='index.html'>ast</a>::<wbr><a class='enum' href=''>BinOp_</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-3930' class='srclink' href='../../src/syntex_syntax/ast.rs.html#621-658' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum BinOp_ {
+    BiAdd,
+    BiSub,
+    BiMul,
+    BiDiv,
+    BiRem,
+    BiAnd,
+    BiOr,
+    BiBitXor,
+    BiBitAnd,
+    BiBitOr,
+    BiShl,
+    BiShr,
+    BiEq,
+    BiLt,
+    BiLe,
+    BiNe,
+    BiGe,
+    BiGt,
+}</pre><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.BiAdd'><code>BiAdd</code></td><td><div class='docblock'><p>The <code>+</code> operator (addition)</p>
+</div></td></tr><tr><td id='variant.BiSub'><code>BiSub</code></td><td><div class='docblock'><p>The <code>-</code> operator (subtraction)</p>
+</div></td></tr><tr><td id='variant.BiMul'><code>BiMul</code></td><td><div class='docblock'><p>The <code>*</code> operator (multiplication)</p>
+</div></td></tr><tr><td id='variant.BiDiv'><code>BiDiv</code></td><td><div class='docblock'><p>The <code>/</code> operator (division)</p>
+</div></td></tr><tr><td id='variant.BiRem'><code>BiRem</code></td><td><div class='docblock'><p>The <code>%</code> operator (modulus)</p>
+</div></td></tr><tr><td id='variant.BiAnd'><code>BiAnd</code></td><td><div class='docblock'><p>The <code>&amp;&amp;</code> operator (logical and)</p>
+</div></td></tr><tr><td id='variant.BiOr'><code>BiOr</code></td><td><div class='docblock'><p>The <code>||</code> operator (logical or)</p>
+</div></td></tr><tr><td id='variant.BiBitXor'><code>BiBitXor</code></td><td><div class='docblock'><p>The <code>^</code> operator (bitwise xor)</p>
+</div></td></tr><tr><td id='variant.BiBitAnd'><code>BiBitAnd</code></td><td><div class='docblock'><p>The <code>&amp;</code> operator (bitwise and)</p>
+</div></td></tr><tr><td id='variant.BiBitOr'><code>BiBitOr</code></td><td><div class='docblock'><p>The <code>|</code> operator (bitwise or)</p>
+</div></td></tr><tr><td id='variant.BiShl'><code>BiShl</code></td><td><div class='docblock'><p>The <code>&lt;&lt;</code> operator (shift left)</p>
+</div></td></tr><tr><td id='variant.BiShr'><code>BiShr</code></td><td><div class='docblock'><p>The <code>&gt;&gt;</code> operator (shift right)</p>
+</div></td></tr><tr><td id='variant.BiEq'><code>BiEq</code></td><td><div class='docblock'><p>The <code>==</code> operator (equality)</p>
+</div></td></tr><tr><td id='variant.BiLt'><code>BiLt</code></td><td><div class='docblock'><p>The <code>&lt;</code> operator (less than)</p>
+</div></td></tr><tr><td id='variant.BiLe'><code>BiLe</code></td><td><div class='docblock'><p>The <code>&lt;=</code> operator (less than or equal to)</p>
+</div></td></tr><tr><td id='variant.BiNe'><code>BiNe</code></td><td><div class='docblock'><p>The <code>!=</code> operator (not equal to)</p>
+</div></td></tr><tr><td id='variant.BiGe'><code>BiGe</code></td><td><div class='docblock'><p>The <code>&gt;=</code> operator (greater than or equal to)</p>
+</div></td></tr><tr><td id='variant.BiGt'><code>BiGt</code></td><td><div class='docblock'><p>The <code>&gt;</code> operator (greater than)</p>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> for <a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a></code></h3><div class='impl-items'><h4 id='method.hash' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash' class='fnname'>hash</a>&lt;__H: <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a>&gt;(&amp;self, __arg_0: &amp;mut __H)</code></h4>
+<h4 id='method.hash_slice' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a></span></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Decodable.html' title='rustc_serialize::serialize::Decodable'>Decodable</a> for <a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a></code></h3><div class='impl-items'><h4 id='method.decode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Decodable.html#method.decode' class='fnname'>decode</a>&lt;__D: <a class='trait' href='../../rustc_serialize/serialize/trait.Decoder.html' title='rustc_serialize::serialize::Decoder'>Decoder</a>&gt;(__arg_0: &amp;mut __D) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a>, __D::Error&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a></code></h3><div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../rustc_serialize/serialize/trait.Encodable.html#method.encode' class='fnname'>encode</a>&lt;__S: <a class='trait' href='../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, __S::Error&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> for <a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a>) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a>) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "syntex_syntax";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

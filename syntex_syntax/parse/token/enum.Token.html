@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Token` enum in crate `syntex_syntax`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Token">
+
+    <title>syntex_syntax::parse::token::Token - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../../syntex_syntax/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../../index.html'>syntex_syntax</a>::<wbr><a href='../index.html'>parse</a>::<wbr><a href='index.html'>token</a></p><script>window.sidebarCurrent = {name: 'Token', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content enum">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../index.html'>syntex_syntax</a>::<wbr><a href='../index.html'>parse</a>::<wbr><a href='index.html'>token</a>::<wbr><a class='enum' href=''>Token</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-22991' class='srclink' href='../../../src/syntex_syntax/parse/token.rs.html#104-173' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum Token {
+    Eq,
+    Lt,
+    Le,
+    EqEq,
+    Ne,
+    Ge,
+    Gt,
+    AndAnd,
+    OrOr,
+    Not,
+    Tilde,
+    BinOp(<a class='enum' href='../../../syntex_syntax/parse/token/enum.BinOpToken.html' title='syntex_syntax::parse::token::BinOpToken'>BinOpToken</a>),
+    BinOpEq(<a class='enum' href='../../../syntex_syntax/parse/token/enum.BinOpToken.html' title='syntex_syntax::parse::token::BinOpToken'>BinOpToken</a>),
+    At,
+    Dot,
+    DotDot,
+    DotDotDot,
+    Comma,
+    Semi,
+    Colon,
+    ModSep,
+    RArrow,
+    LArrow,
+    FatArrow,
+    Pound,
+    Dollar,
+    Question,
+    OpenDelim(<a class='enum' href='../../../syntex_syntax/parse/token/enum.DelimToken.html' title='syntex_syntax::parse::token::DelimToken'>DelimToken</a>),
+    CloseDelim(<a class='enum' href='../../../syntex_syntax/parse/token/enum.DelimToken.html' title='syntex_syntax::parse::token::DelimToken'>DelimToken</a>),
+    Literal(<a class='enum' href='../../../syntex_syntax/parse/token/enum.Lit.html' title='syntex_syntax::parse::token::Lit'>Lit</a>, <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='struct' href='../../../syntex_syntax/ast/struct.Name.html' title='syntex_syntax::ast::Name'>Name</a>&gt;),
+    Ident(<a class='struct' href='../../../syntex_syntax/ast/struct.Ident.html' title='syntex_syntax::ast::Ident'>Ident</a>, <a class='enum' href='../../../syntex_syntax/parse/token/enum.IdentStyle.html' title='syntex_syntax::parse::token::IdentStyle'>IdentStyle</a>),
+    Underscore,
+    Lifetime(<a class='struct' href='../../../syntex_syntax/ast/struct.Ident.html' title='syntex_syntax::ast::Ident'>Ident</a>),
+    Interpolated(<a class='enum' href='../../../syntex_syntax/parse/token/enum.Nonterminal.html' title='syntex_syntax::parse::token::Nonterminal'>Nonterminal</a>),
+    DocComment(<a class='struct' href='../../../syntex_syntax/ast/struct.Name.html' title='syntex_syntax::ast::Name'>Name</a>),
+    MatchNt(<a class='struct' href='../../../syntex_syntax/ast/struct.Ident.html' title='syntex_syntax::ast::Ident'>Ident</a>, <a class='struct' href='../../../syntex_syntax/ast/struct.Ident.html' title='syntex_syntax::ast::Ident'>Ident</a>, <a class='enum' href='../../../syntex_syntax/parse/token/enum.IdentStyle.html' title='syntex_syntax::parse::token::IdentStyle'>IdentStyle</a>, <a class='enum' href='../../../syntex_syntax/parse/token/enum.IdentStyle.html' title='syntex_syntax::parse::token::IdentStyle'>IdentStyle</a>),
+    SubstNt(<a class='struct' href='../../../syntex_syntax/ast/struct.Ident.html' title='syntex_syntax::ast::Ident'>Ident</a>, <a class='enum' href='../../../syntex_syntax/parse/token/enum.IdentStyle.html' title='syntex_syntax::parse::token::IdentStyle'>IdentStyle</a>),
+    SpecialVarNt(<a class='enum' href='../../../syntex_syntax/parse/token/enum.SpecialMacroVar.html' title='syntex_syntax::parse::token::SpecialMacroVar'>SpecialMacroVar</a>),
+    Whitespace,
+    Comment,
+    Shebang(<a class='struct' href='../../../syntex_syntax/ast/struct.Name.html' title='syntex_syntax::ast::Name'>Name</a>),
+    Eof,
+}</pre><h2 class='variants'>Variants</h2>
+<table><tr><td id='variant.Eq'><code>Eq</code></td><td></td></tr><tr><td id='variant.Lt'><code>Lt</code></td><td></td></tr><tr><td id='variant.Le'><code>Le</code></td><td></td></tr><tr><td id='variant.EqEq'><code>EqEq</code></td><td></td></tr><tr><td id='variant.Ne'><code>Ne</code></td><td></td></tr><tr><td id='variant.Ge'><code>Ge</code></td><td></td></tr><tr><td id='variant.Gt'><code>Gt</code></td><td></td></tr><tr><td id='variant.AndAnd'><code>AndAnd</code></td><td></td></tr><tr><td id='variant.OrOr'><code>OrOr</code></td><td></td></tr><tr><td id='variant.Not'><code>Not</code></td><td></td></tr><tr><td id='variant.Tilde'><code>Tilde</code></td><td></td></tr><tr><td id='variant.BinOp'><code>BinOp</code></td><td></td></tr><tr><td id='variant.BinOpEq'><code>BinOpEq</code></td><td></td></tr><tr><td id='variant.At'><code>At</code></td><td></td></tr><tr><td id='variant.Dot'><code>Dot</code></td><td></td></tr><tr><td id='variant.DotDot'><code>DotDot</code></td><td></td></tr><tr><td id='variant.DotDotDot'><code>DotDotDot</code></td><td></td></tr><tr><td id='variant.Comma'><code>Comma</code></td><td></td></tr><tr><td id='variant.Semi'><code>Semi</code></td><td></td></tr><tr><td id='variant.Colon'><code>Colon</code></td><td></td></tr><tr><td id='variant.ModSep'><code>ModSep</code></td><td></td></tr><tr><td id='variant.RArrow'><code>RArrow</code></td><td></td></tr><tr><td id='variant.LArrow'><code>LArrow</code></td><td></td></tr><tr><td id='variant.FatArrow'><code>FatArrow</code></td><td></td></tr><tr><td id='variant.Pound'><code>Pound</code></td><td></td></tr><tr><td id='variant.Dollar'><code>Dollar</code></td><td></td></tr><tr><td id='variant.Question'><code>Question</code></td><td></td></tr><tr><td id='variant.OpenDelim'><code>OpenDelim</code></td><td><div class='docblock'><p>An opening delimiter, eg. <code>{</code></p>
+</div></td></tr><tr><td id='variant.CloseDelim'><code>CloseDelim</code></td><td><div class='docblock'><p>A closing delimiter, eg. <code>}</code></p>
+</div></td></tr><tr><td id='variant.Literal'><code>Literal</code></td><td></td></tr><tr><td id='variant.Ident'><code>Ident</code></td><td></td></tr><tr><td id='variant.Underscore'><code>Underscore</code></td><td></td></tr><tr><td id='variant.Lifetime'><code>Lifetime</code></td><td></td></tr><tr><td id='variant.Interpolated'><code>Interpolated</code></td><td></td></tr><tr><td id='variant.DocComment'><code>DocComment</code></td><td><div class='docblock'><p>Doc comment</p>
+</div></td></tr><tr><td id='variant.MatchNt'><code>MatchNt</code></td><td><div class='docblock'><p>Parse a nonterminal (name to bind, name of NT, styles of their idents)</p>
+</div></td></tr><tr><td id='variant.SubstNt'><code>SubstNt</code></td><td><div class='docblock'><p>A syntactic variable that will be filled in by macro expansion.</p>
+</div></td></tr><tr><td id='variant.SpecialVarNt'><code>SpecialVarNt</code></td><td><div class='docblock'><p>A macro variable with special meaning.</p>
+</div></td></tr><tr><td id='variant.Whitespace'><code>Whitespace</code></td><td><div class='docblock'><p>Whitespace</p>
+</div></td></tr><tr><td id='variant.Comment'><code>Comment</code></td><td><div class='docblock'><p>Comment</p>
+</div></td></tr><tr><td id='variant.Shebang'><code>Shebang</code></td><td></td></tr><tr><td id='variant.Eof'><code>Eof</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a></code></h3><div class='impl-items'><h4 id='method.is_like_gt' class='method'><code>fn <a href='#method.is_like_gt' class='fnname'>is_like_gt</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token starts with &#39;&gt;&#39;.</p>
+</div><h4 id='method.can_begin_expr' class='method'><code>fn <a href='#method.can_begin_expr' class='fnname'>can_begin_expr</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token can appear at the start of an expression.</p>
+</div><h4 id='method.is_lit' class='method'><code>fn <a href='#method.is_lit' class='fnname'>is_lit</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token is any literal</p>
+</div><h4 id='method.is_ident' class='method'><code>fn <a href='#method.is_ident' class='fnname'>is_ident</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token is an identifier.</p>
+</div><h4 id='method.is_path' class='method'><code>fn <a href='#method.is_path' class='fnname'>is_path</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token is an interpolated path.</p>
+</div><h4 id='method.is_plain_ident' class='method'><code>fn <a href='#method.is_plain_ident' class='fnname'>is_plain_ident</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token is a path that is not followed by a <code>::</code>
+token.</p>
+</div><h4 id='method.is_lifetime' class='method'><code>fn <a href='#method.is_lifetime' class='fnname'>is_lifetime</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token is a lifetime.</p>
+</div><h4 id='method.is_mutability' class='method'><code>fn <a href='#method.is_mutability' class='fnname'>is_mutability</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token is either the <code>mut</code> or <code>const</code> keyword.</p>
+</div><h4 id='method.to_binop' class='method'><code>fn <a href='#method.to_binop' class='fnname'>to_binop</a>(&amp;self) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../../syntex_syntax/ast/enum.BinOp_.html' title='syntex_syntax::ast::BinOp_'>BinOp_</a>&gt;</code></h4>
+<div class='docblock'><p>Maps a token to its corresponding binary operator.</p>
+</div><h4 id='method.is_keyword' class='method'><code>fn <a href='#method.is_keyword' class='fnname'>is_keyword</a>(&amp;self, kw: <a class='enum' href='../../../syntex_syntax/parse/token/keywords/enum.Keyword.html' title='syntex_syntax::parse::token::keywords::Keyword'>Keyword</a>) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token is a given keyword, <code>kw</code>.</p>
+</div><h4 id='method.is_keyword_allow_following_colon' class='method'><code>fn <a href='#method.is_keyword_allow_following_colon' class='fnname'>is_keyword_allow_following_colon</a>(&amp;self, kw: <a class='enum' href='../../../syntex_syntax/parse/token/keywords/enum.Keyword.html' title='syntex_syntax::parse::token::keywords::Keyword'>Keyword</a>) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.is_any_keyword' class='method'><code>fn <a href='#method.is_any_keyword' class='fnname'>is_any_keyword</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token is either a special identifier, or a strict
+or reserved keyword.</p>
+</div><h4 id='method.is_strict_keyword' class='method'><code>fn <a href='#method.is_strict_keyword' class='fnname'>is_strict_keyword</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token may not appear as an identifier.</p>
+</div><h4 id='method.is_reserved_keyword' class='method'><code>fn <a href='#method.is_reserved_keyword' class='fnname'>is_reserved_keyword</a>(&amp;self) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the token is a keyword that has been reserved for
+possible future use.</p>
+</div><h4 id='method.mtwt_eq' class='method'><code>fn <a href='#method.mtwt_eq' class='fnname'>mtwt_eq</a>(&amp;self, other: &amp;<a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a>) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Hygienic identifier equality comparison.</p>
+
+<p>See <code>styntax::ext::mtwt</code>.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> for <a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a></code></h3><div class='impl-items'><h4 id='method.hash' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash' class='fnname'>hash</a>&lt;__H: <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a>&gt;(&amp;self, __arg_0: &amp;mut __H)</code></h4>
+<h4 id='method.hash_slice' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='https://doc.rust-lang.org/nightly/core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a></span></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> for <a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a>) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a>) -&gt; <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../rustc_serialize/serialize/trait.Decodable.html' title='rustc_serialize::serialize::Decodable'>Decodable</a> for <a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a></code></h3><div class='impl-items'><h4 id='method.decode' class='method'><code>fn <a href='../../../rustc_serialize/serialize/trait.Decodable.html#method.decode' class='fnname'>decode</a>&lt;__D: <a class='trait' href='../../../rustc_serialize/serialize/trait.Decoder.html' title='rustc_serialize::serialize::Decoder'>Decoder</a>&gt;(__arg_0: &amp;mut __D) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a>, __D::Error&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../../../rustc_serialize/serialize/trait.Encodable.html' title='rustc_serialize::serialize::Encodable'>Encodable</a> for <a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a></code></h3><div class='impl-items'><h4 id='method.encode' class='method'><code>fn <a href='../../../rustc_serialize/serialize/trait.Encodable.html#method.encode' class='fnname'>encode</a>&lt;__S: <a class='trait' href='../../../rustc_serialize/serialize/trait.Encoder.html' title='rustc_serialize::serialize::Encoder'>Encoder</a>&gt;(&amp;self, __arg_0: &amp;mut __S) -&gt; <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a>, __S::Error&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='enum' href='../../../syntex_syntax/parse/token/enum.Token.html' title='syntex_syntax::parse::token::Token'>Token</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "syntex_syntax";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    
+    <script async src="../../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["CompletionType",""],["MatchType",""],["Namespace",""],["SearchType",""],["Ty",""]],"fn":[["complete_from_file",""],["find_definition",""],["find_definition_",""],["new_source",""]],"struct":[["CodeChunkIter",""],["FileCache",""],["IndexedSource",""],["Match",""],["Path",""],["PathSearch",""],["PathSegment",""],["Scope",""],["Session",""],["Src",""]]});

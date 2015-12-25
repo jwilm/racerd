@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["test_source!",""]],"mod":[["ast",""],["cargo",""],["codecleaner",""],["codeiter",""],["core",""],["matchers",""],["nameres",""],["scopes",""],["snippets",""],["typeinf",""],["util",""]]});

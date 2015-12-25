@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Features` struct in crate `syntex_syntax`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Features">
+
+    <title>syntex_syntax::feature_gate::Features - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../syntex_syntax/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../index.html'>syntex_syntax</a>::<wbr><a href='index.html'>feature_gate</a></p><script>window.sidebarCurrent = {name: 'Features', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>syntex_syntax</a>::<wbr><a href='index.html'>feature_gate</a>::<wbr><a class='struct' href=''>Features</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-16380' class='srclink' href='../../src/syntex_syntax/feature_gate.rs.html#510-542' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Features {
+    pub unboxed_closures: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub rustc_diagnostic_macros: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub visible_private_types: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub allow_quote: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub allow_asm: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub allow_log_syntax: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub allow_concat_idents: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub allow_trace_macros: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub allow_internal_unstable: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub allow_custom_derive: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub allow_placement_in: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub allow_box: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub allow_pushpop_unsafe: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub simd_ffi: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub unmarked_api: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub negate_unsigned: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub declared_stable_lang_features: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../syntex_syntax/codemap/struct.Span.html' title='syntex_syntax::codemap::Span'>Span</a>&gt;,
+    pub declared_lib_features: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(<a class='struct' href='../../syntex_syntax/parse/token/struct.InternedString.html' title='syntex_syntax::parse::token::InternedString'>InternedString</a>, <a class='struct' href='../../syntex_syntax/codemap/struct.Span.html' title='syntex_syntax::codemap::Span'>Span</a>)</a>&gt;,
+    pub const_fn: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub const_indexing: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub static_recursion: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub default_type_parameter_fallback: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub type_macros: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub cfg_target_feature: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub cfg_target_vendor: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub augmented_assignments: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub braced_empty_structs: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub staged_api: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+    pub stmt_expr_attributes: <a href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>,
+}</pre><div class='docblock'><p>A set of features to be used by later passes.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                                  <td id='structfield.unboxed_closures'><code>unboxed_closures</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.rustc_diagnostic_macros'><code>rustc_diagnostic_macros</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.visible_private_types'><code>visible_private_types</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.allow_quote'><code>allow_quote</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.allow_asm'><code>allow_asm</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.allow_log_syntax'><code>allow_log_syntax</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.allow_concat_idents'><code>allow_concat_idents</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.allow_trace_macros'><code>allow_trace_macros</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.allow_internal_unstable'><code>allow_internal_unstable</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.allow_custom_derive'><code>allow_custom_derive</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.allow_placement_in'><code>allow_placement_in</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.allow_box'><code>allow_box</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.allow_pushpop_unsafe'><code>allow_pushpop_unsafe</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.simd_ffi'><code>simd_ffi</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.unmarked_api'><code>unmarked_api</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.negate_unsigned'><code>negate_unsigned</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.declared_stable_lang_features'><code>declared_stable_lang_features</code></td><td><div class='docblock'><p>spans of #![feature] attrs for stable language features. for error reporting</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.declared_lib_features'><code>declared_lib_features</code></td><td><div class='docblock'>
+<h1 id='feature-attrs-for-non-language-library-features' class='section-header'><a href='#feature-attrs-for-non-language-library-features'>![feature] attrs for non-language (library) features</a></h1></div></td></tr><tr class='stab '>
+                                  <td id='structfield.const_fn'><code>const_fn</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.const_indexing'><code>const_indexing</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.static_recursion'><code>static_recursion</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.default_type_parameter_fallback'><code>default_type_parameter_fallback</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.type_macros'><code>type_macros</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.cfg_target_feature'><code>cfg_target_feature</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.cfg_target_vendor'><code>cfg_target_vendor</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.augmented_assignments'><code>augmented_assignments</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.braced_empty_structs'><code>braced_empty_structs</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.staged_api'><code>staged_api</code></td><td></td></tr><tr class='stab '>
+                                  <td id='structfield.stmt_expr_attributes'><code>stmt_expr_attributes</code></td><td></td></tr></table><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../syntex_syntax/feature_gate/struct.Features.html' title='syntex_syntax::feature_gate::Features'>Features</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../syntex_syntax/feature_gate/struct.Features.html' title='syntex_syntax::feature_gate::Features'>Features</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "syntex_syntax";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script async src="../../search-index.js"></script>
+</body>
+</html>

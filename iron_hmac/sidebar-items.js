@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Hmac256Authentication","Iron middleware for validation hmac headers on requests and signing responses."],["SecretKey","Key used for HMAC"]]});

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Substructure` struct in crate `syntex_syntax`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Substructure">
+
+    <title>syntex_syntax::ext::deriving::generic::Substructure - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../../../syntex_syntax/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../../../index.html'>syntex_syntax</a>::<wbr><a href='../../index.html'>ext</a>::<wbr><a href='../index.html'>deriving</a>::<wbr><a href='index.html'>generic</a></p><script>window.sidebarCurrent = {name: 'Substructure', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../../../index.html'>syntex_syntax</a>::<wbr><a href='../../index.html'>ext</a>::<wbr><a href='../index.html'>deriving</a>::<wbr><a href='index.html'>generic</a>::<wbr><a class='struct' href=''>Substructure</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-32686' class='srclink' href='../../../../src/syntex_syntax/ext/deriving/generic/mod.rs.html#268-278' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Substructure&lt;'a&gt; {
+    pub type_ident: <a class='struct' href='../../../../syntex_syntax/ast/struct.Ident.html' title='syntex_syntax::ast::Ident'>Ident</a>,
+    pub method_ident: <a class='struct' href='../../../../syntex_syntax/ast/struct.Ident.html' title='syntex_syntax::ast::Ident'>Ident</a>,
+    pub self_args: <a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a><a class='struct' href='../../../../syntex_syntax/ptr/struct.P.html' title='syntex_syntax::ptr::P'>P</a>&lt;<a class='struct' href='../../../../syntex_syntax/ast/struct.Expr.html' title='syntex_syntax::ast::Expr'>Expr</a>&gt;<a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>,
+    pub nonself_args: <a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>&amp;'a [</a><a class='struct' href='../../../../syntex_syntax/ptr/struct.P.html' title='syntex_syntax::ptr::P'>P</a>&lt;<a class='struct' href='../../../../syntex_syntax/ast/struct.Expr.html' title='syntex_syntax::ast::Expr'>Expr</a>&gt;<a href='https://doc.rust-lang.org/nightly/std/primitive.slice.html'>]</a>,
+    pub fields: &amp;'a <a class='enum' href='../../../../syntex_syntax/ext/deriving/generic/enum.SubstructureFields.html' title='syntex_syntax::ext::deriving::generic::SubstructureFields'>SubstructureFields</a>&lt;'a&gt;,
+}</pre><div class='docblock'><p>All the data about the data structure/method being derived upon.</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                                  <td id='structfield.type_ident'><code>type_ident</code></td><td><div class='docblock'><p>ident of self</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.method_ident'><code>method_ident</code></td><td><div class='docblock'><p>ident of the method</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.self_args'><code>self_args</code></td><td><div class='docblock'><p>dereferenced access to any <code>Self_</code> or <code>Ptr(Self_, _)</code> arguments</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.nonself_args'><code>nonself_args</code></td><td><div class='docblock'><p>verbatim access to any other arguments</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fields'><code>fields</code></td><td></td></tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../";
+        window.currentCrate = "syntex_syntax";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../../../jquery.js"></script>
+    <script src="../../../../main.js"></script>
+    
+    <script async src="../../../../search-index.js"></script>
+</body>
+</html>

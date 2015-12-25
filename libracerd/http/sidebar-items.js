@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Error","Errors occurring in the http module"]],"fn":[["serve","Start the http server using the given configuration"]],"struct":[["EngineProvider","Iron middleware responsible for attaching a semantic engine to each request"],["Server","Wrapper type with information and control of the underlying HTTP server"]],"type":[["Result",""]]});

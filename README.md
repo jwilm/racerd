@@ -1,49 +1,42 @@
 racerd
 ======
 
-JSON/HTTP API for [racer][]. The project's primary goal is supporting Rust in
-[YouCompleteMe][].
+JSON/HTTP Server based on [racer][] for adding Rust support to editors and IDEs
 
 [![Build Status](https://travis-ci.org/jwilm/racerd.svg?branch=master)](https://travis-ci.org/jwilm/racerd)
 [![Build status](https://ci.appveyor.com/api/projects/status/ysdf6dlxv73am0s5/branch/master?svg=true)](https://ci.appveyor.com/project/jwilm/racerd/branch/master)
 
-[Documentation][]
+![racerd_ycm](https://cloud.githubusercontent.com/assets/4285147/11676180/e924255e-9de4-11e5-9b32-5eda431f79a3.gif)
 
-## Status
+_YouCompleteMe in vim powered by racerd_
 
-```rust
-fn is_it_ready() -> bool {
-    false
-}
-```
 
-## ycmd protocol notes
+## Documentation
 
-_ycmd_ has an example client which logs HTTP requests and responses. The
-(slightly annotated with markdown fences) output of the client is in
-[YCMPROTO.md][]. The completions and events APIs should be instructive for
-designing a racer service.
+- [HTTP API](docs/API.md)
+- [Rust Documentation](http://jwilm.github.io/racerd/libracerd/)
+- [racerd options](https://github.com/jwilm/racerd/blob/master/src/bin/racerd.rs#L14)
 
-[YouCompleteMe]: https://github.com/Valloric/YouCompleteMe
-[YCMPROTO.md]: YCMPROTO.md
-[racer]: https://github.com/phildawes/racer
+
+## Features
+
+- Find definition & list completions support via racer
+- Searches rust standard library and dependency crates
+- HMAC authentication
+- Usable as both library and executable
+- Library API offers direct calls to avoid HTTP overhead
+
 
 ## Building
 
-Requires nightly rust to satisfy racer
+racerd depends on [rust-openssl][]. If OpenSSL is locatable on your system via
+pkg-config, no extra configuration should be required. If the build process
+fails with some errors about finding openssl, please see
+[rust-openssl's manual configuration instructions][].
 
-### OSX Issues
 
-If errors are encountered building openssl or openssl-sys on MacOSX, that
-may be because you are running version 10.11 which dropped the system
-provided OpenSSL. The following commands should fix that issue.
-
-```sh
-# Will update to latest openssl available through homebrew
-brew install openssl
-
-# Set up symlinks for binaries, includes
-brew link --force openssl
-```
-
-[Documentation]: http://jwilm.github.io/racerd/libracerd/
+[rust-openssl]: https://github.com/sfackler/rust-openssl
+[rust-openssl's manual configuration instructions]: https://github.com/sfackler/rust-openssl#manual-configuration
+[YouCompleteMe]: https://github.com/Valloric/YouCompleteMe
+[racer]: https://github.com/phildawes/racer
+[API.md]: docs/API.md

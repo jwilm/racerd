@@ -1,9 +1,11 @@
 use std::ops::Deref;
 use std::fs::File;
-use std::io::Write;
+use std::io::{Write, Read};
 
 use libracerd::Config;
 use libracerd::engine::{Racer, SemanticEngine};
+
+use hyper::method::Method;
 
 /// Smart pointer for libracerd http server.
 ///
@@ -74,6 +76,44 @@ pub fn with_hmac_server<F>(secret: &str, mut func: F) where F: FnMut(&TestServer
     }
 
     func(&TestServer::new(Some(p)));
+}
+
+
+pub fn request_str(method: Method, url: &str, data: Option<&str>)
+-> ::hyper::Result<Option<String>> {
+    use ::hyper::header;
+    use ::hyper::status::StatusClass;
+    use ::hyper::Client;
+
+    let mut body = String::new();
+
+    let client = Client::new();
+    println!("url: {}", url);
+
+    let mut res = match data {
+        Some(inner) => {
+            let builder = client.request(method, url)
+                                .header(header::Connection::close())
+                                .header(header::ContentType::json())
+                                .body(inner);
+
+            try!(builder.send())
+        },
+        None => {
+            let builder = client.request(method, url)
+                                .header(header::Connection::close());
+
+            try!(builder.send())
+        }
+    };
+
+    Ok(match res.status.class() {
+        StatusClass::Success => {
+            try!(res.read_to_string(&mut body));
+            Some(body)
+        },
+        _ => None
+    })
 }
 
 #[test]

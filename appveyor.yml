@@ -1,6 +1,5 @@
 environment:
   TARGET: x86_64-pc-windows-msvc
-  msvc: 14
 
 install:
   # Download and install rust compiler
@@ -13,8 +12,7 @@ install:
   - rustc -Vv
   - cargo -Vv
   - SET RUST_SRC_PATH=%CD%\rustc-1.5.0\src
-  - if %msvc% == 14 CALL "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\vcvars64.bat"
-
+  - CALL "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\vcvars64.bat"
 
 build: false
 

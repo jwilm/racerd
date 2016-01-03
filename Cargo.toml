@@ -6,32 +6,33 @@ authors = ["Joe Wilm <joe@jwilm.com>"]
 [dependencies]
 docopt = "0.6"
 rustc-serialize = "0.3"
-iron = "0.2"
-router = "0.0.15"
-bodyparser = "0.0.6"
-hyper = "0.7"
-persistent = "0.0.8"
-logger = { git = "https://github.com/iron/logger.git" }
+router = "0.1.0"
+persistent = "0.0.9"
 log = "0.3"
 rand = "0.3"
 env_logger = "0.3"
-iron-hmac = "0.1"
+racer = "1.1"
 
-[dependencies.racer]
-# When making changes to racer, it's helpful to use a local path dependency.
-# path = "/Users/jwilm/code/racer"
+[dependencies.logger]
+git = "https://github.com/iron/logger.git"
+rev = "78c20cbda030a03107fec91b5282183d6eee9997"
 
-# racerd currently depends on a fork of racer until the changes are upstreamed
-git = "https://github.com/jwilm/racer.git"
-rev = "d14f27f3e7d22838d7d818969d476cffd1150531"
+[dependencies.bodyparser]
+git = "https://github.com/iron/body-parser"
+rev = "f9929111bd2efe7c29b519a5aa2d7bc32fddfac0"
+
+[dependencies.hyper]
+version = "0.7"
+default-features = false
+
+[dependencies.iron]
+version = "0.2"
+default-features = false
+
+[dependencies.iron-hmac]
+git = "https://github.com/jwilm/iron-hmac"
+rev = "fc4ac65a6036201f49dccb44380082830e91dd7e"
+features = ["hmac-rust-crypto"]
 
 [dev-dependencies]
-openssl = "0.7"
-
-[dev-dependencies.json-request]
-# Small request library built for testing this project. Local path dep is handy
-# for working with the library.
-# path = "/Users/jwilm/code/json-request"
-
-git = "https://github.com/jwilm/json-request.git"
-rev = "4fda576c58db206f6c41dafdc4f552ecf5aa6a44"
+rust-crypto = "0.2.34"

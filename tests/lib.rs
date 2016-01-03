@@ -1,12 +1,12 @@
 #![deny(warnings)]
 
 extern crate libracerd;
-extern crate json_request;
 extern crate rustc_serialize;
 
 #[macro_use]
 extern crate hyper;
-extern crate openssl;
+
+extern crate crypto;
 
 mod util;
 
@@ -41,11 +41,12 @@ mod http {
 
     header! { (XRacerdHmac, "x-racerd-hmac") => [String] }
 
-    use util::http::{self, UrlBuilder};
+    use util::http::{self, UrlBuilder, request_str};
 
     use rustc_serialize::json::{Json};
-    use json_request::{request_str, Method};
     use libracerd::util::fs::TmpFile;
+
+    use hyper::method::Method;
 
     /// Checks that /find_definition works within a single buffer
     #[test]

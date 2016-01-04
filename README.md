@@ -27,14 +27,6 @@ _YouCompleteMe in vim powered by racerd_
 - Library API offers direct calls to avoid HTTP overhead
 
 
-## Building
-
-racerd depends on [rust-openssl][]. If OpenSSL is locatable on your system via
-pkg-config, no extra configuration should be required. If the build process
-fails with some errors about finding openssl, please see
-[rust-openssl's manual configuration instructions][].
-
-
 [rust-openssl]: https://github.com/sfackler/rust-openssl
 [rust-openssl's manual configuration instructions]: https://github.com/sfackler/rust-openssl#manual-configuration
 [YouCompleteMe]: https://github.com/Valloric/YouCompleteMe

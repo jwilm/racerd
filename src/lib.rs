@@ -36,12 +36,25 @@ use std::fs::File;
 /// Configuration flags and values
 ///
 /// This object contains all switches the consumer has control of.
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct Config {
     pub port: u16,
+    pub addr: String,
     pub secret_file: Option<String>,
     pub print_http_logs: bool,
     pub rust_src_path: Option<String>
+}
+
+impl Default for Config {
+    fn default() -> Config {
+        Config {
+            port: 0,
+            addr: "127.0.0.1".to_owned(),
+            secret_file: None,
+            print_http_logs: false,
+            rust_src_path: None,
+        }
+    }
 }
 
 impl Config {

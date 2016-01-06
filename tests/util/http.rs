@@ -18,10 +18,9 @@ impl TestServer {
     pub fn new(secret_file: Option<String>) -> TestServer {
         let engine = Racer::new();
         let config = Config {
-            port: 0,
             secret_file: secret_file,
             print_http_logs: true,
-            rust_src_path: None,
+            .. Default::default()
         };
 
         engine.initialize(&config).unwrap();

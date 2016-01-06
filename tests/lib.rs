@@ -23,10 +23,9 @@ fn panics_when_invalid_secret_given() {
     use ::libracerd::Config;
 
     let config = Config {
-        port: 0,
         secret_file: Some("a.file.that.does.not.exist".to_owned()),
         print_http_logs: true,
-        rust_src_path: None
+        .. Default::default()
     };
 
     let engine = Racer::new();

@@ -112,7 +112,7 @@ pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<
     let app = Iron::new(chain);
 
     Ok(Server {
-        inner: try!(app.http(("localhost", config.port)))
+        inner: try!(app.http((&config.addr[..], config.port)))
     })
 }
 

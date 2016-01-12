@@ -1,13 +1,29 @@
 language: rust
 sudo: false
 
-before_install:
-  - export RUST_SRC_PATH=$(scripts/download_rust_source.sh)
-
 rust:
   - stable
   - beta
 
+addons:
+  apt:
+    packages:
+      - libcurl4-openssl-dev
+      - libelf-dev
+      - libdw-dev
+      - binutils-dev
+
+before_install:
+  - export RUST_SRC_PATH=$(scripts/download_rust_source.sh)
+
+before_script:
+  - |
+    pip install 'travis-cargo<0.2' --user
+    export PATH=$HOME/.local/bin:$PATH
+
 script:
-  - cargo test
+  - travis-cargo test
   - scripts/assert_cargo_lock_unchanged
+
+after_success:
+  - travis-cargo --only stable coveralls --no-sudo --verify

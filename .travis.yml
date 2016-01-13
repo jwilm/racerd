@@ -29,7 +29,7 @@ script:
 
 after_success:
   # - travis-cargo --only stable coveralls --no-sudo --verify
-  - git clone https://SimonKagstrom/kcov
+  - git clone https://github.com/SimonKagstrom/kcov
   - |
     export LOCAL="~/.local"
     export PATH=$LOCAL/bin:$PATH

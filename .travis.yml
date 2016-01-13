@@ -12,6 +12,7 @@ addons:
       - libelf-dev
       - libdw-dev
       - binutils-dev
+      - libbfd-dev
       - libiberty-dev
 
 before_install:
@@ -27,4 +28,16 @@ script:
   - scripts/assert_cargo_lock_unchanged
 
 after_success:
-  - travis-cargo --only stable coveralls --no-sudo --verify
+  # - travis-cargo --only stable coveralls --no-sudo --verify
+  - git clone https://SimonKagstrom/kcov
+  - |
+    export LOCAL="~/.local"
+    export PATH=$LOCAL/bin:$PATH
+  - |
+    mkdir kcov/build
+    pushd kcov/build
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=$LOCAL ..
+    make
+    make install
+    popd
+  - kcov --verify --no-sudo --coveralls-id=$TRAVIS_JOB_ID --exclude-pattern=/.cargo target/kcov target/debug/lib-*

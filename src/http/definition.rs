@@ -67,6 +67,8 @@ impl From<Definition> for FindDefinitionResponse {
             column: def.position.col,
             line: def.position.line,
             text: def.text,
+            context: def.text_context,
+            kind: def.dtype,
         }
     }
 }
@@ -110,4 +112,6 @@ struct FindDefinitionResponse {
     pub column: usize,
     pub line: usize,
     pub text: String,
+    pub context: String,
+    pub kind: String,
 }

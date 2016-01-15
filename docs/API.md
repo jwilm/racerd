@@ -156,13 +156,17 @@ curl -H "Content-Type: application/json" -d '{"buffers":[{"file_path":"src.rs","
 | text      | string | Text of found definition                   |
 | line      | number | Line in file where definition was found    |
 | column    | number | Column in file where definition was found  |
+| context   | string | Surrounding text of definition             |
+| kind      | string | Type of definition                         |
 
 ```json
 {
   "file_path":"/Users/jwilm/rs/std/stable/libstd/path.rs",
   "column":11,
   "line":1267,
-  "text":"new"
+  "text":"new",
+  "context":"pub fn new<S: AsRef<OsStr> + ?Sized>(s: &S) -> &Path {",
+  "kind":"Function"
 }
 ```
 

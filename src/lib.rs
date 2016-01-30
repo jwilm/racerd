@@ -25,6 +25,7 @@ extern crate log;        // log macros
 extern crate racer;      // rust code analysis
 
 extern crate rand;
+extern crate regex;
 
 pub mod util;
 pub mod http;

@@ -13,6 +13,7 @@ use ::engine::SemanticEngine;
 
 use iron::typemap::Key;
 use iron_hmac::Hmac256Authentication;
+use iron_hmac::SecretKey;
 
 /// Errors occurring in the http module
 #[derive(Debug)]
@@ -80,7 +81,7 @@ pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<
 
     // Get HMAC Middleware
     let (hmac_before, hmac_after) = if config.secret_file.is_some() {
-        let secret = config.read_secret_file();
+        let secret = SecretKey::new(&config.read_secret_file());
         let hmac_header = "x-racerd-hmac";
         let (before, after) = Hmac256Authentication::middleware(secret, hmac_header);
         (Some(before), Some(after))

@@ -67,12 +67,12 @@ impl Config {
     /// Return contents of secret file
     ///
     /// panics if self.secret_file is None or an error is encountered while reading the file.
-    pub fn read_secret_file(&self) -> String {
+    pub fn read_secret_file(&self) -> Vec<u8> {
         self.secret_file.as_ref().map(|secret_file_path| {
             let buf = {
                 let mut f = File::open(secret_file_path).unwrap();
-                let mut buf = String::new();
-                f.read_to_string(&mut buf).unwrap();
+                let mut buf = Vec::new();
+                f.read_to_end(&mut buf).unwrap();
                 buf
             };
 

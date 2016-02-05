@@ -36,7 +36,7 @@ pub fn find(req: &mut Request) -> IronResult<Response> {
     };
 
     let mutex = req.get::<::persistent::Write<EngineProvider>>().unwrap();
-    let engine = mutex.lock().unwrap();
+    let engine = mutex.lock().unwrap_or_else(|e| e.into_inner());
     match engine.find_definition(&fdr.context()) {
         // 200 OK; found the definition
         Ok(Some(definition)) => {

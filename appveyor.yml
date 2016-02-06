@@ -22,8 +22,8 @@ install:
 build: false
 
 cache:
-  - 'target -> Cargo.lock'
-  - 'C:\Users\appveyor\.cargo -> Cargo.lock'
+  - 'target'
+  - 'C:\Users\appveyor\.cargo'
 
 test_script:
   - cargo test --verbose

@@ -1,6 +1,6 @@
 [root]
 name = "libracerd"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "bodyparser 0.0.5 (git+https://github.com/iron/body-parser?rev=f9929111bd2efe7c29b519a5aa2d7bc32fddfac0)",
  "docopt 0.6.78 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -11,7 +11,7 @@ dependencies = [
  "log 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "logger 0.0.3 (git+https://github.com/iron/logger.git?rev=78c20cbda030a03107fec91b5282183d6eee9997)",
  "persistent 0.0.9 (registry+https://github.com/rust-lang/crates.io-index)",
- "racer 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "racer 1.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.3.12 (registry+https://github.com/rust-lang/crates.io-index)",
  "regex 0.1.44 (registry+https://github.com/rust-lang/crates.io-index)",
  "router 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -59,7 +59,7 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "1.5.4"
+version = "1.5.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "ansi_term 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -303,13 +303,13 @@ dependencies = [
 
 [[package]]
 name = "racer"
-version = "1.1.0"
+version = "1.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "clap 1.5.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "clap 1.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "env_logger 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "log 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "syntex_syntax 0.24.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "syntex_syntax 0.26.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.1.25 (registry+https://github.com/rust-lang/crates.io-index)",
  "typed-arena 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -412,7 +412,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "syntex_syntax"
-version = "0.24.0"
+version = "0.26.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "bitflags 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",

@@ -8,7 +8,8 @@
 
 #![deny(warnings)]
 
-extern crate rustc_serialize;
+extern crate serde;
+extern crate serde_json;
 
 #[macro_use]
 extern crate router;     // Iron routing handler

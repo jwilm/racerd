@@ -13,6 +13,7 @@ install:
   - rustc -Vv
   - cargo -Vv
   - SET RUST_SRC_PATH=%CD%\rustc-1.8.0\src
+  - SET RUST_BACKTRACE=1
 
 build: false
 

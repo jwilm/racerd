@@ -1,10 +1,6 @@
 environment:
   matrix:
     - TARGET: x86_64-pc-windows-msvc
-      VCVARS: "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\amd64\\vcvars64.bat"
-    - TARGET: i686-pc-windows-msvc
-      VCVARS: "C:\\Program Files (x86)\\Microsoft Visual Studio 14.0\\VC\\bin\\vcvars32.bat"
-    - TARGET: i686-pc-windows-gnu
 
 install:
   # Download and install rust compiler
@@ -17,7 +13,6 @@ install:
   - rustc -Vv
   - cargo -Vv
   - SET RUST_SRC_PATH=%CD%\rustc-1.8.0\src
-  - if defined VCVARS call "%VCVARS%"
 
 build: false
 

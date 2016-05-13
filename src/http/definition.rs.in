@@ -4,7 +4,7 @@ use iron::mime::Mime;
 
 use serde_json::to_string;
 
-use engine::{SemanticEngine, Definition, Context, CursorPosition, Buffer};
+use engine::{Definition, Context, CursorPosition, Buffer};
 use super::EngineProvider;
 
 /// Given a location, return where the identifier is defined

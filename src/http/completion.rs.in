@@ -4,7 +4,7 @@ use iron::mime::Mime;
 
 use serde_json::to_string;
 
-use engine::{SemanticEngine, Completion, Context, CursorPosition, Buffer};
+use engine::{Completion, Context, CursorPosition, Buffer};
 use super::EngineProvider;
 
 /// Given a location, return a list of possible completions
@@ -88,4 +88,3 @@ impl From<Completion> for CompletionResponse {
          }
     }
 }
-

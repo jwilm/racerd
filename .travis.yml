@@ -6,6 +6,7 @@ before_script:
     pip install 'travis-cargo<0.2' --user
     export PATH=$HOME/.local/bin:$PATH
 
+cache: cargo
 
 before_install:
   - export RUST_SRC_PATH=$(scripts/download_rust_source.sh)

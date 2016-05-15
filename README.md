@@ -5,6 +5,7 @@ JSON/HTTP Server based on [racer][] for adding Rust support to editors and IDEs
 
 [![Build Status](https://travis-ci.org/jwilm/racerd.svg?branch=master)](https://travis-ci.org/jwilm/racerd)
 [![Build status](https://ci.appveyor.com/api/projects/status/ysdf6dlxv73am0s5/branch/master?svg=true)](https://ci.appveyor.com/project/jwilm/racerd/branch/master)
+[![Coverage Status](https://coveralls.io/repos/jwilm/racerd/badge.svg?branch=master&service=github)](https://coveralls.io/github/jwilm/racerd?branch=master)
 
 ![racerd_ycm](https://cloud.githubusercontent.com/assets/4285147/11676180/e924255e-9de4-11e5-9b32-5eda431f79a3.gif)
 

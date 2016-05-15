@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SRC_VERSION=1.4.0
+SRC_VERSION=1.8.0
 SRC_NAME=rustc-${SRC_VERSION}-src
 SRC_PATH=https://static.rust-lang.org/dist/${SRC_NAME}.tar.gz
 

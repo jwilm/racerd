@@ -1,5 +1,5 @@
 language: rust
-sudo: false
+sudo: true
 
 before_script:
   - |
@@ -33,4 +33,4 @@ script:
   - scripts/assert_cargo_lock_unchanged
 
 after_success:
-  - travis-cargo coveralls --no-sudo --verify
+  - travis-cargo --only stable coveralls --no-sudo --verify

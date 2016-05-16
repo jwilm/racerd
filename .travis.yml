@@ -40,11 +40,11 @@ after_success:
   - |
     export LOCAL="~/.local"
     export PATH=$LOCAL/bin:$PATH
-  - |
-    mkdir kcov/build
-    pushd kcov/build
-    cmake -DCMAKE_INSTALL_PREFIX:PATH=$LOCAL ..
-    make
-    make install
-    popd
-  - $LOCAL/bin/kcov --verify --coveralls-id=$TRAVIS_JOB_ID --exclude-pattern=/.cargo target/kcov target/debug/lib-*
+  - mkdir kcov/build
+  - pushd kcov/build
+  - cmake -DCMAKE_INSTALL_PREFIX=$LOCAL ..
+  - make
+  - make install
+  - popd
+  - which kcov
+  - kcov --verify --coveralls-id=$TRAVIS_JOB_ID --exclude-pattern=/.cargo target/kcov target/debug/lib-*

@@ -33,4 +33,4 @@ script:
   - scripts/assert_cargo_lock_unchanged
 
 after_success:
-  - travis-cargo coveralls --no-sudo
+  - travis-cargo coveralls --verify

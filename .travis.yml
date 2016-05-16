@@ -6,8 +6,6 @@ before_script:
     pip install 'travis-cargo<0.2' --user
     export PATH=$HOME/.local/bin:$PATH
   - export RUST_TEST_THREADS=1
-  - export CC=gcc-4.9
-  - export CXX=g++-4.9
 
 cache: cargo
 
@@ -21,9 +19,6 @@ addons:
       - libcurl4-openssl-dev
       - libelf-dev
       - libdw-dev
-      - libiberty-dev
-      - gcc-4.9
-
 
 rust:
   - stable
@@ -51,4 +46,5 @@ after_success:
   - make install
   - popd
   - which kcov
+  - travis-debug
   - kcov --verify --coveralls-id=$TRAVIS_JOB_ID --exclude-pattern=/.cargo target/kcov target/debug/lib-*

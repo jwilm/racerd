@@ -14,10 +14,10 @@ before_install:
 addons:
   apt:
     packages:
+      - binutils-dev
       - libcurl4-openssl-dev
       - libelf-dev
       - libdw-dev
-      - binutils-dev
 
 rust:
   - stable
@@ -33,4 +33,4 @@ script:
   - scripts/assert_cargo_lock_unchanged
 
 after_success:
-  - travis-cargo --only stable coveralls --no-sudo --verify
+  - travis-cargo coveralls --no-sudo

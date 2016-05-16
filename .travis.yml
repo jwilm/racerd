@@ -19,6 +19,7 @@ addons:
       - libcurl4-openssl-dev
       - libelf-dev
       - libdw-dev
+      - libiberty-dev
 
 rust:
   - stable

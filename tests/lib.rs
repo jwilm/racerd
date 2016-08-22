@@ -84,7 +84,7 @@ mod http {
                 "line": 1,
                 "column": 3,
                 "file_path": "src.rs",
-                "context": "fn foo() {}",
+                "context": "fn foo()",
                 "kind": "Function"
             })).unwrap();
 
@@ -129,7 +129,7 @@ mod http {
                 "line": 2,
                 "column": 7,
                 "file_path": "src2.rs",
-                "context": "pub fn myfn()",
+                "context": "pub fn myfn() pub fn foo()",
                 "kind": "Function"
             })).unwrap();
 
@@ -153,7 +153,7 @@ mod http {
         let request_obj = stringify!({
             "buffers": [{
                 "file_path": "src.rs",
-                "contents": "use std::path::Path;\nfn main() {\nlet p = &Path::new(\"arst\")\n}\n"
+                "contents": "use std::path::Path;\nfn main() {\nlet p = &Path::new(\"arst\");\n}\n"
             }],
             "file_path": "src.rs",
             "line": 3,

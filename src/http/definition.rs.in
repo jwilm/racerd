@@ -105,7 +105,7 @@ fn find_definition_request_from_json() {
     assert_eq!(req.column, 3);
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 struct FindDefinitionResponse {
     pub file_path: String,
     pub column: usize,

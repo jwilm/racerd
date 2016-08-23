@@ -28,4 +28,3 @@ rust-crypto = "0.2.34"
 
 [build-dependencies]
 serde_codegen = "0.8"
-syntex = "0.31"

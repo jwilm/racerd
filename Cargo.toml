@@ -1,6 +1,6 @@
 [package]
 name = "libracerd"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Joe Wilm <joe@jwilm.com>"]
 
 build = "build.rs"

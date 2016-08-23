@@ -19,13 +19,11 @@ use iron_hmac::SecretKey;
 #[derive(Debug)]
 pub enum Error {
     /// Error occurred in underlying http server lib
-    HttpServer(::hyper::Error),
-    // Error occurred in http framework layer
-    // HttpApp(::iron::IronError),
+    HttpServer(::iron::error::HttpError),
 }
 
-impl From<::hyper::Error> for Error {
-    fn from(err: ::hyper::Error) -> Error {
+impl From<::iron::error::HttpError> for Error {
+    fn from(err: ::iron::error::HttpError) -> Error {
         Error::HttpServer(err)
     }
 }
@@ -125,7 +123,7 @@ pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<
 /// This type can only be created via the [`serve`](fn.serve.html) function.
 #[derive(Debug)]
 pub struct Server {
-    inner: ::hyper::server::Listening,
+    inner: ::iron::Listening,
 }
 
 impl Server {

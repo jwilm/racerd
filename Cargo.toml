@@ -6,26 +6,26 @@ authors = ["Joe Wilm <joe@jwilm.com>"]
 build = "build.rs"
 
 [dependencies]
-bodyparser = "0.3"
+bodyparser = "0.4.1"
 docopt = "0.6"
 env_logger = "0.3"
 hyper = { version = "0.8", default-features = false }
-iron = { version = "0.3", default-features = false }
-iron-hmac = { version = "0.3", features = ["hmac-rust-crypto"] }
+iron = { version = "0.4", default-features = false }
+iron-hmac = { version = "0.4", features = ["hmac-rust-crypto"] }
 log = "0.3"
-logger = "0.0.3"
-persistent = "0.1"
+logger = "0.1.0"
+persistent = "0.2"
 racer = "1.2"
 rand = "0.3"
 regex = "0.1"
-router = "0.1.1"
+router = "0.2.0"
 rustc-serialize = "0.3"
-serde = "0.7"
-serde_json = "0.7"
+serde = "0.8"
+serde_json = "0.8"
 
 [dev-dependencies]
 rust-crypto = "0.2.34"
 
 [build-dependencies]
-serde_codegen = "0.7"
+serde_codegen = "0.8"
 syntex = "0.31"

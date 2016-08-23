@@ -1,6 +1,6 @@
 [root]
 name = "libracerd"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "bodyparser 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "docopt 0.6.82 (registry+https://github.com/rust-lang/crates.io-index)",

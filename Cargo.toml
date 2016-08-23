@@ -27,5 +27,4 @@ serde_json = "0.7"
 rust-crypto = "0.2.34"
 
 [build-dependencies]
-serde_codegen = "0.7"
-syntex = "0.31"
+serde_codegen = "0.7.9"

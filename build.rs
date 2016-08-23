@@ -1,4 +1,3 @@
-extern crate syntex;
 extern crate serde_codegen;
 
 use std::env;
@@ -13,10 +12,7 @@ fn serde_expand(infile: &str, outfile: &str) {
     // Make output directory
     fs::create_dir(dst.parent().unwrap()).ok();
 
-    let mut registry = syntex::Registry::new();
-
-    serde_codegen::register(&mut registry);
-    registry.expand("", &src, &dst).expect("codegen expand successfully");
+    serde_codegen::expand(&src, &dst).expect("codegen expand successfully");
 }
 
 pub fn main() {

@@ -1,6 +1,6 @@
 [package]
 name = "libracerd"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Joe Wilm <joe@jwilm.com>"]
 
 build = "build.rs"
@@ -9,7 +9,7 @@ build = "build.rs"
 bodyparser = "0.4.1"
 docopt = "0.6"
 env_logger = "0.3"
-hyper = { version = "0.8", default-features = false }
+hyper = { version = "0.9", default-features = false }
 iron = { version = "0.4", default-features = false }
 iron-hmac = { version = "0.4", features = ["hmac-rust-crypto"] }
 log = "0.3"

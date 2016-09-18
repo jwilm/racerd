@@ -61,24 +61,12 @@ impl Key for EngineProvider {
 ///
 pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<Server> {
     use persistent::{Read, Write};
-    use logger::Logger;
-    use logger::format::Format;
 
     let mut chain = Chain::new(router!(
         post "/parse_file"       => file::parse,
         post "/find_definition"  => definition::find,
         post "/list_completions" => completion::list,
         get  "/ping"             => ping::pong));
-
-    // Logging middleware
-    let log_fmt = Format::new("{method} {uri} -> {status} ({response-time})",
-                              Vec::new(), Vec::new());
-    let (log_before, log_after) = Logger::new(log_fmt);
-
-    // log_before must be first middleware in before chain
-    if config.print_http_logs {
-        chain.link_before(log_before);
-    }
 
     // Get HMAC Middleware
     let (hmac_before, hmac_after) = if config.secret_file.is_some() {
@@ -103,12 +91,6 @@ pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<
 
     if let Some(hmac) = hmac_after {
         chain.link_after(hmac);
-    }
-
-
-    // log_after must be last middleware in after chain
-    if config.print_http_logs {
-        chain.link_after(log_after);
     }
 
     let app = Iron::new(chain);

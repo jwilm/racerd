@@ -15,7 +15,6 @@ extern crate serde_json;
 extern crate router;     // Iron routing handler
 extern crate bodyparser; // Iron body parsing middleware
 extern crate persistent; // Iron storage middleware
-extern crate logger;     // Iron logging middleware
 extern crate iron;       // http framework
 extern crate iron_hmac;
 

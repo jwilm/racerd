@@ -68,6 +68,7 @@ impl From<Definition> for FindDefinitionResponse {
             text: def.text,
             context: def.text_context,
             kind: def.dtype,
+            docs: def.docs,
         }
     }
 }
@@ -113,4 +114,5 @@ struct FindDefinitionResponse {
     pub text: String,
     pub context: String,
     pub kind: String,
+    pub docs: String
 }

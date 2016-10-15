@@ -104,6 +104,7 @@ impl<'a> SemanticEngine for Racer<'a> {
                     file_path: m.filepath.to_str().unwrap().to_string(),
                     text: m.matchstr.clone(),
                     text_context: m.contextstr.clone(),
+                    docs: m.docs.clone(),
                 })
             },
             None => None
@@ -167,6 +168,7 @@ mod tests {
     fn find_definition() {
         // FIXME this is just here for side effects.
         let src2 = TmpFile::with_name("src2.rs", "
+            /// myfn docs
             pub fn myfn() {}
             pub fn foo() {}
             ");
@@ -188,6 +190,7 @@ mod tests {
         let def = racer.find_definition(&ctx).unwrap().unwrap();
 
         assert_eq!(def.text, "myfn");
+        assert_eq!(def.docs, "myfn docs");
     }
 
     #[test]

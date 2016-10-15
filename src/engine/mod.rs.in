@@ -38,6 +38,7 @@ pub struct Definition {
     pub text_context: String,
     pub dtype: String,
     pub file_path: String,
+    pub docs: String,
 }
 
 /// Context for a given operation.

@@ -85,7 +85,8 @@ mod http {
                 "column": 3,
                 "file_path": "src.rs",
                 "context": "fn foo()",
-                "kind": "Function"
+                "kind": "Function",
+                "docs": ""
             })).unwrap();
 
             // They should be equal
@@ -130,7 +131,8 @@ mod http {
                 "column": 7,
                 "file_path": "src2.rs",
                 "context": "pub fn myfn() pub fn foo()",
-                "kind": "Function"
+                "kind": "Function",
+                "docs": ""
             })).unwrap();
 
             // They should be equal

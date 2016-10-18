@@ -5,42 +5,31 @@ use engine::{SemanticEngine, Definition, Context, CursorPosition, Completion, Er
 use racer::core::{Session, FileCache, IndexedSource};
 
 use std::path::Path;
+use std::sync::Mutex;
 use std::rc::Rc;
 
-use std::sync::Mutex;
 use regex::Regex;
 
-pub struct Racer<'a> {
-    cache: Mutex<&'a FileCache>
+pub struct Racer {
+    cache: Mutex<FileCache>
 }
 
-impl<'a> Racer<'a> {
-    pub fn new() -> Racer<'a> {
-        // The unsafe block in the constructor is taking ownership of the Session allocated by this
-        // box. It is later freed in the drop impl. Having a Session reference with the same
-        // lifetime as Racer solves a concrete self lifetime problem in the SemanticEngine
-        // implementation.
-        //
-        // The following unsafe block should be fine since the memory is known to be valid. The
-        // reference will have the same value for the lifetime of the Racer object, so there is no
-        // need to worry about stale references wandering around. However, I am not certain that
-        // MutexGuard will save us from references escaping a critical section since you normally
-        // cannot store references in a Mutex. At this time, that's not a problem, but it would be
-        // good to have a static guarantee about not leaking references.
-        let cache = Box::new(FileCache::new());
-        let cache_ptr = Box::into_raw(cache);
+impl Racer {
+    pub fn new() -> Racer {
         Racer {
-            cache: Mutex::new(unsafe { &*cache_ptr })
+            cache: Mutex::new(FileCache::new()),
         }
     }
 
-    fn build_racer_args<'b, 'c>(&self, ctx: &'b Context, session: &'c Session<'a>)
-        -> (Rc<IndexedSource>, usize, &'b Path) {
-
+    fn build_racer_args<'a, 'b, 'c>(&'a self,
+                                    ctx: &'b Context,
+                                    session: &'c Session<'a>)
+                                    -> (Rc<IndexedSource>, usize, &'b Path)
+    {
         let path = ctx.query_path();
 
         for buffer in &ctx.buffers {
-            session.cache_file_contents(buffer.path(), &buffer.contents[..]);
+            session.cache_file_contents(buffer.path(), &*buffer.contents)
         }
 
         let file = session.load_file(path);
@@ -51,24 +40,22 @@ impl<'a> Racer<'a> {
     }
 }
 
-impl<'a> Drop for Racer<'a> {
-    fn drop(&mut self) {
-        let cache_ref = *self.cache.lock().unwrap();
-        // At this point, nobody has a reference to the session because it is locked behind the
-        // mutex and the lock is held here. Nobody has a reference to the mutex because its holder
-        // is being dropped. Thus, casting a non mutable reference to a raw *mut pointer to
-        // reconstitute the box should be fine.
-        let _cache: Box<FileCache> = unsafe { Box::from_raw(::std::mem::transmute(cache_ref)) };
-    }
-}
+// FIXME: These impls are sort of a lie, since we could theoretically hold a
+// `Rc<IndexedSource>` for too long.
+//
+// They're needed by the http middleware, and our usage turns out to be fine,
+// since we're only holding Rc's while we hold the cache lock, but something
+// more elegant (like making racer use `Arc`'s) should be done instead.
+unsafe impl Sync for Racer {}
+unsafe impl Send for Racer {}
 
 use ::Config;
 use super::Result;
 
-impl<'a> SemanticEngine for Racer<'a> {
+impl SemanticEngine for Racer {
     fn initialize(&self, config: &Config) -> Result<()> {
         if let Some(ref src_path) = config.rust_src_path {
-            ::std::env::set_var("RUST_SRC_PATH", &src_path[..]);
+            ::std::env::set_var("RUST_SRC_PATH", src_path);
         }
 
         Ok(())
@@ -77,8 +64,9 @@ impl<'a> SemanticEngine for Racer<'a> {
     fn find_definition(&self, ctx: &Context) -> Result<Option<Definition>> {
         let cache = match self.cache.lock() {
             Ok(guard) => guard,
-            Err(poisoned) => poisoned.into_inner()
+            Err(poisoned) => poisoned.into_inner(),
         };
+
         let session = Session::from_path(&cache, ctx.query_path(), ctx.query_path());
         let (file, pos, path) = self.build_racer_args(ctx, &session);
 
@@ -115,6 +103,7 @@ impl<'a> SemanticEngine for Racer<'a> {
             Ok(guard) => guard,
             Err(poisoned) => poisoned.into_inner()
         };
+
         let session = Session::from_path(&cache, ctx.query_path(), ctx.query_path());
         let (file, pos, path) = self.build_racer_args(ctx, &session);
 
@@ -152,9 +141,6 @@ impl<'a> SemanticEngine for Racer<'a> {
 pub fn collapse_whitespace(text: &str) -> String {
   Regex::new(r"\s+").unwrap().replace_all(text, " ")
 }
-
-unsafe impl<'a> Sync for Racer<'a> {}
-unsafe impl<'a> Send for Racer<'a> {}
 
 #[cfg(test)]
 mod tests {

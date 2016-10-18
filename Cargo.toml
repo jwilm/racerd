@@ -15,7 +15,7 @@ iron-hmac = { version = "0.4", features = ["hmac-rust-crypto"] }
 log = "0.3"
 logger = "0.1.0"
 persistent = "0.2"
-racer = "1.2"
+racer = { git = "https://github.com/phildawes/racer" }
 rand = "0.3"
 regex = "0.1"
 router = "0.2.0"

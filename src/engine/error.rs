@@ -6,19 +6,22 @@ use std::io;
 /// Error type for semantic engine module
 #[derive(Debug)]
 pub enum Error {
-    IoError(io::Error)
+    IoError(io::Error),
+    Racer,
 }
 
 impl error::Error for Error {
     fn description(&self) -> &str {
         match *self {
-            Error::IoError(_) => "io::Error during engine operation"
+            Error::IoError(_) => "io::Error during engine operation",
+            Error::Racer => "Internal racer error",
         }
     }
 
     fn cause(&self) -> Option<&error::Error> {
         match *self {
-            Error::IoError(ref err) => Some(err)
+            Error::IoError(ref err) => Some(err),
+            Error::Racer => None,
         }
     }
 }
@@ -29,6 +32,7 @@ impl fmt::Display for Error {
             Error::IoError(ref e) => {
                 write!(fmt, "io::Error({})", e)
             }
+            Error::Racer => write!(fmt, "Internal racer error"),
         }
     }
 }

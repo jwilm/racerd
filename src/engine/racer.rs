@@ -21,10 +21,10 @@ impl Racer {
         }
     }
 
-    fn build_racer_args<'a, 'b, 'c>(&'a self,
-                                    ctx: &'b Context,
-                                    session: &'c Session<'a>)
-                                    -> (Rc<IndexedSource>, usize, &'b Path)
+    fn build_racer_args<'ctx>(&self,
+                              ctx: &'ctx Context,
+                              session: &Session)
+                              -> (Rc<IndexedSource>, usize, &'ctx Path)
     {
         let path = ctx.query_path();
 

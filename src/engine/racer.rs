@@ -1,12 +1,10 @@
 //! SemanticEngine implementation for [the racer library](https://github.com/phildawes/racer)
 //!
-use engine::{SemanticEngine, Definition, Context, CursorPosition, Completion, Error};
+use engine::{SemanticEngine, Definition, Context, CursorPosition, Completion};
 
-use racer::core::{Session, FileCache, IndexedSource};
+use racer::{self, Session, FileCache, Match, Coordinate};
 
-use std::path::Path;
 use std::sync::Mutex;
-use std::rc::Rc;
 
 use regex::Regex;
 
@@ -17,35 +15,14 @@ pub struct Racer {
 impl Racer {
     pub fn new() -> Racer {
         Racer {
-            cache: Mutex::new(FileCache::new()),
+            cache: Mutex::new(FileCache::default()),
         }
-    }
-
-    fn build_racer_args<'ctx>(&self,
-                              ctx: &'ctx Context,
-                              session: &Session)
-                              -> (Rc<IndexedSource>, usize, &'ctx Path)
-    {
-        let path = ctx.query_path();
-
-        for buffer in &ctx.buffers {
-            session.cache_file_contents(buffer.path(), &*buffer.contents)
-        }
-
-        let file = session.load_file(path);
-        let pos = file.coords_to_point(ctx.query_cursor.line,
-                                       ctx.query_cursor.col).unwrap();
-
-        (file, pos, path)
     }
 }
 
-// FIXME: These impls are sort of a lie, since we could theoretically hold a
-// `Rc<IndexedSource>` for too long.
-//
-// They're needed by the http middleware, and our usage turns out to be fine,
-// since we're only holding Rc's while we hold the cache lock, but something
-// more elegant (like making racer use `Arc`'s) should be done instead.
+// Racer's FileCache uses Rc and RefCell internally. We wrap everything in a
+// Mutex, and the Rcs aren't possible to leak, so these should be ok. Correct
+// solution is to make racer threadsafe.
 unsafe impl Sync for Racer {}
 unsafe impl Send for Racer {}
 
@@ -67,35 +44,29 @@ impl SemanticEngine for Racer {
             Err(poisoned) => poisoned.into_inner(),
         };
 
-        let session = Session::from_path(&cache, ctx.query_path(), ctx.query_path());
-        let (file, pos, path) = self.build_racer_args(ctx, &session);
+        let session = Session::new(&cache);
+        for buffer in &ctx.buffers {
+            session.cache_file_contents(buffer.path(), &*buffer.contents)
+        }
 
         // TODO catch_panic: apparently this can panic! in a string operation. Something about pos
         // not landing on a character boundary.
-        Ok(match ::racer::core::find_definition(&file.code, path, pos, &session) {
-            Some(m) => {
-                // TODO modify racer Match to return line, col. For now, read the file it found a
-                // match in to translate the Match position into line, col.
-                let (line, col) = {
-                    let file = session.load_file(&m.filepath);
-                    try!(file.point_to_coords(m.point).ok_or(Error::Racer))
-                };
-
-                let match_type = format!("{:?}", m.mtype);
-                Some(Definition {
-                    position: CursorPosition {
-                        line: line,
-                        col: col
-                    },
-                    dtype: match_type,
-                    file_path: m.filepath.to_str().unwrap().to_string(),
-                    text: m.matchstr.clone(),
-                    text_context: m.contextstr.clone(),
-                    docs: m.docs.clone(),
+        Ok(racer::find_definition(ctx.query_path(), ctx.query_cursor, &session)
+            .and_then(|m| {
+                m.coords.map(|Coordinate { line, column: col }| {
+                    Definition {
+                        position: CursorPosition {
+                            line: line,
+                            col: col
+                        },
+                        dtype: format!("{:?}", m.mtype),
+                        file_path: m.filepath.to_str().unwrap().to_string(),
+                        text: m.matchstr.clone(),
+                        text_context: m.contextstr.clone(),
+                        docs: m.docs.clone(),
+                    }
                 })
-            },
-            None => None
-        })
+            }))
     }
 
     fn list_completions(&self, ctx: &Context) -> Result<Option<Vec<Completion>>> {
@@ -104,31 +75,27 @@ impl SemanticEngine for Racer {
             Err(poisoned) => poisoned.into_inner()
         };
 
-        let session = Session::from_path(&cache, ctx.query_path(), ctx.query_path());
-        let (file, pos, path) = self.build_racer_args(ctx, &session);
+        let session = Session::new(&cache);
+        for buffer in &ctx.buffers {
+            session.cache_file_contents(buffer.path(), &*buffer.contents)
+        }
 
-        let matches = ::racer::core::complete_from_file(&file.code, path, pos, &session);
-
-        let completions = matches.filter_map(|m| {
-            let (line, col) = {
-                let file = session.load_file(&m.filepath);
-                match file.point_to_coords(m.point) {
-                    Some((line, col)) => (line, col),
-                    None => return None,
-                }
-            };
-
-            Some(Completion {
-                position: CursorPosition {
-                    line: line,
-                    col: col
-                },
-                text: m.matchstr,
-                context: collapse_whitespace(&m.contextstr),
-                kind: format!("{:?}", m.mtype),
-                file_path: m.filepath.to_str().unwrap().to_string()
+        let completions = racer::complete_from_file(ctx.query_path(), ctx.query_cursor, &session)
+            .filter_map(|Match { matchstr, contextstr, mtype, filepath, coords, .. }| {
+                coords.map(|Coordinate { line, column: col }| {
+                    Completion {
+                        position: CursorPosition {
+                            line: line,
+                            col: col
+                        },
+                        text: matchstr,
+                        context: collapse_whitespace(&contextstr),
+                        kind: format!("{:?}", mtype),
+                        file_path: filepath.to_str().unwrap().to_string()
+                    }
+                })
             })
-        }).collect::<Vec<_>>();
+            .collect::<Vec<_>>();
 
         if completions.len() != 0 {
             Ok(Some(completions))

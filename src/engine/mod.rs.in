@@ -70,10 +70,19 @@ impl Context {
 /// Position of the cursor in a text file
 ///
 /// Similar to a point, it has two coordinates `line` and `col`.
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone)]
 pub struct CursorPosition {
     pub line: usize,
     pub col: usize,
+}
+
+impl Into<::racer::Location> for CursorPosition {
+    fn into(self) -> ::racer::Location {
+        ::racer::Location::Coords(::racer::Coordinate {
+            line: self.line,
+            column: self.col,
+        })
+    }
 }
 
 pub mod racer;

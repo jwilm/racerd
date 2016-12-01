@@ -9,6 +9,9 @@ if [ "$(git status | grep Cargo.lock | wc -l |  tr -d '[[:space:]]')" != "0" ]
 then
     echo_red "Changes detected in Cargo.lock after building"
     echo_red "Please rebuild the project locally and commit Cargo.lock."
+
+    git --no-pager diff Cargo.lock
+
     exit 1
 fi
 

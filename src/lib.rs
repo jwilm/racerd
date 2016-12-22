@@ -5,9 +5,6 @@
 //! Documentation for the HTTP endpoints can be found in the http module header.
 //!
 //! This project's source code is [available on GitHub](https://github.com/jwilm/racerd).
-
-#![deny(warnings)]
-
 extern crate serde;
 extern crate serde_json;
 

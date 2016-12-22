@@ -64,8 +64,6 @@ impl ListCompletionsRequest {
     }
 }
 
-type ListCompletionsResponse = Vec<CompletionResponse>;
-
 #[derive(Debug, Serialize)]
 struct CompletionResponse {
     text: String,

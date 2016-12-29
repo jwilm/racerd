@@ -21,26 +21,26 @@ macro_rules! init_logging {
     }
 }
 
-#[test]
-#[should_panic]
-#[cfg(not(windows))]
-fn panics_when_invalid_secret_given() {
-    use ::libracerd::engine::{Racer, SemanticEngine};
-    use ::libracerd::http::serve;
-    use ::libracerd::Config;
-
-    init_logging!();
-
-    let config = Config {
-        secret_file: Some("a.file.that.does.not.exist".to_owned()),
-        print_http_logs: true,
-        .. Default::default()
-    };
-
-    let engine = Racer::new();
-    engine.initialize(&config).unwrap();
-    serve(&config, engine).unwrap();
-}
+// #[test]
+// #[should_panic]
+// #[cfg(not(windows))]
+// fn panics_when_invalid_secret_given() {
+//     use ::libracerd::engine::{Racer, SemanticEngine};
+//     use ::libracerd::http::serve;
+//     use ::libracerd::Config;
+// 
+//     init_logging!();
+// 
+//     let config = Config {
+//         secret_file: Some("a.file.that.does.not.exist".to_owned()),
+//         print_http_logs: true,
+//         .. Default::default()
+//     };
+// 
+//     let engine = Racer::new();
+//     engine.initialize(&config).unwrap();
+//     serve(&config, engine).unwrap();
+// }
 
 mod http {
     use hyper::header::ContentType;

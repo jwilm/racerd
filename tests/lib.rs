@@ -155,11 +155,11 @@ mod http {
         let request_obj = stringify!({
             "buffers": [{
                 "file_path": "src.rs",
-                "contents": "use std::path::Path;\nfn main() {\nlet p = &Path::new(\"arst\");\n}\n"
+                "contents": "use std::borrow::Cow;\nfn main() {\nlet p = Cow::Borrowed(\"arst\");\n}\n"
             }],
             "file_path": "src.rs",
             "line": 3,
-            "column": 16
+            "column": 17
         });
 
         http::with_server(|server| {
@@ -168,18 +168,18 @@ mod http {
             let res = request_str(Method::Post, &url[..], Some(request_obj)).unwrap().unwrap();
 
             // Build actual/expected objects
-            let actual = Json::from_str(&res[..]).unwrap();
+            let actual = Json::from_str(&res[..]).expect("response is json");
 
             // We don't know exactly how the result is going to look in this case.
             let obj = actual.as_object().unwrap();
 
             // Check that `file_path` ends_with "path.rs"
             let found_path = obj.get("file_path").unwrap().as_string().unwrap();
-            assert!(found_path.ends_with("path.rs"));
+            assert!(found_path.ends_with("borrow.rs"));
 
             // Check that we found a thing called "new"
             let found_text = obj.get("text").unwrap().as_string().unwrap();
-            assert_eq!(found_text, "new");
+            assert_eq!(found_text, "Borrowed");
         });
     }
 

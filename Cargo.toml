@@ -15,7 +15,7 @@ iron-hmac = { version = "0.4", features = ["hmac-rust-crypto"] }
 log = "0.3"
 logger = "0.1.0"
 persistent = "0.2"
-racer = "2.0.2"
+racer = "2.0.5"
 rand = "0.3"
 regex = "0.1"
 router = "0.2.0"
@@ -24,7 +24,7 @@ serde = "0.8"
 serde_json = "0.8"
 
 [dev-dependencies]
-rust-crypto = "0.2.34"
+rust-crypto = "0.2.36"
 
 [build-dependencies]
 serde_codegen = "0.8"

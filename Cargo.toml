@@ -13,7 +13,7 @@ hyper = { version = "0.9", default-features = false }
 iron = { version = "0.4", default-features = false }
 iron-hmac = { version = "0.4", features = ["hmac-rust-crypto"] }
 log = "0.3"
-logger = "0.1.0"
+logger = "0.3.0"
 persistent = "0.2"
 racer = "2.0.5"
 rand = "0.3"

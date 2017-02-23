@@ -62,7 +62,7 @@ impl Key for EngineProvider {
 pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<Server> {
     use persistent::{Read, Write};
     use logger::Logger;
-    use logger::format::Format;
+    use logger::Format;
 
     let mut chain = Chain::new(router!(
         post "/parse_file"       => file::parse,
@@ -71,8 +71,7 @@ pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<
         get  "/ping"             => ping::pong));
 
     // Logging middleware
-    let log_fmt = Format::new("{method} {uri} -> {status} ({response-time})",
-                              Vec::new(), Vec::new());
+    let log_fmt = Format::new("{method} {uri} -> {status} ({response-time})");
     let (log_before, log_after) = Logger::new(log_fmt);
 
     // log_before must be first middleware in before chain
@@ -113,9 +112,7 @@ pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<
 
     let app = Iron::new(chain);
 
-    Ok(Server {
-        inner: try!(app.http((&config.addr[..], config.port)))
-    })
+    Ok(Server { inner: try!(app.http((&config.addr[..], config.port))) })
 }
 
 /// Wrapper type with information and control of the underlying HTTP server

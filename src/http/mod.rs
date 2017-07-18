@@ -14,6 +14,7 @@ use ::engine::SemanticEngine;
 use iron::typemap::Key;
 use iron_hmac::Hmac256Authentication;
 use iron_hmac::SecretKey;
+use std::sync::{Arc, Mutex};
 
 /// Errors occurring in the http module
 #[derive(Debug)]
@@ -36,7 +37,7 @@ pub type Result<T> = ::std::result::Result<T, Error>;
 pub struct EngineProvider;
 
 impl Key for EngineProvider {
-    type Value = Box<SemanticEngine + Send + Sync>;
+    type Value = Box<SemanticEngine + Send + Sync + 'static>;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -59,7 +60,7 @@ impl Key for EngineProvider {
 /// server.close().unwrap();
 /// ```
 ///
-pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<Server> {
+pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine: E) -> Result<Server> {
     use persistent::{Read, Write};
     use logger::Logger;
     use logger::format::Format;
@@ -91,7 +92,9 @@ pub fn serve<E: SemanticEngine + 'static>(config: &Config, engine: E) -> Result<
     };
 
     // This middleware provides a semantic engine to the request handlers
-    chain.link_before(Write::<EngineProvider>::one(Box::new(engine)));
+    // where Box<E>: PersistentInto<Arc<Mutex<Box<SemanticEngine + Sync + Send + 'static>>>>
+    let x: Arc<Mutex<Box<SemanticEngine + Sync + Send + 'static>>> = Arc::new(Mutex::new(Box::new(engine)));
+    chain.link_before(Write::<EngineProvider>::one(x));
 
     // Body parser middlerware
     chain.link_before(Read::<::bodyparser::MaxBodyLength>::one(1024 * 1024 * 10));

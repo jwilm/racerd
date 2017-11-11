@@ -106,7 +106,7 @@ impl SemanticEngine for Racer {
 }
 
 pub fn collapse_whitespace(text: &str) -> String {
-  Regex::new(r"\s+").unwrap().replace_all(text, " ")
+  Regex::new(r"\s+").unwrap().replace_all(text, " ").into_owned()
 }
 
 #[cfg(test)]

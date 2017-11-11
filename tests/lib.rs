@@ -6,6 +6,7 @@ extern crate env_logger;
 
 #[macro_use]
 extern crate hyper;
+extern crate reqwest;
 
 extern crate crypto;
 
@@ -44,7 +45,7 @@ fn panics_when_invalid_secret_given() {
 
 mod http {
     use hyper::header::ContentType;
-    use hyper::Client;
+    use reqwest::Client;
 
     use std::io::Read;
 
@@ -55,7 +56,7 @@ mod http {
     use rustc_serialize::json::{Json};
     use libracerd::util::fs::TmpFile;
 
-    use hyper::method::Method;
+    use hyper::Method;
 
     /// Checks that /find_definition works within a single buffer
     #[test]
@@ -247,7 +248,7 @@ mod http {
                                 .header(ContentType::json())
                                 .send().unwrap();
 
-            assert_eq!(res.status, ::hyper::status::StatusCode::Ok);
+            assert_eq!(res.status(), ::hyper::StatusCode::Ok);
 
             let mut body = String::new();
             res.read_to_string(&mut body).unwrap();
@@ -278,7 +279,7 @@ mod http {
                             .header(ContentType::json())
                             .send().unwrap();
 
-            assert_eq!(res.status, ::hyper::status::StatusCode::Forbidden);
+            assert_eq!(res.status(), ::hyper::StatusCode::Forbidden);
         });
     }
 }

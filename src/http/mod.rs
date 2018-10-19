@@ -63,17 +63,16 @@ impl Key for EngineProvider {
 pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine: E) -> Result<Server> {
     use persistent::{Read, Write};
     use logger::Logger;
-    use logger::format::Format;
+    use logger::Format;
 
     let mut chain = Chain::new(router!(
-        post "/parse_file"       => file::parse,
-        post "/find_definition"  => definition::find,
-        post "/list_completions" => completion::list,
-        get  "/ping"             => ping::pong));
+        parse: post "/parse_file"       => file::parse,
+        find: post "/find_definition"  => definition::find,
+        list: post "/list_completions" => completion::list,
+        ping: get  "/ping"             => ping::pong));
 
     // Logging middleware
-    let log_fmt = Format::new("{method} {uri} -> {status} ({response-time})",
-                              Vec::new(), Vec::new());
+    let log_fmt = Format::new("{method} {uri} -> {status} ({response-time})");
     let (log_before, log_after) = Logger::new(log_fmt);
 
     // log_before must be first middleware in before chain

@@ -2,7 +2,6 @@
 
 extern crate libracerd;
 extern crate rustc_serialize;
-extern crate env_logger;
 
 #[macro_use]
 extern crate hyper;
@@ -17,7 +16,6 @@ const _RUST_SRC_PATH: &'static str = env!("RUST_SRC_PATH");
 
 macro_rules! init_logging {
     () => {
-        let _ = ::env_logger::init();
     }
 }
 

@@ -7,6 +7,8 @@
 //! This project's source code is [available on GitHub](https://github.com/jwilm/racerd).
 extern crate serde;
 extern crate serde_json;
+#[macro_use]
+extern crate serde_derive;
 
 #[macro_use]
 extern crate router;     // Iron routing handler
@@ -15,8 +17,6 @@ extern crate persistent; // Iron storage middleware
 extern crate logger;     // Iron logging middleware
 extern crate iron;       // http framework
 extern crate iron_hmac;
-
-extern crate hyper;      // Provides `Listening` type returned by Iron
 
 #[macro_use]
 extern crate log;        // log macros

@@ -4,6 +4,7 @@ use std::fs::{self, File};
 use std::path::{Path, PathBuf};
 use std::convert::From;
 use std::thread;
+use rand::distributions::Alphanumeric;
 
 /// A temporary file that is removed on drop
 ///
@@ -51,7 +52,7 @@ impl TmpFile {
         let mut p = "tmpfile.".to_string();
         p.push_str(&s[..]);
         // Add some random chars
-        for c in ::rand::thread_rng().gen_ascii_chars().take(5) {
+        for c in ::rand::thread_rng().sample_iter(&Alphanumeric).take(5) {
             p.push(c);
         }
         PathBuf::from(p)

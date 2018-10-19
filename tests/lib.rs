@@ -86,7 +86,8 @@ mod http {
                 "context": "fn foo()",
                 "kind": "Function",
                 "docs": ""
-            })).unwrap();
+            }))
+            .unwrap();
 
             // They should be equal
             assert_eq!(actual, expected);
@@ -134,7 +135,8 @@ mod http {
                 "context": "pub fn myfn() pub fn foo()",
                 "kind": "Function",
                 "docs": ""
-            })).unwrap();
+            }))
+            .unwrap();
 
             // They should be equal
             assert_eq!(actual, expected);
@@ -235,7 +237,8 @@ mod http {
 
             let expected = Json::from_str(stringify!({
                 "pong": true
-            })).unwrap();
+            }))
+            .unwrap();
 
             assert_eq!(actual, expected);
         });
@@ -268,7 +271,8 @@ mod http {
             let actual = Json::from_str(&body[..]).unwrap();
             let expected = Json::from_str(stringify!({
                 "pong": true
-            })).unwrap();
+            }))
+            .unwrap();
 
             assert_eq!(actual, expected);
         });

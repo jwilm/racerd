@@ -12,13 +12,14 @@ iron-hmac = { git = "https://github.com/juchiast/iron-hmac", rev = "eea805c", fe
 log = "0.4"
 logger = "0.4"
 persistent = "0.4"
-racer = "=2.0.10"
+racer = "2.1"
 rand = "0.5"
 regex = "1"
 router = "0.6.0"
 serde = "1"
 serde_json = "1"
 serde_derive = "1"
+rls-span = "0.4"
 
 [dev-dependencies]
 rust-crypto = "0.2.36"

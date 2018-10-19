@@ -53,8 +53,11 @@ impl SemanticEngine for Racer {
         // not landing on a character boundary.
         Ok(
             racer::find_definition(ctx.query_path(), ctx.query_cursor, &session).and_then(|m| {
-                m.coords.map(|Coordinate { line, column: col }| Definition {
-                    position: CursorPosition { line, col },
+                m.coords.map(|Coordinate { row, col }| Definition {
+                    position: CursorPosition {
+                        line: row.0 as usize,
+                        col: col.0 as usize,
+                    },
                     dtype: format!("{:?}", m.mtype),
                     file_path: m.filepath.to_str().unwrap().to_string(),
                     text: m.matchstr.clone(),
@@ -86,15 +89,19 @@ impl SemanticEngine for Racer {
                      coords,
                      ..
                  }| {
-                    coords.map(|Coordinate { line, column: col }| Completion {
-                        position: CursorPosition { line, col },
+                    coords.map(|Coordinate { row, col }| Completion {
+                        position: CursorPosition {
+                            line: row.0 as usize,
+                            col: col.0 as usize,
+                        },
                         text: matchstr,
                         context: collapse_whitespace(&contextstr),
                         kind: format!("{:?}", mtype),
                         file_path: filepath.to_str().unwrap().to_string(),
                     })
                 },
-            ).collect::<Vec<_>>();
+            )
+            .collect::<Vec<_>>();
 
         if !completions.is_empty() {
             Ok(Some(completions))

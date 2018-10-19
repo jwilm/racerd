@@ -81,8 +81,8 @@ pub struct CursorPosition {
 impl Into<::racer::Location> for CursorPosition {
     fn into(self) -> ::racer::Location {
         ::racer::Location::Coords(::racer::Coordinate {
-            line: self.line,
-            column: self.col,
+            row: ::rls_span::Row::new_one_indexed(self.line as u32),
+            col: ::rls_span::Column::new_zero_indexed(self.col as u32),
         })
     }
 }

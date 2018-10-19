@@ -17,6 +17,7 @@ extern crate iron;       // http framework
 extern crate iron_hmac;
 extern crate logger;     // Iron logging middleware
 extern crate persistent; // Iron storage middleware
+extern crate rls_span;
 
 #[macro_use]
 extern crate log; // log macros
@@ -79,6 +80,7 @@ impl Config {
                 ::std::fs::remove_file(secret_file_path).unwrap();
 
                 buf
-            }).unwrap()
+            })
+            .unwrap()
     }
 }

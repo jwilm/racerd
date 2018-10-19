@@ -1,18 +1,18 @@
 extern crate docopt;
-extern crate libracerd;
 extern crate env_logger;
+extern crate libracerd;
 #[macro_use]
 extern crate serde_derive;
 
-use libracerd::{Config, engine, http};
 use libracerd::engine::SemanticEngine;
+use libracerd::{engine, http, Config};
 
 use std::convert::Into;
 
 use docopt::Docopt;
 
-const VERSION: &'static str = env!("CARGO_PKG_VERSION");
-const USAGE: &'static str = "
+const VERSION: &str = env!("CARGO_PKG_VERSION");
+const USAGE: &str = "
 racerd - a JSON/HTTP layer on top of racer
 
 Usage:
@@ -38,7 +38,7 @@ struct Args {
     flag_secret_file: Option<String>,
     flag_logging: bool,
     flag_rust_src_path: Option<String>,
-    cmd_serve: bool
+    cmd_serve: bool,
 }
 
 impl Into<Config> for Args {
@@ -48,7 +48,7 @@ impl Into<Config> for Args {
             secret_file: self.flag_secret_file,
             print_http_logs: self.flag_logging,
             rust_src_path: self.flag_rust_src_path,
-            addr: self.flag_addr
+            addr: self.flag_addr,
         }
     }
 }
@@ -59,8 +59,8 @@ fn main() {
 
     // Parse arguments
     let args: Args = Docopt::new(USAGE)
-                            .and_then(|d| d.deserialize())
-                            .unwrap_or_else(|e| e.exit());
+        .and_then(|d| d.deserialize())
+        .unwrap_or_else(|e| e.exit());
 
     // Print version and exit if --version was specified
     if args.flag_version {

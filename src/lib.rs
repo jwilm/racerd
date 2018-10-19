@@ -11,26 +11,26 @@ extern crate serde_json;
 extern crate serde_derive;
 
 #[macro_use]
-extern crate router;     // Iron routing handler
+extern crate router; // Iron routing handler
 extern crate bodyparser; // Iron body parsing middleware
-extern crate persistent; // Iron storage middleware
-extern crate logger;     // Iron logging middleware
 extern crate iron;       // http framework
 extern crate iron_hmac;
+extern crate logger;     // Iron logging middleware
+extern crate persistent; // Iron storage middleware
 
 #[macro_use]
-extern crate log;        // log macros
-extern crate racer;      // rust code analysis
+extern crate log; // log macros
+extern crate racer; // rust code analysis
 
 extern crate rand;
 extern crate regex;
 
-pub mod util;
-pub mod http;
 pub mod engine;
+pub mod http;
+pub mod util;
 
-use std::io::Read;
 use std::fs::File;
+use std::io::Read;
 
 /// Configuration flags and values
 ///
@@ -41,7 +41,7 @@ pub struct Config {
     pub addr: String,
     pub secret_file: Option<String>,
     pub print_http_logs: bool,
-    pub rust_src_path: Option<String>
+    pub rust_src_path: Option<String>,
 }
 
 impl Default for Config {
@@ -66,17 +66,19 @@ impl Config {
     ///
     /// panics if self.secret_file is None or an error is encountered while reading the file.
     pub fn read_secret_file(&self) -> Vec<u8> {
-        self.secret_file.as_ref().map(|secret_file_path| {
-            let buf = {
-                let mut f = File::open(secret_file_path).unwrap();
-                let mut buf = Vec::new();
-                f.read_to_end(&mut buf).unwrap();
+        self.secret_file
+            .as_ref()
+            .map(|secret_file_path| {
+                let buf = {
+                    let mut f = File::open(secret_file_path).unwrap();
+                    let mut buf = Vec::new();
+                    f.read_to_end(&mut buf).unwrap();
+                    buf
+                };
+
+                ::std::fs::remove_file(secret_file_path).unwrap();
+
                 buf
-            };
-
-            ::std::fs::remove_file(secret_file_path).unwrap();
-
-            buf
-        }).unwrap()
+            }).unwrap()
     }
 }

@@ -1,11 +1,11 @@
+use iron::mime::Mime;
 use iron::prelude::*;
 use iron::status;
-use iron::mime::Mime;
 
 use serde_json::to_string;
 
-use engine::{Definition, Context, CursorPosition, Buffer};
 use super::EngineProvider;
+use engine::{Buffer, Context, CursorPosition, Definition};
 
 /// Given a location, return where the identifier is defined
 ///
@@ -16,21 +16,20 @@ use super::EngineProvider;
 /// - `400 Bad Request` the request payload was malformed
 /// - `500 Internal Server Error` some unexpected error occurred
 pub fn find(req: &mut Request) -> IronResult<Response> {
-
     // Parse the request. If the request doesn't parse properly, the request is invalid, and a 400
     // BadRequest is returned.
     let fdr = match req.get::<::bodyparser::Struct<FindDefinitionRequest>>() {
         Ok(Some(s)) => {
             trace!("definition::find parsed FindDefinitionRequest");
             s
-        },
+        }
         Ok(None) => {
             trace!("definition::find failed parsing FindDefinitionRequest");
-            return Ok(Response::with(status::BadRequest))
-        },
+            return Ok(Response::with(status::BadRequest));
+        }
         Err(err) => {
             trace!("definition::find received error while parsing FindDefinitionRequest");
-            return Err(IronError::new(err, status::InternalServerError))
+            return Err(IronError::new(err, status::InternalServerError));
         }
     };
 
@@ -42,14 +41,18 @@ pub fn find(req: &mut Request) -> IronResult<Response> {
             trace!("definition::find got a match");
             let res = FindDefinitionResponse::from(definition);
             let content_type = "application/json".parse::<Mime>().unwrap();
-            Ok(Response::with((content_type, status::Ok, to_string(&res).unwrap())))
-        },
+            Ok(Response::with((
+                content_type,
+                status::Ok,
+                to_string(&res).unwrap(),
+            )))
+        }
 
         // 204 No Content; Everything went ok, but the definition was not found.
         Ok(None) => {
             trace!("definition::find did not find a match");
             Ok(Response::with(status::NoContent))
-        },
+        }
 
         // 500 Internal Server Error; Error occurred while searching for the definition
         Err(err) => {
@@ -83,7 +86,10 @@ struct FindDefinitionRequest {
 
 impl FindDefinitionRequest {
     pub fn context(self) -> Context {
-        let cursor = CursorPosition { line: self.line, col: self.column };
+        let cursor = CursorPosition {
+            line: self.line,
+            col: self.column,
+        };
         Context::new(self.buffers, cursor, self.file_path)
     }
 }
@@ -114,5 +120,5 @@ struct FindDefinitionResponse {
     pub text: String,
     pub context: String,
     pub kind: String,
-    pub docs: String
+    pub docs: String,
 }

@@ -4,10 +4,10 @@ use std::path::Path;
 mod error;
 pub use self::error::{Error, Result};
 
-use ::Config;
+use Config;
 
 /// Provide completions, definitions, and analysis of rust source code
-pub trait SemanticEngine : Send + Sync {
+pub trait SemanticEngine: Send + Sync {
     /// Perform any necessary initialization.
     ///
     /// Only needs to be called once when an engine is created.
@@ -53,16 +53,18 @@ pub struct Context {
 }
 
 impl Context {
-    pub fn new<T>(buffers: Vec<Buffer>, position: CursorPosition,
-                  file_path: T) -> Context where T: Into<String> {
+    pub fn new<T>(buffers: Vec<Buffer>, position: CursorPosition, file_path: T) -> Context
+    where
+        T: Into<String>,
+    {
         Context {
-            buffers: buffers,
+            buffers,
             query_cursor: position,
             query_file: file_path.into(),
         }
     }
 
-    pub fn query_path<'a>(&'a self) -> &'a Path {
+    pub fn query_path(&self) -> &Path {
         &Path::new(&self.query_file[..])
     }
 }
@@ -95,7 +97,7 @@ pub struct Buffer {
 }
 
 impl Buffer {
-    pub fn path<'a>(&'a self) -> &'a Path {
+    pub fn path(&self) -> &Path {
         &Path::new(&self.file_path[..])
     }
 }

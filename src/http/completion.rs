@@ -1,11 +1,11 @@
+use iron::mime::Mime;
 use iron::prelude::*;
 use iron::status;
-use iron::mime::Mime;
 
 use serde_json::to_string;
 
-use engine::{Completion, Context, CursorPosition, Buffer};
 use super::EngineProvider;
+use engine::{Buffer, Completion, Context, CursorPosition};
 
 /// Given a location, return a list of possible completions
 pub fn list(req: &mut Request) -> IronResult<Response> {
@@ -13,14 +13,14 @@ pub fn list(req: &mut Request) -> IronResult<Response> {
         Ok(Some(s)) => {
             trace!("parsed ListCompletionsRequest");
             s
-        },
+        }
         Ok(None) => {
             trace!("failed parsing ListCompletionsRequest");
-            return Ok(Response::with(status::BadRequest))
-        },
+            return Ok(Response::with(status::BadRequest));
+        }
         Err(err) => {
             trace!("error while parsing ListCompletionsRequest");
-            return Err(IronError::new(err, status::InternalServerError))
+            return Err(IronError::new(err, status::InternalServerError));
         }
     };
 
@@ -30,16 +30,23 @@ pub fn list(req: &mut Request) -> IronResult<Response> {
         // 200 OK; found the definition
         Ok(Some(completions)) => {
             trace!("got a match");
-            let res = completions.into_iter().map(|c| CompletionResponse::from(c)).collect::<Vec<_>>();
+            let res = completions
+                .into_iter()
+                .map(CompletionResponse::from)
+                .collect::<Vec<_>>();
             let content_type = "application/json".parse::<Mime>().unwrap();
-            Ok(Response::with((content_type, status::Ok, to_string(&res).unwrap())))
-        },
+            Ok(Response::with((
+                content_type,
+                status::Ok,
+                to_string(&res).unwrap(),
+            )))
+        }
 
         // 204 No Content; Everything went ok, but the definition was not found.
         Ok(None) => {
             trace!("did not find any match");
             Ok(Response::with(status::NoContent))
-        },
+        }
 
         // 500 Internal Server Error; Error occurred while searching for the definition
         Err(err) => {
@@ -59,7 +66,10 @@ struct ListCompletionsRequest {
 
 impl ListCompletionsRequest {
     pub fn context(self) -> Context {
-        let cursor = CursorPosition { line: self.line, col: self.column };
+        let cursor = CursorPosition {
+            line: self.line,
+            col: self.column,
+        };
         Context::new(self.buffers, cursor, self.file_path)
     }
 }
@@ -71,18 +81,18 @@ struct CompletionResponse {
     kind: String,
     file_path: String,
     line: usize,
-    column: usize
+    column: usize,
 }
 
 impl From<Completion> for CompletionResponse {
     fn from(c: Completion) -> CompletionResponse {
-         CompletionResponse {
+        CompletionResponse {
             text: c.text,
             context: c.context,
             kind: c.kind,
             file_path: c.file_path,
             line: c.position.line,
-            column: c.position.col
-         }
+            column: c.position.col,
+        }
     }
 }

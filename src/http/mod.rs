@@ -2,14 +2,14 @@
 
 use iron::prelude::*;
 
-use ::Config;
+use Config;
 
+mod completion;
 mod definition;
 mod file;
-mod completion;
 mod ping;
 
-use ::engine::SemanticEngine;
+use engine::SemanticEngine;
 
 use iron::typemap::Key;
 use iron_hmac::Hmac256Authentication;
@@ -60,10 +60,13 @@ impl Key for EngineProvider {
 /// server.close().unwrap();
 /// ```
 ///
-pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine: E) -> Result<Server> {
-    use persistent::{Read, Write};
-    use logger::Logger;
+pub fn serve<E: SemanticEngine + Send + Sync + 'static>(
+    config: &Config,
+    engine: E,
+) -> Result<Server> {
     use logger::Format;
+    use logger::Logger;
+    use persistent::{Read, Write};
 
     let mut chain = Chain::new(router!(
         parse: post "/parse_file"       => file::parse,
@@ -92,7 +95,8 @@ pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine:
 
     // This middleware provides a semantic engine to the request handlers
     // where Box<E>: PersistentInto<Arc<Mutex<Box<SemanticEngine + Sync + Send + 'static>>>>
-    let x: Arc<Mutex<Box<SemanticEngine + Sync + Send + 'static>>> = Arc::new(Mutex::new(Box::new(engine)));
+    let x: Arc<Mutex<Box<SemanticEngine + Sync + Send + 'static>>> =
+        Arc::new(Mutex::new(Box::new(engine)));
     chain.link_before(Write::<EngineProvider>::one(x));
 
     // Body parser middlerware
@@ -107,7 +111,6 @@ pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine:
         chain.link_after(hmac);
     }
 
-
     // log_after must be last middleware in after chain
     if config.print_http_logs {
         chain.link_after(log_after);
@@ -116,7 +119,7 @@ pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine:
     let app = Iron::new(chain);
 
     Ok(Server {
-        inner: try!(app.http((&config.addr[..], config.port)))
+        inner: try!(app.http((&config.addr[..], config.port))),
     })
 }
 
@@ -131,7 +134,7 @@ pub struct Server {
 impl Server {
     /// Stop accepting connections
     pub fn close(&mut self) -> Result<()> {
-        Ok(try!(self.inner.close()))
+        self.inner.close().map_err(|e| e.into())
     }
 
     /// Get listening address of server (eg. "127.0.0.1:59369")

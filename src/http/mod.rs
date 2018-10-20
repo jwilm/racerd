@@ -2,14 +2,14 @@
 
 use iron::prelude::*;
 
-use Config;
+use crate::Config;
 
 mod completion;
 mod definition;
 mod file;
 mod ping;
 
-use engine::SemanticEngine;
+use crate::engine::SemanticEngine;
 
 use iron::typemap::Key;
 use iron_hmac::Hmac256Authentication;
@@ -20,16 +20,16 @@ use std::sync::{Arc, Mutex};
 #[derive(Debug)]
 pub enum Error {
     /// Error occurred in underlying http server lib
-    HttpServer(::iron::error::HttpError),
+    HttpServer(iron::error::HttpError),
 }
 
-impl From<::iron::error::HttpError> for Error {
-    fn from(err: ::iron::error::HttpError) -> Error {
+impl From<iron::error::HttpError> for Error {
+    fn from(err: iron::error::HttpError) -> Error {
         Error::HttpServer(err)
     }
 }
 
-pub type Result<T> = ::std::result::Result<T, Error>;
+pub type Result<T> = std::result::Result<T, Error>;
 
 // -------------------------------------------------------------------------------------------------
 /// Iron middleware responsible for attaching a semantic engine to each request
@@ -53,9 +53,9 @@ impl Key for EngineProvider {
 /// let mut cfg = Config::new();
 /// cfg.port = 3000;
 ///
-/// let engine = ::libracerd::engine::Racer::new();
+/// let engine = libracerd::engine::Racer::new();
 ///
-/// let mut server = ::libracerd::http::serve(&cfg, engine).unwrap();
+/// let mut server = libracerd::http::serve(&cfg, engine).unwrap();
 /// // ... later
 /// server.close().unwrap();
 /// ```
@@ -119,7 +119,7 @@ pub fn serve<E: SemanticEngine + Send + Sync + 'static>(
     let app = Iron::new(chain);
 
     Ok(Server {
-        inner: try!(app.http((&config.addr[..], config.port))),
+        inner: app.http((&config.addr[..], config.port))?,
     })
 }
 
@@ -128,7 +128,7 @@ pub fn serve<E: SemanticEngine + Send + Sync + 'static>(
 /// This type can only be created via the [`serve`](fn.serve.html) function.
 #[derive(Debug)]
 pub struct Server {
-    inner: ::iron::Listening,
+    inner: iron::Listening,
 }
 
 impl Server {

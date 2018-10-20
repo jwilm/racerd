@@ -4,7 +4,7 @@ use std::path::Path;
 mod error;
 pub use self::error::{Error, Result};
 
-use Config;
+use crate::Config;
 
 /// Provide completions, definitions, and analysis of rust source code
 pub trait SemanticEngine: Send + Sync {
@@ -78,17 +78,17 @@ pub struct CursorPosition {
     pub col: usize,
 }
 
-impl Into<::racer::Location> for CursorPosition {
-    fn into(self) -> ::racer::Location {
-        ::racer::Location::Coords(::racer::Coordinate {
-            row: ::rls_span::Row::new_one_indexed(self.line as u32),
-            col: ::rls_span::Column::new_zero_indexed(self.col as u32),
+impl Into<racer::Location> for CursorPosition {
+    fn into(self) -> racer::Location {
+        racer::Location::Coords(racer::Coordinate {
+            row: rls_span::Row::new_one_indexed(self.line as u32),
+            col: rls_span::Column::new_zero_indexed(self.col as u32),
         })
     }
 }
 
-pub mod racer;
-pub use self::racer::Racer;
+pub mod my_racer;
+pub use self::my_racer::Racer;
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct Buffer {

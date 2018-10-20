@@ -42,4 +42,4 @@ impl From<io::Error> for Error {
 }
 
 /// Result type for semantic engine module
-pub type Result<T> = ::std::result::Result<T, Error>;
+pub type Result<T> = std::result::Result<T, Error>;

@@ -104,20 +104,20 @@ pub fn request_str(
                 .header(header::ContentType::json())
                 .body(inner);
 
-            try!(builder.send())
+            builder.send()?
         }
         None => {
             let builder = client
                 .request(method, url)
                 .header(header::Connection::close());
 
-            try!(builder.send())
+            builder.send()?
         }
     };
 
     Ok(match res.status.class() {
         StatusClass::Success => {
-            try!(res.read_to_string(&mut body));
+            res.read_to_string(&mut body)?;
             Some(body)
         }
         _ => None,

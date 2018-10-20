@@ -1,6 +1,6 @@
 //! SemanticEngine implementation for [the racer library](https://github.com/phildawes/racer)
 //!
-use engine::{Completion, Context, CursorPosition, Definition, SemanticEngine};
+use crate::engine::{Completion, Context, CursorPosition, Definition, SemanticEngine};
 
 use racer::{self, Coordinate, FileCache, Match, Session};
 
@@ -27,12 +27,12 @@ unsafe impl Sync for Racer {}
 unsafe impl Send for Racer {}
 
 use super::Result;
-use Config;
+use crate::Config;
 
 impl SemanticEngine for Racer {
     fn initialize(&self, config: &Config) -> Result<()> {
         if let Some(ref src_path) = config.rust_src_path {
-            ::std::env::set_var("RUST_SRC_PATH", src_path);
+            std::env::set_var("RUST_SRC_PATH", src_path);
         }
 
         Ok(())
@@ -121,9 +121,9 @@ pub fn collapse_whitespace(text: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use engine::{Buffer, Context, CursorPosition, SemanticEngine};
+    use crate::engine::{Buffer, Context, CursorPosition, SemanticEngine};
 
-    use util::fs::TmpFile;
+    use crate::util::fs::TmpFile;
 
     #[test]
     #[allow(unused_variables)]

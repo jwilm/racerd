@@ -5,7 +5,7 @@ use iron::status;
 use serde_json::to_string;
 
 use super::EngineProvider;
-use engine::{Buffer, Context, CursorPosition, Definition};
+use crate::engine::{Buffer, Context, CursorPosition, Definition};
 
 /// Given a location, return where the identifier is defined
 ///
@@ -106,7 +106,7 @@ fn find_definition_request_from_json() {
         "column": 3
     });
 
-    let req: FindDefinitionRequest = ::serde_json::from_str(s).unwrap();
+    let req: FindDefinitionRequest = serde_json::from_str(s).unwrap();
     assert_eq!(req.file_path, "src.rs");
     assert_eq!(req.line, 4);
     assert_eq!(req.column, 3);

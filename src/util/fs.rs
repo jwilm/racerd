@@ -52,7 +52,7 @@ impl TmpFile {
         let mut p = "tmpfile.".to_string();
         p.push_str(&s[..]);
         // Add some random chars
-        for c in ::rand::thread_rng().sample_iter(&Alphanumeric).take(5) {
+        for c in rand::thread_rng().sample_iter(&Alphanumeric).take(5) {
             p.push(c);
         }
         PathBuf::from(p)
@@ -74,7 +74,7 @@ impl Drop for TmpFile {
 #[allow(unused_variables)]
 fn tmp_file_works() {
     fn exists(p: &Path) -> bool {
-        match ::std::fs::metadata(p) {
+        match std::fs::metadata(p) {
             Ok(_) => true,
             Err(_) => false,
         }

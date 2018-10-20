@@ -55,7 +55,7 @@ impl Into<Config> for Args {
 
 fn main() {
     // Start logging
-    ::env_logger::init();
+    env_logger::init();
 
     // Parse arguments
     let args: Args = Docopt::new(USAGE)
@@ -65,7 +65,7 @@ fn main() {
     // Print version and exit if --version was specified
     if args.flag_version {
         println!("racerd version {}", VERSION);
-        ::std::process::exit(0);
+        std::process::exit(0);
     }
 
     // build config object

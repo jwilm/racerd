@@ -77,7 +77,7 @@ impl Config {
                     buf
                 };
 
-                ::std::fs::remove_file(secret_file_path).unwrap();
+                std::fs::remove_file(secret_file_path).unwrap();
 
                 buf
             })

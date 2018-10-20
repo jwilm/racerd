@@ -47,7 +47,7 @@ mod http {
 
     header! { (XRacerdHmac, "x-racerd-hmac") => [String] }
 
-    use util::http::{self, request_str, UrlBuilder};
+    use crate::util::http::{self, request_str, UrlBuilder};
 
     use libracerd::util::fs::TmpFile;
     use rustc_serialize::json::Json;
@@ -251,7 +251,7 @@ mod http {
 
         http::with_hmac_server(secret, |server| {
             // The request hmac in this case should be
-            let hmac = ::util::request_hmac(secret, "GET", "/ping", "");
+            let hmac = crate::util::request_hmac(secret, "GET", "/ping", "");
 
             let url = server.url("/ping");
 
@@ -285,7 +285,7 @@ mod http {
 
         http::with_hmac_server(secret, |server| {
             // The request hmac in this case should be
-            let hmac = ::util::request_hmac("different secret", "GET", "/ping", "");
+            let hmac = crate::util::request_hmac("different secret", "GET", "/ping", "");
 
             let url = server.url("/ping");
 

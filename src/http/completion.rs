@@ -5,7 +5,7 @@ use iron::status;
 use serde_json::to_string;
 
 use super::EngineProvider;
-use engine::{Buffer, Completion, Context, CursorPosition};
+use crate::engine::{Buffer, Completion, Context, CursorPosition};
 
 /// Given a location, return a list of possible completions
 pub fn list(req: &mut Request) -> IronResult<Response> {

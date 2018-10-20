@@ -25,7 +25,7 @@ env:
 matrix:
   allow_failures:
     - env: RUST_DISTRIBUTION=beta
-    - env: RUST_DISTRIBUTION=nightly
+    - env: RUST_DISTRIBUTION=stable
 
 script:
   - cargo test --verbose

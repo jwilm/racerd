@@ -1,9 +1,9 @@
-use std::ops::Deref;
 use std::fs::File;
-use std::io::{Write, Read};
+use std::io::{Read, Write};
+use std::ops::Deref;
 
-use libracerd::Config;
 use libracerd::engine::{Racer, SemanticEngine};
+use libracerd::Config;
 
 use hyper::method::Method;
 
@@ -11,7 +11,7 @@ use hyper::method::Method;
 ///
 /// TestServer automatically closes the underlying server when going out of scope.
 pub struct TestServer {
-    inner: ::libracerd::http::Server
+    inner: ::libracerd::http::Server,
 }
 
 impl TestServer {
@@ -20,13 +20,13 @@ impl TestServer {
         let config = Config {
             secret_file: secret_file,
             print_http_logs: true,
-            .. Default::default()
+            ..Default::default()
         };
 
         engine.initialize(&config).unwrap();
 
         TestServer {
-            inner: ::libracerd::http::serve(&config, engine).unwrap()
+            inner: ::libracerd::http::serve(&config, engine).unwrap(),
         }
     }
 }
@@ -55,18 +55,23 @@ impl UrlBuilder for TestServer {
     }
 }
 
-pub fn with_server<F>(mut func: F) where F: FnMut(&TestServer) -> () {
+pub fn with_server<F>(mut func: F)
+where
+    F: FnMut(&TestServer) -> (),
+{
     func(&TestServer::new(None));
 }
 
-pub fn with_hmac_server<F>(secret: &str, mut func: F) where F: FnMut(&TestServer) -> () {
+pub fn with_hmac_server<F>(secret: &str, mut func: F)
+where
+    F: FnMut(&TestServer) -> (),
+{
     // Make a temp file unique to this test
     let thread = ::std::thread::current();
     let taskname = thread.name().unwrap();
     let s = taskname.replace("::", "_");
     let mut p = "secretfile.".to_string();
     p.push_str(&s[..]);
-
 
     {
         let mut f = File::create(&p[..]).unwrap();
@@ -77,12 +82,14 @@ pub fn with_hmac_server<F>(secret: &str, mut func: F) where F: FnMut(&TestServer
     func(&TestServer::new(Some(p)));
 }
 
-
-pub fn request_str(method: Method, url: &str, data: Option<&str>)
--> ::hyper::Result<Option<String>> {
-    use ::hyper::header;
-    use ::hyper::status::StatusClass;
-    use ::hyper::Client;
+pub fn request_str(
+    method: Method,
+    url: &str,
+    data: Option<&str>,
+) -> ::hyper::Result<Option<String>> {
+    use hyper::header;
+    use hyper::status::StatusClass;
+    use hyper::Client;
 
     let mut body = String::new();
 
@@ -91,27 +98,29 @@ pub fn request_str(method: Method, url: &str, data: Option<&str>)
 
     let mut res = match data {
         Some(inner) => {
-            let builder = client.request(method, url)
-                                .header(header::Connection::close())
-                                .header(header::ContentType::json())
-                                .body(inner);
+            let builder = client
+                .request(method, url)
+                .header(header::Connection::close())
+                .header(header::ContentType::json())
+                .body(inner);
 
-            try!(builder.send())
-        },
+            builder.send()?
+        }
         None => {
-            let builder = client.request(method, url)
-                                .header(header::Connection::close());
+            let builder = client
+                .request(method, url)
+                .header(header::Connection::close());
 
-            try!(builder.send())
+            builder.send()?
         }
     };
 
     Ok(match res.status.class() {
         StatusClass::Success => {
-            try!(res.read_to_string(&mut body));
+            res.read_to_string(&mut body)?;
             Some(body)
-        },
-        _ => None
+        }
+        _ => None,
     })
 }
 

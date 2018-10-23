@@ -4,6 +4,8 @@ install:
   - rustup-init.exe -y
   - set PATH=%USERPROFILE%\.cargo\bin;%PATH%
   - rustup update
+  - rustup install nightly
+  - rustup default nightly
   - rustc -Vv
   - cargo -V
   # Download Rust sources.

@@ -29,9 +29,7 @@ impl error::Error for Error {
 impl fmt::Display for Error {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            Error::IoError(ref e) => {
-                write!(fmt, "io::Error({})", e)
-            }
+            Error::IoError(ref e) => write!(fmt, "io::Error({})", e),
             Error::Racer => write!(fmt, "Internal racer error"),
         }
     }
@@ -44,4 +42,4 @@ impl From<io::Error> for Error {
 }
 
 /// Result type for semantic engine module
-pub type Result<T> = ::std::result::Result<T, Error>;
+pub type Result<T> = std::result::Result<T, Error>;

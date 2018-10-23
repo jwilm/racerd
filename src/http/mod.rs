@@ -2,14 +2,14 @@
 
 use iron::prelude::*;
 
-use ::Config;
+use crate::Config;
 
+mod completion;
 mod definition;
 mod file;
-mod completion;
 mod ping;
 
-use ::engine::SemanticEngine;
+use crate::engine::SemanticEngine;
 
 use iron::typemap::Key;
 use iron_hmac::Hmac256Authentication;
@@ -20,16 +20,16 @@ use std::sync::{Arc, Mutex};
 #[derive(Debug)]
 pub enum Error {
     /// Error occurred in underlying http server lib
-    HttpServer(::iron::error::HttpError),
+    HttpServer(iron::error::HttpError),
 }
 
-impl From<::iron::error::HttpError> for Error {
-    fn from(err: ::iron::error::HttpError) -> Error {
+impl From<iron::error::HttpError> for Error {
+    fn from(err: iron::error::HttpError) -> Error {
         Error::HttpServer(err)
     }
 }
 
-pub type Result<T> = ::std::result::Result<T, Error>;
+pub type Result<T> = std::result::Result<T, Error>;
 
 // -------------------------------------------------------------------------------------------------
 /// Iron middleware responsible for attaching a semantic engine to each request
@@ -53,27 +53,29 @@ impl Key for EngineProvider {
 /// let mut cfg = Config::new();
 /// cfg.port = 3000;
 ///
-/// let engine = ::libracerd::engine::Racer::new();
+/// let engine = libracerd::engine::Racer::new();
 ///
-/// let mut server = ::libracerd::http::serve(&cfg, engine).unwrap();
+/// let mut server = libracerd::http::serve(&cfg, engine).unwrap();
 /// // ... later
 /// server.close().unwrap();
 /// ```
 ///
-pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine: E) -> Result<Server> {
-    use persistent::{Read, Write};
+pub fn serve<E: SemanticEngine + Send + Sync + 'static>(
+    config: &Config,
+    engine: E,
+) -> Result<Server> {
+    use logger::Format;
     use logger::Logger;
-    use logger::format::Format;
+    use persistent::{Read, Write};
 
     let mut chain = Chain::new(router!(
-        post "/parse_file"       => file::parse,
-        post "/find_definition"  => definition::find,
-        post "/list_completions" => completion::list,
-        get  "/ping"             => ping::pong));
+        parse: post "/parse_file"       => file::parse,
+        find: post "/find_definition"  => definition::find,
+        list: post "/list_completions" => completion::list,
+        ping: get  "/ping"             => ping::pong));
 
     // Logging middleware
-    let log_fmt = Format::new("{method} {uri} -> {status} ({response-time})",
-                              Vec::new(), Vec::new());
+    let log_fmt = Format::new("{method} {uri} -> {status} ({response-time})");
     let (log_before, log_after) = Logger::new(log_fmt);
 
     // log_before must be first middleware in before chain
@@ -93,7 +95,8 @@ pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine:
 
     // This middleware provides a semantic engine to the request handlers
     // where Box<E>: PersistentInto<Arc<Mutex<Box<SemanticEngine + Sync + Send + 'static>>>>
-    let x: Arc<Mutex<Box<SemanticEngine + Sync + Send + 'static>>> = Arc::new(Mutex::new(Box::new(engine)));
+    let x: Arc<Mutex<Box<SemanticEngine + Sync + Send + 'static>>> =
+        Arc::new(Mutex::new(Box::new(engine)));
     chain.link_before(Write::<EngineProvider>::one(x));
 
     // Body parser middlerware
@@ -108,7 +111,6 @@ pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine:
         chain.link_after(hmac);
     }
 
-
     // log_after must be last middleware in after chain
     if config.print_http_logs {
         chain.link_after(log_after);
@@ -117,7 +119,7 @@ pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine:
     let app = Iron::new(chain);
 
     Ok(Server {
-        inner: try!(app.http((&config.addr[..], config.port)))
+        inner: app.http((&config.addr[..], config.port))?,
     })
 }
 
@@ -126,13 +128,13 @@ pub fn serve<E: SemanticEngine + Send + Sync + 'static>(config: &Config, engine:
 /// This type can only be created via the [`serve`](fn.serve.html) function.
 #[derive(Debug)]
 pub struct Server {
-    inner: ::iron::Listening,
+    inner: iron::Listening,
 }
 
 impl Server {
     /// Stop accepting connections
     pub fn close(&mut self) -> Result<()> {
-        Ok(try!(self.inner.close()))
+        self.inner.close().map_err(|e| e.into())
     }
 
     /// Get listening address of server (eg. "127.0.0.1:59369")

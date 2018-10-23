@@ -2,7 +2,6 @@
 
 extern crate libracerd;
 extern crate rustc_serialize;
-extern crate env_logger;
 
 #[macro_use]
 extern crate hyper;
@@ -16,25 +15,23 @@ mod util;
 const _RUST_SRC_PATH: &'static str = env!("RUST_SRC_PATH");
 
 macro_rules! init_logging {
-    () => {
-        let _ = ::env_logger::init();
-    }
+    () => {};
 }
 
 #[test]
 #[should_panic]
 #[cfg(not(windows))]
 fn panics_when_invalid_secret_given() {
-    use ::libracerd::engine::{Racer, SemanticEngine};
-    use ::libracerd::http::serve;
-    use ::libracerd::Config;
+    use libracerd::engine::{Racer, SemanticEngine};
+    use libracerd::http::serve;
+    use libracerd::Config;
 
     init_logging!();
 
     let config = Config {
         secret_file: Some("a.file.that.does.not.exist".to_owned()),
         print_http_logs: true,
-        .. Default::default()
+        ..Default::default()
     };
 
     let engine = Racer::new();
@@ -50,10 +47,10 @@ mod http {
 
     header! { (XRacerdHmac, "x-racerd-hmac") => [String] }
 
-    use util::http::{self, UrlBuilder, request_str};
+    use crate::util::http::{self, request_str, UrlBuilder};
 
-    use rustc_serialize::json::{Json};
     use libracerd::util::fs::TmpFile;
+    use rustc_serialize::json::Json;
 
     use hyper::method::Method;
 
@@ -75,7 +72,9 @@ mod http {
             });
 
             // Make request
-            let res = request_str(Method::Post, &url[..], Some(request_obj)).unwrap().unwrap();
+            let res = request_str(Method::Post, &url[..], Some(request_obj))
+                .unwrap()
+                .unwrap();
 
             // Build actual/expected objects
             let actual = Json::from_str(&res[..]).unwrap();
@@ -87,7 +86,8 @@ mod http {
                 "context": "fn foo()",
                 "kind": "Function",
                 "docs": ""
-            })).unwrap();
+            }))
+            .unwrap();
 
             // They should be equal
             assert_eq!(actual, expected);
@@ -121,7 +121,9 @@ mod http {
         http::with_server(|server| {
             // Make request
             let url = server.url("/find_definition");
-            let res = request_str(Method::Post, &url[..], Some(request_obj)).unwrap().unwrap();
+            let res = request_str(Method::Post, &url[..], Some(request_obj))
+                .unwrap()
+                .unwrap();
 
             // Build actual/expected objects
             let actual = Json::from_str(&res[..]).unwrap();
@@ -133,7 +135,8 @@ mod http {
                 "context": "pub fn myfn() pub fn foo()",
                 "kind": "Function",
                 "docs": ""
-            })).unwrap();
+            }))
+            .unwrap();
 
             // They should be equal
             assert_eq!(actual, expected);
@@ -143,9 +146,15 @@ mod http {
     macro_rules! assert_str_prop_on_obj_in_list {
         ($prop:expr, $val:expr, $list:expr) => {
             assert!($list.as_array().unwrap().iter().any(|c| {
-                $val == c.as_object().unwrap().get($prop).unwrap().as_string().unwrap()
+                $val == c
+                    .as_object()
+                    .unwrap()
+                    .get($prop)
+                    .unwrap()
+                    .as_string()
+                    .unwrap()
             }));
-        }
+        };
     }
 
     #[test]
@@ -165,7 +174,9 @@ mod http {
         http::with_server(|server| {
             // Make request
             let url = server.url("/find_definition");
-            let res = request_str(Method::Post, &url[..], Some(request_obj)).unwrap().unwrap();
+            let res = request_str(Method::Post, &url[..], Some(request_obj))
+                .unwrap()
+                .unwrap();
 
             // Build actual/expected objects
             let actual = Json::from_str(&res[..]).expect("response is json");
@@ -202,7 +213,9 @@ mod http {
         http::with_server(|server| {
             // Make request
             let url = server.url("/list_completions");
-            let res = request_str(Method::Post, &url[..], Some(request_obj)).unwrap().unwrap();
+            let res = request_str(Method::Post, &url[..], Some(request_obj))
+                .unwrap()
+                .unwrap();
 
             let list = Json::from_str(&res[..]).unwrap();
 
@@ -224,7 +237,8 @@ mod http {
 
             let expected = Json::from_str(stringify!({
                 "pong": true
-            })).unwrap();
+            }))
+            .unwrap();
 
             assert_eq!(actual, expected);
         });
@@ -237,15 +251,17 @@ mod http {
 
         http::with_hmac_server(secret, |server| {
             // The request hmac in this case should be
-            let hmac = ::util::request_hmac(secret, "GET", "/ping", "");
+            let hmac = crate::util::request_hmac(secret, "GET", "/ping", "");
 
             let url = server.url("/ping");
 
             let client = Client::new();
-            let mut res = client.get(&url[..])
-                                .header(XRacerdHmac(hmac))
-                                .header(ContentType::json())
-                                .send().unwrap();
+            let mut res = client
+                .get(&url[..])
+                .header(XRacerdHmac(hmac))
+                .header(ContentType::json())
+                .send()
+                .unwrap();
 
             assert_eq!(res.status, ::hyper::status::StatusCode::Ok);
 
@@ -255,7 +271,8 @@ mod http {
             let actual = Json::from_str(&body[..]).unwrap();
             let expected = Json::from_str(stringify!({
                 "pong": true
-            })).unwrap();
+            }))
+            .unwrap();
 
             assert_eq!(actual, expected);
         });
@@ -268,15 +285,17 @@ mod http {
 
         http::with_hmac_server(secret, |server| {
             // The request hmac in this case should be
-            let hmac = ::util::request_hmac("different secret", "GET", "/ping", "");
+            let hmac = crate::util::request_hmac("different secret", "GET", "/ping", "");
 
             let url = server.url("/ping");
 
             let client = Client::new();
-            let res = client.get(&url[..])
-                            .header(XRacerdHmac(hmac))
-                            .header(ContentType::json())
-                            .send().unwrap();
+            let res = client
+                .get(&url[..])
+                .header(XRacerdHmac(hmac))
+                .header(ContentType::json())
+                .send()
+                .unwrap();
 
             assert_eq!(res.status, ::hyper::status::StatusCode::Forbidden);
         });

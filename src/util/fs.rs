@@ -1,8 +1,9 @@
 //! fs utilities (eg. TmpFile)
-use std::io::Write;
-use std::fs::{self, File};
-use std::path::{Path, PathBuf};
+use rand::distributions::Alphanumeric;
 use std::convert::From;
+use std::fs::{self, File};
+use std::io::Write;
+use std::path::{Path, PathBuf};
 use std::thread;
 
 /// A temporary file that is removed on drop
@@ -11,14 +12,14 @@ use std::thread;
 /// current task. The with_name constructor allows you to choose a name. Neither forms are secure,
 /// and both are subject to race conditions.
 pub struct TmpFile {
-    path_buf: PathBuf
+    path_buf: PathBuf,
 }
 
 impl TmpFile {
     /// Create a temp file with random name and `contents`.
     pub fn new(contents: &str) -> TmpFile {
         let tmp = TmpFile {
-            path_buf: TmpFile::mktemp()
+            path_buf: TmpFile::mktemp(),
         };
 
         tmp.write_contents(contents);
@@ -28,7 +29,7 @@ impl TmpFile {
     /// Create a file with `name` and `contents`.
     pub fn with_name(name: &str, contents: &str) -> TmpFile {
         let tmp = TmpFile {
-            path_buf: PathBuf::from(name)
+            path_buf: PathBuf::from(name),
         };
 
         tmp.write_contents(contents);
@@ -51,14 +52,14 @@ impl TmpFile {
         let mut p = "tmpfile.".to_string();
         p.push_str(&s[..]);
         // Add some random chars
-        for c in ::rand::thread_rng().gen_ascii_chars().take(5) {
+        for c in rand::thread_rng().sample_iter(&Alphanumeric).take(5) {
             p.push(c);
         }
         PathBuf::from(p)
     }
 
     /// Get the Path of the TmpFile
-    pub fn path<'a>(&'a self) -> &'a Path {
+    pub fn path(&self) -> &Path {
         self.path_buf.as_path()
     }
 }
@@ -69,20 +70,19 @@ impl Drop for TmpFile {
     }
 }
 
-
 #[test]
 #[allow(unused_variables)]
 fn tmp_file_works() {
     fn exists(p: &Path) -> bool {
-        match ::std::fs::metadata(p) {
+        match std::fs::metadata(p) {
             Ok(_) => true,
-            Err(_) => false
+            Err(_) => false,
         }
     }
 
-    use std::fs::{File};
-    use std::path::Path;
+    use std::fs::File;
     use std::io::Read;
+    use std::path::Path;
 
     let path_str = "test.txt";
     let path = &Path::new(path_str);

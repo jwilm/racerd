@@ -8,7 +8,7 @@ bodyparser = "0.8"
 docopt = "1"
 env_logger = "0.5"
 iron = { version = "0.6", default-features = false }
-iron-hmac = { git = "https://github.com/juchiast/iron-hmac", rev = "eea805c", features = ["hmac-rust-crypto"] }
+iron-hmac = { version = "0.6", features = ["hmac-rust-crypto"] }
 log = "0.4"
 logger = "0.4"
 persistent = "0.4"

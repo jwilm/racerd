@@ -19,7 +19,7 @@ router = "0.6.0"
 serde = "1"
 serde_json = "1"
 serde_derive = "1"
-rls-span = "0.4"
+rls-span = "0.5"
 
 [dev-dependencies]
 rust-crypto = "0.2.36"

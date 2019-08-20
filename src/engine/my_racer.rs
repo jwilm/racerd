@@ -44,7 +44,7 @@ impl SemanticEngine for Racer {
             Err(poisoned) => poisoned.into_inner(),
         };
 
-        let session = Session::new(&cache);
+        let session = Session::new(&cache, None);
         for buffer in &ctx.buffers {
             session.cache_file_contents(buffer.path(), &*buffer.contents)
         }
@@ -74,7 +74,7 @@ impl SemanticEngine for Racer {
             Err(poisoned) => poisoned.into_inner(),
         };
 
-        let session = Session::new(&cache);
+        let session = Session::new(&cache, None);
         for buffer in &ctx.buffers {
             session.cache_file_contents(buffer.path(), &*buffer.contents)
         }

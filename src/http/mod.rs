@@ -37,7 +37,7 @@ pub type Result<T> = std::result::Result<T, Error>;
 pub struct EngineProvider;
 
 impl Key for EngineProvider {
-    type Value = Box<SemanticEngine + Send + Sync + 'static>;
+    type Value = Box<dyn SemanticEngine + Send + Sync + 'static>;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ pub fn serve<E: SemanticEngine + Send + Sync + 'static>(
 
     // This middleware provides a semantic engine to the request handlers
     // where Box<E>: PersistentInto<Arc<Mutex<Box<SemanticEngine + Sync + Send + 'static>>>>
-    let x: Arc<Mutex<Box<SemanticEngine + Sync + Send + 'static>>> =
+    let x: Arc<Mutex<Box<dyn SemanticEngine + Sync + Send + 'static>>> =
         Arc::new(Mutex::new(Box::new(engine)));
     chain.link_before(Write::<EngineProvider>::one(x));
 
